@@ -1,0 +1,89 @@
+name: Build Website
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  render:
+    uses: ./.github/workflows/render.yml
+    with:
+      build_all: false
+      save_build: true
+  preview:
+    needs: render
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: _site
+      - name: Delete all artifacts
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: |
+            _site
+            _freeze
+      - name: Deploy Preview
+        uses: nwtgck/actions-netlify@v2
+        with:
+          publish-dir: .
+          production-deploy: false
+          enable-commit-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+  deploy:
+    needs: render
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make sure to only download _site folder
+        run: rm -rf _site
+      - uses: actions/download-artifact@v3
+        with:
+          name: _site
+          path: _site
+      - name: Delete _site artifact
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: _site
+      - name: Deploy to Production
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: netlify
+          FOLDER: _site
+  update-freeze:
+    needs: render
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - name: Remove old _freeze directory
+        run: rm -rf _freeze
+      - name: Get new _freeze directory
+        uses: actions/download-artifact@v3
+        with:
+          name: _freeze
+          path: _freeze
+      - name: Delete _freeze artifact
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: _freeze
+      - name: Commit updated _freeze directory
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update _freeze directory
+  test-all-posts:
+    needs: deploy
+    uses: ./.github/workflows/render.yml
+    with:
+      build_all: true
+      save_build: false
