@@ -5,6 +5,9 @@ website:
   title: "ACT2023 AlgebraicJulia Tutorial Session"
   navbar:
     left:
+      - quickstart.qmd
+      - text: "Presentation"
+        file: presentation.qmd
       - exercises.qmd
 
 format:

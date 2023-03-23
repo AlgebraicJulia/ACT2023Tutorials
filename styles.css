@@ -1,1 +1,34 @@
 /* css styles */
+
+.rmenv,
+.itenv {
+  padding: 0.5em;
+  margin-bottom: 1.2em;
+  border: 1px solid #007481;
+}
+
+.itenv {
+  font-style: italic;
+}
+.itenv em {
+  font-style: normal !important;
+}
+
+.itenv:before,
+.rmenv:before {
+  content: attr(title)".";
+  font-weight: 600;
+  padding-right: 0.5em;
+  display: inline;
+}
+
+.itenv > p:first-of-type,
+.rmenv > p:first-of-type {
+  margin-top: 0 !important;
+  display: inline;
+}
+
+.itenv > :last-child,
+.rmenv > :last-child {
+  margin-bottom: 0 !important;
+}

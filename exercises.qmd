@@ -1,3 +1,66 @@
 ---
 title: Exercises
 ---
+
+The purpose of these exercises is to guide your efforts in learning AlgebraicJulia. Thus, some of these exercises are purposely underspecified; and for many, the answer is not as important as the process of getting to that answer.
+
+For instance, in the first couple exercises, we ask you to install Julia and do some basic tasks. The difficult part here is not mathematical, these are exercises in computer systems administrations! Hopefully, everything goes smoothly with installation, but if not, also think of this as an exercise in how to debug computer systems, and don't hesitate to ask the TAs or I for help.
+
+Later exercises include some questions about to design software; these too have very open-ended answers. Writing software is very much like doing mathematical research, in that as much or more of your time is spent thinking about *what* to prove as it is spent proving it. Applied to software, this translates to the fact that more of your time is spent in designing the architecture of programs than in implementing algorithms whose parameters and specifications are known in advance. In computational category theory, this is doubly so. So hopefully these exercises will get you started thinking about these questions, and perhaps you will come up with ideas and approaches that will be new to us!
+
+We expect that you have some familiarity with some other programming language (though not necessarily Julia). But more importantly, we expect that you will use every resource at your disposal to work through these exercises.
+
+- [Julia documentation](https://docs.julialang.org/en/v1/)
+- AlgebraicJulia documentation ([Catlab.jl](https://algebraicjulia.github.io/Catlab.jl/dev/), [AlgebraicDynamics.jl](https://algebraicjulia.github.io/AlgebraicDynamics.jl/dev/))
+- any other documentation for Julia packages, which often can be found as a link on their github pages
+- the code itself for [Catlab.jl](https://github.com/AlgebraicJulia/Catlab.jl) or any other Julia package. Reading code is a good habit to get into, kind of how like watching TV shows in a foreign language is a good way to pick up familiarity and idioms.
+- the TAs and Owen
+- your fellow learners
+- your random friend you met a year ago who said they liked Julia
+- literally anyone else
+- [Kittenlab.jl](https://algebraicjulia.github.io/Kittenlab.jl), which is a series of lecture notes for non-category theorists teaching the basics of category theory through the lens of Julia.
+
+The exercises are rated in difficulty from &starf; (easiest) to &starf; &starf; &starf; &starf; &starf; (open problem).
+
+## Part 1
+
+This first part will be focused on getting familiar with Julia, and the AlgebraicJulia philosophy of doing category theory on the computer.
+
+:::{.rmenv title="Exercise (Installation, &starf;)"}
+Follow the instructions in the [quick start](/quickstart) to install Julia, a code editor, and git.
+:::
+
+:::{.rmenv title="Exercise (Sharing is caring, &starf; &starf;)"}
+In my opinion, one of the biggest barriers to entry to software development for academics is how unintuitive version control is.
+:::
+
+:::{.rmenv title="Exercise (Hello World, &starf;)"}
+Get Julia to print "Hello World".
+:::
+
+:::{.rmenv title="Exercise (Finite sets, &starf; &starf;)"}
+We can represent the objects and morphisms in the skeleton of $\mathsf{FinSet}$ using the following Julia structs.
+
+```julia
+struct FinSet
+  n::Int
+end
+
+struct FinFunction
+  values::Vector{Int}
+  dom::FinSet
+  codom::FinSet
+end
+
+A, B = FinSet(3), FinSet(2)
+f = FinFunction([1,2,2], A, B)
+```
+
+If you aren't familiar with structs in Julia, here's the [documentation](https://docs.julialang.org/en/v1/manual/types/#Composite-Types).
+
+Put the above definitions in a file 
+:::
+
+## Part 2
+
+## Part 3

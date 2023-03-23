@@ -1,0 +1,74 @@
+---
+title: ACT2023 AlgebraicJulia Tutorial
+author: "Owen Lynch"
+width: 1500
+height: 1200
+format:
+  revealjs:
+    theme: [simple, custom.scss]
+    slide-number: true
+    footer: "<a href=\"/\">back to main site</a> | ACT2023 AlgebraicJulia Tutorial"
+    logo: headshots/algjulia_logo.png
+execute:
+  echo: true
+  output: false
+bibliography: jmm.bib
+nocite: |
+ @brown_compositional_2022, @patterson_diagrammatic_2022, @libkind_algebraic_2022, @patterson_categorical_2022, @libkind_operadic_2022, @halter_compositional_2020, @vagner_algebras_2015, @baez_structured_2020
+---
+
+# Part 1: Category theory in Julia
+
+Overview of part 1:
+
+1. Category theory in a dynamic language??!?!
+2. Julia
+3. Category theory in Julia
+
+:::{.notes}
+Before we get into details of how the AlgebraicJulia ecosystem works, we're going to talk a bit about
+
+1. What does it mean to do category theory in a dynamic language
+2. Julia itself
+3. Category theory in Julia
+:::
+
+## Category theory in a dynamic language
+
+> It's not as cursed as you'd think.
+>
+> -- Owen Lynch, 2023
+
+:::{.notes}
+Roughly speaking, dynamic language is one where *variables* are not associated with types, only *values*. So the type associated to a variable is only known when that variable is associated with a value at runtime, and this can change as it is associated with different values.
+
+In a static language, in contrast, one can determine the type of a variable without running the program, and the type of a variable does not change over time.
+
+When people typically think about doing category theory in a programming language, they think about the category where the objects are types in a statically typed programming language, and the morphisms are functions between them. This category is typically a cartesian closed category.
+
+However, this particular way of connecting category theory to computing is not the last word on computing and category theory. Applied Category Theory in particular gives rise to a lot of questions where the answer can be computed, and a-priori the most ergonomic and performant way to compute the answers to those questions is not necessarily via one of the existing programming languages (Haskell, Agda, Idris, etc.) whose type system forms a cartesian closed category.
+
+For example:
+
+- Databases operations a la Spivak
+- Open dynamical systems
+- String diagrams as combinatorial objects
+
+Julia of course is not the *best* language for all of the things that we do in it, because no language is "best". But Julia has a combination of features that makes it quite well-suited for the job, in addition to a state-of-the-art ecosystem of modern numerical computing libraries.
+:::
+
+## What is Julia?
+
+Julia is a 
+
+## Why is Julia?
+
+## How is Julia?
+
+## Where is Julia?
+
+# Part 2: Combinatorial operads
+
+# Part 3: Dynamical systems
+
+## Bibliography

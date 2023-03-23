@@ -1,0 +1,21 @@
+---
+title: Quick Start
+---
+
+# Overview
+
+To be able to complete most of the exercises, you will need the following:
+
+- A text editor (for writing code), such as
+  - [Emacs](https://www.gnu.org/software/emacs/)
+  - [Vim](https://www.vim.org)/[Neovim](https://neovim.io)
+  - [Visual Studio Code](https://code.visualstudio.com/)
+- [Julia](https://julialang.org/) (for running code)
+- [Git](https://git-scm.com/) (for sharing code), optionally with a wrapper to make it easier
+  - [Gitkraken](https://www.gitkraken.com/)
+  - [magit](https://magit.vc/) (if you use Emacs)
+  - [lazygit](https://github.com/jesseduffield/lazygit)
+  - [github desktop](https://desktop.github.com/)
+  - [built in git support in vs code](https://code.visualstudio.com/docs/sourcecontrol/overview)
+
+All of these tools can be installed on Windows, macOS, and Linux. On this page you will find instructions for setting these tools up, and during the tutorial session, we will be around to help anyone with installation troubles.
