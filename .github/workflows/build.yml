@@ -6,7 +6,7 @@ on:
   pull_request:
 jobs:
   render:
-    uses: ./.github/workflows/render.yml
+    uses: AlgebraicJulia/.github/.github/workflows/render_quarto.yml@main
     with:
       build_all: false
       save_build: true
@@ -83,7 +83,7 @@ jobs:
           commit_message: Update _freeze directory
   test-all-posts:
     needs: deploy
-    uses: ./.github/workflows/render.yml
+    uses: AlgebraicJulia/.github/.github/workflows/render_quarto.yml@main
     with:
       build_all: true
       save_build: false
