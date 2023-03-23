@@ -70,6 +70,7 @@ jobs:
         run: rm -rf _freeze
       - name: Get new _freeze directory
         uses: actions/download-artifact@v3
+        continue-on-error: true
         with:
           name: _freeze
           path: _freeze
