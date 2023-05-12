@@ -30,13 +30,24 @@ This first part will be focused on getting familiar with Julia, and the Algebrai
 Follow the instructions in the [quick start](/quickstart) to install Julia, a code editor, and git.
 :::
 
-:::{.rmenv title="Exercise (Sharing is caring, &starf; &starf;)"}
-In my opinion, one of the biggest barriers to entry to software development for academics is how unintuitive version control is.
-:::
-
 :::{.rmenv title="Exercise (Hello World, &starf;)"}
 Get Julia to print "Hello World".
 :::
+
+:::{.rmenv title="Exercise (Sharing is caring, &starf; &starf;)"}
+In my opinion, one of the biggest barriers to entry to software development for academics is how unintuitive version control is. If you aren't familiar with git, find someone who is and walk through
+
+- Forking the [ACT2023Tutorial](https://github.com/AlgebraicJulia/ACT2023Tutorial) repository
+- Clone your fork
+- Make a directory called `solutions/$YOUR_NAME` (replace `$YOUR_NAME` with a space-free sequence of characters that you feel describes yourself). Put some code in there!
+- *stage* your changes
+- *commit* your changes
+- *push* your changes to your fork
+- *send a pull request* to [ACT2023Tutorial](https://github.com/AlgebraicJulia/ACT2023Tutorial)
+
+This may seem intimidating; that's why you need to find a friend!
+:::
+
 
 :::{.rmenv title="Exercise (Finite sets, &starf; &starf;)"}
 We can represent the objects and morphisms in the skeleton of $\mathsf{FinSet}$ using the following Julia structs.
@@ -47,9 +58,9 @@ struct FinSet
 end
 
 struct FinFunction
-  values::Vector{Int}
   dom::FinSet
   codom::FinSet
+  values::Vector{Int}
 end
 
 A, B = FinSet(3), FinSet(2)
@@ -58,9 +69,62 @@ f = FinFunction([1,2,2], A, B)
 
 If you aren't familiar with structs in Julia, here's the [documentation](https://docs.julialang.org/en/v1/manual/types/#Composite-Types).
 
-Put the above definitions in a file 
+Write a function that computes the product of two finite sets, along with the projection maps out.
+:::
+
+:::{.rmenv title="Exercise (Graphs, &starf; &starf;)"}
+A graph is a functor from the category
+
+```tikzcd
+E \ar[r, bend left, "\mathrm{src}"] \ar[r, bend right, swap, "\mathrm{tgt}"] & V
+```
+
+to $\mathsf{FinSet}$.
+
+We implement this in Catlab with...
+:::
+
+:::{.rmenv title="Exercise (Optimizing Euler, &starf; &starf; &starf;)"}
+In the presentation, I gave an example implementation of Euler's method for numerically solving a differential equation. This is not ideal, because it allocates a new vector every time we compute the derivative of the system.
+
+We can do better than this. Write an optimized implementation that writes out the derivative in place, and only makes *one* allocation at the very beginning.
+
+Hint: you can use `@time f(x,y,z)` in the repl to check how many allocations a function `f` makes while running.
 :::
 
 ## Part 2
 
+:::{.rmenv title="Exercise (Growing rabbits, &starf;)"}
+Implement the dynamical system
+
+$$ \dot{R} = \alpha R $$
+
+in `AlgebraicDynamics`.
+:::
+
+:::{.rmenv title="Exercise (Pendulum, &starf; &starf;)"}
+Implement a dynamical system modeling the trajectory of a pendulum.
+
+This exercise has two parts; first you must come up with an ordinary differential equation that models a pendulum; here you need a bit of physics. Then you must write down this system in AlgebraicDynamics.
+:::
+
+:::{.rmenv title="Exercise (Union-find, &starf; &starf;)"}
+Union-find data structures are used to represent equivalence relations on finite sets in computer science. In Julia, we have an implementation of union-find called IntDisjointSets, from the DataStructures package.
+
+Use this data structure to find the connected components of a graph, by making `src(e)` and `tgt(e)` be in the same equivalence class for each edge `e`.
+:::
+
+:::{.rmenv title="Exercise (Cospan composition, &starf; &starf; &starf;)"}
+Implement composition of cospans using union-find.
+:::
+
 ## Part 3
+
+:::{.rmenv title="Exercise (Lotka-Volterra with a twist, &starf; &starf;)"}
+Suppose that there are populations of rocks, populations of papers, and populations of scissors. Predation happens to each based on the classic pattern; i.e. scissors eat papers, papers eat rocks, and rocks eat scissors.
+
+Write down a model for a pairwise interaction between two implements based on Lotka-Volterra dynamics, and then compose three copies of that model to produce a three-population system.
+:::
+
+:::{.rmenv title="Exercise ()"}
+:::

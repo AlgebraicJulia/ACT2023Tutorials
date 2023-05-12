@@ -16,5 +16,6 @@ format:
     css: styles.css
     toc: true
 
-
+filters:
+  - filters.lua
 

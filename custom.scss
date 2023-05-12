@@ -88,3 +88,11 @@ iframe {
 .footer > p {
   font-size: 1.2em;
 }
+
+.tikzcd {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
