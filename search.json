@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "quickstart.html",
+    "href": "quickstart.html",
+    "title": "Quick Start",
+    "section": "",
+    "text": "Overview\nTo be able to complete most of the exercises, you will need the following:\n\nA text editor (for writing code), such as\n\nEmacs\nVim/Neovim\nVisual Studio Code\n\nJulia (for running code)\nGit (for sharing code), optionally with a wrapper to make it easier\n\nGitkraken\nmagit (if you use Emacs)\nlazygit\ngithub desktop\nbuilt in git support in vs code\n\n\nAll of these tools can be installed on Windows, macOS, and Linux. On this page you will find instructions for setting these tools up, and during the tutorial session, we will be around to help anyone with installation troubles."
+  },
+  {
     "objectID": "exercises.html",
     "href": "exercises.html",
     "title": "Exercises",
@@ -11,70 +18,21 @@
     "href": "exercises.html#part-1",
     "title": "Exercises",
     "section": "Part 1",
-    "text": "Part 1\nThis first part will be focused on getting familiar with Julia, and the AlgebraicJulia philosophy of doing category theory on the computer.\n\nFollow the instructions in the quick start to install Julia, a code editor, and git.\n\n\nIn my opinion, one of the biggest barriers to entry to software development for academics is how unintuitive version control is.\n\n\nGet Julia to print “Hello World”.\n\n\nWe can represent the objects and morphisms in the skeleton of \\(\\mathsf{FinSet}\\) using the following Julia structs.\nstruct FinSet\n  n::Int\nend\n\nstruct FinFunction\n  values::Vector{Int}\n  dom::FinSet\n  codom::FinSet\nend\n\nA, B = FinSet(3), FinSet(2)\nf = FinFunction([1,2,2], A, B)\nIf you aren’t familiar with structs in Julia, here’s the documentation.\nPut the above definitions in a file"
+    "text": "Part 1\nThis first part will be focused on getting familiar with Julia, and the AlgebraicJulia philosophy of doing category theory on the computer.\n\nFollow the instructions in the quick start to install Julia, a code editor, and git.\n\n\nGet Julia to print “Hello World”.\n\n\nIn my opinion, one of the biggest barriers to entry to software development for academics is how unintuitive version control is. If you aren’t familiar with git, find someone who is and walk through\n\nForking the ACT2023Tutorial repository\nClone your fork\nMake a directory called solutions/$YOUR_NAME (replace $YOUR_NAME with a space-free sequence of characters that you feel describes yourself). Put some code in there!\nstage your changes\ncommit your changes\npush your changes to your fork\nsend a pull request to ACT2023Tutorial\n\nThis may seem intimidating; that’s why you need to find a friend!\n\n\nWe can represent the objects and morphisms in the skeleton of \\(\\mathsf{FinSet}\\) using the following Julia structs.\nstruct FinSet\n  n::Int\nend\n\nstruct FinFunction\n  dom::FinSet\n  codom::FinSet\n  values::Vector{Int}\nend\n\nA, B = FinSet(3), FinSet(2)\nf = FinFunction([1,2,2], A, B)\nIf you aren’t familiar with structs in Julia, here’s the documentation.\nWrite a function that computes the product of two finite sets, along with the projection maps out.\n\n\nA graph is a functor from the category\n\n\n\nto \\(\\mathsf{FinSet}\\).\nWe implement this in Catlab with…\n\n\nIn the presentation, I gave an example implementation of Euler’s method for numerically solving a differential equation. This is not ideal, because it allocates a new vector every time we compute the derivative of the system.\nWe can do better than this. Write an optimized implementation that writes out the derivative in place, and only makes one allocation at the very beginning.\nHint: you can use @time f(x,y,z) in the repl to check how many allocations a function f makes while running."
   },
   {
     "objectID": "exercises.html#part-2",
     "href": "exercises.html#part-2",
     "title": "Exercises",
     "section": "Part 2",
-    "text": "Part 2"
+    "text": "Part 2\n\nImplement the dynamical system\n\\[ \\dot{R} = \\alpha R \\]\nin AlgebraicDynamics.\n\n\nImplement a dynamical system modeling the trajectory of a pendulum.\nThis exercise has two parts; first you must come up with an ordinary differential equation that models a pendulum; here you need a bit of physics. Then you must write down this system in AlgebraicDynamics.\n\n\nUnion-find data structures are used to represent equivalence relations on finite sets in computer science. In Julia, we have an implementation of union-find called IntDisjointSets, from the DataStructures package.\nUse this data structure to find the connected components of a graph, by making src(e) and tgt(e) be in the same equivalence class for each edge e.\n\n\nImplement composition of cospans using union-find."
   },
   {
     "objectID": "exercises.html#part-3",
     "href": "exercises.html#part-3",
     "title": "Exercises",
     "section": "Part 3",
-    "text": "Part 3"
-  },
-  {
-    "objectID": "presentation.html#category-theory-in-a-dynamic-language",
-    "href": "presentation.html#category-theory-in-a-dynamic-language",
-    "title": "ACT2023 AlgebraicJulia Tutorial",
-    "section": "Category theory in a dynamic language",
-    "text": "Category theory in a dynamic language\n\nIt’s not as cursed as you’d think.\n– Owen Lynch, 2023\n\n\nRoughly speaking, dynamic language is one where variables are not associated with types, only values. So the type associated to a variable is only known when that variable is associated with a value at runtime, and this can change as it is associated with different values.\nIn a static language, in contrast, one can determine the type of a variable without running the program, and the type of a variable does not change over time.\nWhen people typically think about doing category theory in a programming language, they think about the category where the objects are types in a statically typed programming language, and the morphisms are functions between them. This category is typically a cartesian closed category.\nHowever, this particular way of connecting category theory to computing is not the last word on computing and category theory. Applied Category Theory in particular gives rise to a lot of questions where the answer can be computed, and a-priori the most ergonomic and performant way to compute the answers to those questions is not necessarily via one of the existing programming languages (Haskell, Agda, Idris, etc.) whose type system forms a cartesian closed category.\nFor example:\n\nDatabases operations a la Spivak\nOpen dynamical systems\nString diagrams as combinatorial objects\n\nJulia of course is not the best language for all of the things that we do in it, because no language is “best”. But Julia has a combination of features that makes it quite well-suited for the job, in addition to a state-of-the-art ecosystem of modern numerical computing libraries."
-  },
-  {
-    "objectID": "presentation.html#what-is-julia",
-    "href": "presentation.html#what-is-julia",
-    "title": "ACT2023 AlgebraicJulia Tutorial",
-    "section": "What is Julia?",
-    "text": "What is Julia?\nJulia is a"
-  },
-  {
-    "objectID": "presentation.html#why-is-julia",
-    "href": "presentation.html#why-is-julia",
-    "title": "ACT2023 AlgebraicJulia Tutorial",
-    "section": "Why is Julia?",
-    "text": "Why is Julia?"
-  },
-  {
-    "objectID": "presentation.html#how-is-julia",
-    "href": "presentation.html#how-is-julia",
-    "title": "ACT2023 AlgebraicJulia Tutorial",
-    "section": "How is Julia?",
-    "text": "How is Julia?"
-  },
-  {
-    "objectID": "presentation.html#where-is-julia",
-    "href": "presentation.html#where-is-julia",
-    "title": "ACT2023 AlgebraicJulia Tutorial",
-    "section": "Where is Julia?",
-    "text": "Where is Julia?"
-  },
-  {
-    "objectID": "presentation.html#bibliography",
-    "href": "presentation.html#bibliography",
-    "title": "ACT2023 AlgebraicJulia Tutorial",
-    "section": "Bibliography",
-    "text": "Bibliography\n\n\n\nback to main site | ACT2023 AlgebraicJulia Tutorial\n\n\n\nBaez, John C., and Kenny Courser. 2020. “Structured Cospans.” arXiv. https://doi.org/10.48550/arXiv.1911.04630.\n\n\nBrown, Kristopher, Tyler Hanks, and James Fairbanks. 2022. “Compositional Exploration of Combinatorial Scientific Models.” arXiv. https://doi.org/10.48550/arXiv.2206.08755.\n\n\nHalter, Micah, Evan Patterson, Andrew Baas, and James Fairbanks. 2020. “Compositional Scientific Computing with Catlab and SemanticModels.” arXiv. https://doi.org/10.48550/arXiv.2005.04831.\n\n\nLibkind, Sophie, Andrew Baas, Micah Halter, Evan Patterson, and James Fairbanks. 2022. “An Algebraic Framework for Structured Epidemic Modeling.” Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences 380 (2233): 20210309. https://doi.org/10.1098/rsta.2021.0309.\n\n\nLibkind, Sophie, Andrew Baas, Evan Patterson, and James Fairbanks. 2022. “Operadic Modeling of Dynamical Systems: Mathematics and Computation.” Electronic Proceedings in Theoretical Computer Science 372 (November): 192–206. https://doi.org/10.4204/EPTCS.372.14.\n\n\nPatterson, Evan, Andrew Baas, Timothy Hosgood, and James Fairbanks. 2022. “A Diagrammatic View of Differential Equations in Physics.” Mathematics in Engineering 5 (2): 1–59. https://doi.org/10.3934/mine.2023036.\n\n\nPatterson, Evan, Owen Lynch, and James Fairbanks. 2022. “Categorical Data Structures for Technical Computing.” Compositionality 4 (December): 5. https://doi.org/10.32408/compositionality-4-5.\n\n\nVagner, Dmitry, David I. Spivak, and Eugene Lerman. 2015. “Algebras of Open Dynamical Systems on the Operad of Wiring Diagrams.” arXiv. https://doi.org/10.48550/arXiv.1408.1598."
-  },
-  {
-    "objectID": "quickstart.html",
-    "href": "quickstart.html",
-    "title": "Quick Start",
-    "section": "",
-    "text": "Overview\nTo be able to complete most of the exercises, you will need the following:\n\nA text editor (for writing code), such as\n\nEmacs\nVim/Neovim\nVisual Studio Code\n\nJulia (for running code)\nGit (for sharing code), optionally with a wrapper to make it easier\n\nGitkraken\nmagit (if you use Emacs)\nlazygit\ngithub desktop\nbuilt in git support in vs code\n\n\nAll of these tools can be installed on Windows, macOS, and Linux. On this page you will find instructions for setting these tools up, and during the tutorial session, we will be around to help anyone with installation troubles."
+    "text": "Part 3\n\nSuppose that there are populations of rocks, populations of papers, and populations of scissors. Predation happens to each based on the classic pattern; i.e. scissors eat papers, papers eat rocks, and rocks eat scissors.\nWrite down a model for a pairwise interaction between two implements based on Lotka-Volterra dynamics, and then compose three copies of that model to produce a three-population system."
   },
   {
     "objectID": "index.html",
@@ -82,5 +40,222 @@
     "title": "ACT2023 AlgebraicJulia Tutorial Session",
     "section": "",
     "text": "Welcome to the ACT2023 tutorial session on AlgebraicJulia, presented by Owen Lynch and assisted by\n\nKris Brown\nMicah Halter\nTyler Hanks\nLuke Morris"
+  },
+  {
+    "objectID": "presentation.html#category-theory-in-a-dynamic-language",
+    "href": "presentation.html#category-theory-in-a-dynamic-language",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Category theory in a dynamic language",
+    "text": "Category theory in a dynamic language\n\nIt’s not as cursed as you’d think.\n– Owen Lynch, 2023\n\n\nCurry-Howard correspondence gives a connection between typed lambda calculus and cartesian closed categories\nThis is not the only way of doing category theory on a computer\nMany categorical things can be implemented without working in a faithful implementation of the typed lambda calculus\n\nDatabases\nDynamical systems\nComputer algebra\n\n\n\nRoughly speaking, a dynamic language is one where variables are not associated with types, only values. So the type associated to a variable is only known when that variable is associated with a value at runtime, and this can change as it is associated with different values.\nIn a static language, in contrast, one can determine the type of a variable without running the program, and the type of a variable does not change over time.\nWhen people typically think about doing category theory in a programming language, they think about the category where the objects are types in a statically typed programming language, and the morphisms are functions between them. This category is typically a cartesian closed category.\nHowever, this particular way of connecting category theory to computing is not the last word on computing and category theory. Applied Category Theory in particular gives rise to a lot of questions where the answer can be computed, and a-priori the most ergonomic and performant way to compute the answers to those questions is not necessarily via one of the existing programming languages (Haskell, Agda, Idris, etc.) whose type system forms a cartesian closed category.\nFor example:\n\nDatabases operations a la Spivak\nOpen dynamical systems\nString diagrams as combinatorial objects\n\nJulia of course is not the best language for all of the things that we do in it, because no language is “best”. But Julia has a combination of features that makes it quite well-suited for the job, in addition to a state-of-the-art ecosystem of modern numerical computing libraries."
+  },
+  {
+    "objectID": "presentation.html#what-is-julia",
+    "href": "presentation.html#what-is-julia",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "What is Julia?",
+    "text": "What is Julia?\nJulia is a programming language that is…\n\nDynamic\nVariables don’t have types, only values do.\nFast\nCarefully written Julia is competitive with C or Fortran.\nDependently typed\nAlthough only values have types, the types of those values can depend on other values. For instance StaticVector{Float64, n} represents \\(\\mathbb{R}^n\\).\nLooks like math\n\\[ ||v||^2 = v^T v \\]\nmagnitude(x::Vector) = x' * x"
+  },
+  {
+    "objectID": "presentation.html#why-is-julia",
+    "href": "presentation.html#why-is-julia",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Why is Julia?",
+    "text": "Why is Julia?\nJulia was built to solve the so-called “two-language” problem for scientific computing.\n\nNumerical algorithms written in C/C++/Fortran\nHigh-level, dynamic interfaces written in Python/R\n\nInterfacing the “two languages” is a complex endeavor beyond the reach of small projects\nJulia is a single language that can achieve the speed of C/C++/Fortran while still having high-level interfaces a la Python/R."
+  },
+  {
+    "objectID": "presentation.html#how-do-you-julia-1",
+    "href": "presentation.html#how-do-you-julia-1",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "How do you Julia? (1)",
+    "text": "How do you Julia? (1)\nA simple implementation of the Euler algorithm for integrating a vector field\n#   du : ℝⁿ -&gt; ℝⁿ is the vectorfield\n# init : ℝⁿ       is the initial state\n#   dt : ℝ        is the time increment\n#    m : ℕ        is the number of steps to run for\nfunction euler(du::Function, init::Vector{Float64}, dt::Float64, m::Int)\n  n = length(init)\n  x = zeros(Float64, (m + 1, n))       # a matrix to store the path\n  x[1,:] = init                        # initialize the first row\n  for i in 1:m\n    x[i+1,:] = x[i,:] + dt * du(x[i,:]) # write the next row\n  end\n  x                                    # return the path\nend\nNotable features:\n\nBuilt-in vectors/matrices\nAuto-broadcasted arithmetic\nSyntax familiar to a Python user"
+  },
+  {
+    "objectID": "presentation.html#how-do-you-julia-2",
+    "href": "presentation.html#how-do-you-julia-2",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "How do you Julia? (2)",
+    "text": "How do you Julia? (2)\n# | output: true\n# Simulate the trajectory of a 1kg cannonball in 2d\n# initial position = (0,0)\n# initial velocity = (5.0, 10.0)\n# (d/dt)(x,v) = (v, (0, -9.8))\ntrajectory = euler(u -&gt; [u[3], u[4], 0, -9.8], [0, 0, 5.0, 10.0], 0.1, 22)\n\nplot(trajectory[:, 1], trajectory[:, 2])\nNotable features:\n\nEasy anonymous functions\nEasy plotting (with package Plots.jl)"
+  },
+  {
+    "objectID": "presentation.html#how-do-you-julia-3",
+    "href": "presentation.html#how-do-you-julia-3",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "How do you Julia? (3)",
+    "text": "How do you Julia? (3)\nA simple interpreter\n# | output: true\nstruct CalcExpr{op}\n  args::Vector{Union{CalcExpr, Float64}}\nend\n\nevaluate(n::Float64)      = n\nevaluate(e::CalcExpr{:+}) = sum(evaluate.(e.args))\nevaluate(e::CalcExpr{:*}) = prod(evaluate.(e.args))\n\nevaluate(CalcExpr{:*}([2.0, 3.0, CalcExpr{:+}([1.0, 1.0])]))\nNotable features:\n\nSingle-line function definition\nFirst-class symbols (:blah, :*, :+)\nThe type of a struct can be parameterized by a value\nMap f over xs with f.(xs)\nMultiple dispatch allows multiple definitions of a function for different types"
+  },
+  {
+    "objectID": "presentation.html#where-is-julia",
+    "href": "presentation.html#where-is-julia",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Where is Julia?",
+    "text": "Where is Julia?\njulialang.org"
+  },
+  {
+    "objectID": "presentation.html#category-theory-in-julia-finset",
+    "href": "presentation.html#category-theory-in-julia-finset",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Category theory in Julia: FinSet",
+    "text": "Category theory in Julia: FinSet\nstruct FinSet n::Int end\n\nstruct FinFunction\n  dom::FinSet\n  codom::FinSet\n  values::Vector{Int}\nend\n\nid(X::FinSet) = FinFunction(X, X, Int[i for i in 1:X.n])\n\ncompose(f::FinFunction, g::FinFunction) =\n  FinFunction(f.dom, g.codom, Int[g.values[j] for j in f.values])"
+  },
+  {
+    "objectID": "presentation.html#category-theory-in-julia-finvect",
+    "href": "presentation.html#category-theory-in-julia-finvect",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Category theory in Julia: FinVect",
+    "text": "Category theory in Julia: FinVect\nstruct FinVect\n  dim::Int\nend\n\nid(V::FinVect) = Float64[i == j ? 1.0 : 0.0 for i in 1:V.dim, j in 1:V.dim]\n\ncompose(M::Matrix{Float64}, N::Matrix{Float64}) = M * N"
+  },
+  {
+    "objectID": "presentation.html#compositional-systems-theory",
+    "href": "presentation.html#compositional-systems-theory",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Compositional systems theory",
+    "text": "Compositional systems theory\n\nEvery system has an interface by which it interacts with other systems\nInteraction with other systems is captured via composition\nThe types of allowed interaction are specified by a doctrine\n\nIn this part, we discuss systems, interfaces, and composition patterns for the doctrine of resource sharers, and how they work in AlgebraicJulia.\n\nThe key to compositional systems theory is to split a system into the system itself and the interface to the system.\nThen different systems with the same interface can play the same role in composition patterns.\nIn this section we are going to talk about one type of system, and one type of composition pattern.\nFinally, in the last section we are going to talk about how to use that composition pattern to compose the systems."
+  },
+  {
+    "objectID": "presentation.html#what-are-resource-sharers",
+    "href": "presentation.html#what-are-resource-sharers",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "What are resource sharers?",
+    "text": "What are resource sharers?\n\nContinuous dynamical systems (i.e. ODEs)\nExpose “resources” as their interface\nCompose by “agreeing” on the value of resources\nDerivative of a resource is the sum of the vectorfields from all systems using that resource\n\n\nResource sharers are dynamical systems that expose certain quantities that we call resources. They are composed by “sharing” resources. One might assume that “sharing” means “dividing between them”, however this is not the case. What it means for two machines to share a resource is that they both agree on the value of that resource.\nFor instance, if one machine represents the dynamics of a population of foxes and a population of rabbits, and another represents the dynamics of a population of hawks and a population of rabbits, then one composition of these machines might be a system which represents the dynamics of a population of hawks, a population of rabbits, and a population of foxes. The fox-rabbit system and the hawk-rabbit system agree on the overall population of rabbits.\nHowever, both the fox-rabbit system and the hawk-rabbit system can both “tug” on the population of rabbits, by sending it down."
+  },
+  {
+    "objectID": "presentation.html#a-note-on-representations-of-morphisms",
+    "href": "presentation.html#a-note-on-representations-of-morphisms",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "A note on representations of morphisms",
+    "text": "A note on representations of morphisms\n\nIn a non-dependently typed language\n\nCan’t assert any properties about arbitrary functions, i.e. smoothness or termination\nCan’t compute general limits or colimits where the morphisms are arbitrary functions\n\nWhen we need to do something with functions other than simply apply them to arguments, we need an introspectable representation\nTwo special cases:\n\nFunctions between finite sets\nLinear maps between finite dimensional vector spaces\n\nAlgebraicJulia, in contrast to most functional programming category theory libraries, focuses on working with these representations\nWe will contrast the two approaches as geometric (concerned with the points of spaces and the actions of functions on those points) vs. symbolic (concerned with symbolic representations of spaces and functions between them)\n\n\nOne way of mathematically defining resource sharers would be to say that their interfaces were spaces. However, what does this actually mean on a computer? We could say that a space was a type. But in a dynamic language, this is not very helpful. Moreover, we really want some smooth structure on our spaces.\nOur philosophy is that one should have a symbolic representation of a space. What symbolic representation? Well, one chooses a level of generality appropriate for the application. In this case, we mostly just care about \\(\\R^n\\). Thus, denoting a space by a natural number or a finite set is an appropriate choice.\nWhat then is a function between symbolic spaces \\(\\R^n\\) and \\(\\R^m\\)? One choice would be a Julia function that takes a length \\(n\\) vector to a length \\(m\\) vector. This is appropriate in some circumstances, but it is not introspectable, which makes some operations uncomputable. For instance, it is impossible to take a pushout or pullback of such functions.\nA more introspectable, yet more restrictive choice would be matrices. These are much easier to compute with. However, for our purposes, an even simpler choice of maps works best: functions from \\([m]\\) to \\([n]\\)."
+  },
+  {
+    "objectID": "presentation.html#geometric-definition-of-resource-sharers",
+    "href": "presentation.html#geometric-definition-of-resource-sharers",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Geometric definition of resource sharers",
+    "text": "Geometric definition of resource sharers\n\nAn interface for a geometric resource sharer is a space \\(A\\).\n\nWe think of an interface as a description of the resources that a machine has available to share.\n\nA geometric resource sharer on an interface \\(A\\) consists of\n\nA space \\(X\\)\nA function \\(\\mathrm{out} \\colon X \\to A\\)\nA vector field \\(v \\colon X \\to TX\\)"
+  },
+  {
+    "objectID": "presentation.html#example-resource-sharer",
+    "href": "presentation.html#example-resource-sharer",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Example resource sharer",
+    "text": "Example resource sharer\nThis is a system which models predation of a predator species \\(W\\) on a prey species \\(S\\)\n\\[ X = A = \\R^2 \\] \\[ \\mathrm{expose} = \\mathrm{id}_A \\] \\[ v(W,S) = (\\beta W S, -\\beta W S) \\]"
+  },
+  {
+    "objectID": "presentation.html#symbolic-definition-of-resource-sharer",
+    "href": "presentation.html#symbolic-definition-of-resource-sharer",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Symbolic definition of resource sharer",
+    "text": "Symbolic definition of resource sharer\n\nAn interface for a symbolic resource sharer is a finite set \\(P\\).\n\nThis finite set symbolically represents the space \\(\\R^P\\). We think of \\(P\\) as the set of ports.\n\nA symbolic resource sharer on an interface \\(P\\) consists of\n\nA finite set \\(I\\)\nA function \\(\\mathrm{expose} \\colon P \\to I\\)\nA vector field \\(v \\colon \\R^I \\to \\R^I\\)\n\n\nThe function \\(\\mathrm{expose}\\) symbolically represents the function \\(\\R^I \\to \\R^P\\) given by precomposition with \\(\\mathrm{expose}\\).\nNote that we keep a geometric definition of \\(v\\); this is because we will only need to call \\(v\\) and don’t need to introspect it.\n\nComposing resource sharers \\((X_1, v_1, P_1)\\) and \\((X_1, v_2, P_2)\\) to make a resource sharer with interface \\(P_3\\) involves imposing some relation between \\(P_1\\), \\(P_2\\) and \\(P_3\\). For instance, if \\(P_i\\) has coordinates \\((x_i,y_i)\\), we might assert that \\(y_1 = y_2 = y_3\\), and \\(x_3 = x_1\\).\nThe most general way to do this is with a span \\(P_1 \\leftarrow Q \\to P_2\\). However, an arbitrary span between spaces is hard to compute with.\nIf we have \\(P_1 = \\R^{n_1}\\), \\(P_2 = \\R^{n_2}\\), \\(Q = \\R^m\\), then we can express particularly simple relations as"
+  },
+  {
+    "objectID": "presentation.html#example-diffusion-in-two-chambers",
+    "href": "presentation.html#example-diffusion-in-two-chambers",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Example: diffusion in two chambers",
+    "text": "Example: diffusion in two chambers\n\n\n\nTwo chambers\n\n\n\\[ \\dot{c}_1 = \\rho(c_2 - c_1) \\] \\[ \\dot{c}_2 = \\rho(c_1 - c_2) \\]\n\\[ X = \\{1,2\\} \\] \\[ P = \\{1\\} \\] \\[ \\mathrm{expose}(1) = 1 \\]"
+  },
+  {
+    "objectID": "presentation.html#resource-sharers-in-algebraicjulia",
+    "href": "presentation.html#resource-sharers-in-algebraicjulia",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Resource sharers in AlgebraicJulia",
+    "text": "Resource sharers in AlgebraicJulia\n# | output: true\nusing AlgebraicDynamics.UWDDynam, DifferentialEquations\n\npredator_prey = ContinuousResourceSharer{Float64}(\n  2, 2,\n  (u, p, t) -&gt; p[1] * u[1] * u[2] * [1, -1],\n  [1, 2]\n)\n\nu0, params, tspan = [10.0, 100.0],  [0.015], (0.0, 5.0)\n\nprob = ODEProblem(predator_prey, u0, tspan, params)\nplot(solve(prob, Tsit5()))"
+  },
+  {
+    "objectID": "presentation.html#composition-patterns-for-resource-sharers",
+    "href": "presentation.html#composition-patterns-for-resource-sharers",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Composition patterns for resource sharers",
+    "text": "Composition patterns for resource sharers\n# | output: true\nusing Catlab.Programs\nusing Catlab.Graphics\n\nR = @relation (x, z) where (x, y, z) begin\n  A(x, y)\n  B(y, z)\n  C(z, x)\nend\n\nto_graphviz(R)\n\nThe simplest combinatorial operad is undirected wiring diagrams. An undirected wiring diagram consists of boxes, ports, outer ports, and junctions."
+  },
+  {
+    "objectID": "presentation.html#uwds-as-cospans",
+    "href": "presentation.html#uwds-as-cospans",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "UWDs as Cospans",
+    "text": "UWDs as Cospans\n\n\n\n\n\n\n\nUndirected wiring diagram style\n\n\n\n\n\n\n\nCospan style\n\n\n\n\nFigure 1: Two styles of drawing an undirected wiring diagram"
+  },
+  {
+    "objectID": "presentation.html#undirected-wiring-diagrams-as-c-sets",
+    "href": "presentation.html#undirected-wiring-diagrams-as-c-sets",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Undirected wiring diagrams as C-sets",
+    "text": "Undirected wiring diagrams as C-sets\nAn undirected wiring diagram is a functor into \\(\\mathsf{FinSet}\\) from the category \\(\\mathsf{UWD}\\) presented as\n\n\n\nThis is a cospan with a grouping of the ports on one side."
+  },
+  {
+    "objectID": "presentation.html#undirected-wiring-diagrams-in-catlab",
+    "href": "presentation.html#undirected-wiring-diagrams-in-catlab",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Undirected wiring diagrams in Catlab",
+    "text": "Undirected wiring diagrams in Catlab\n\nWe have generic infrastructure for C-sets in Catlab (explored in exercises)\nThe easier way to construct wiring diagrams is with the @relation macro\n\n@relation (x,z) where (x,y,z) begin\n  R(x,y)\n  S(y,z)\nend\nThis constructs a undirected wiring diagram with\n\nthree junctions (x,y,z)\ntwo external ports (x,z)\ntwo boxes (R,S), each of which have two ports (x,y and y,z)\n\nPorts are connected to junctions according to name."
+  },
+  {
+    "objectID": "presentation.html#using-operads-to-compose-systems",
+    "href": "presentation.html#using-operads-to-compose-systems",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Using operads to compose systems",
+    "text": "Using operads to compose systems\nLoosely speaking, we want to:\n\nput systems inside the bubbles\n# | echo: false\n# | output: true\nto_graphviz(R)\npress a button and end up with a larger system."
+  },
+  {
+    "objectID": "presentation.html#operads-and-symmetric-monoidal-categories",
+    "href": "presentation.html#operads-and-symmetric-monoidal-categories",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Operads and symmetric monoidal categories",
+    "text": "Operads and symmetric monoidal categories\n\nNested undirected wiring diagramsOperads (we will always consider typed operads) are a generalization of categories where the domain of a morphism (called an operation in an operad) consists of a finite set of objects (called types in an operad) rather than a single object.\n\nAny symmetric monoidal category \\(\\mathsf{C}\\) induces an operad \\(\\mathrm{Op}(\\mathsf{C})\\) with types given by the objects of \\(\\mathsf{C}\\) and with an operation \\(A_1,\\ldots,A_n \\to B\\) being a morphism \\(A_1 \\otimes \\cdots \\otimes A_n \\to B\\).\n\nOperads are more intuitive for composition, SMCs are more convenient mathematically."
+  },
+  {
+    "objectID": "presentation.html#category-theory-of-uwds",
+    "href": "presentation.html#category-theory-of-uwds",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Category theory of UWDs",
+    "text": "Category theory of UWDs\n\nThere is a symmetric monoidal category \\(\\mathsf{Csp}\\) where\n\nthe objects are finite sets\nthe morphisms are (equivalence classes of) cospans, composed by pushout\n\n\n\n\n\nThe symmetric monoidal structure is given by \\(+\\) (coproduct in \\(\\mathsf{FinSet}\\))\n\n\nAn undirected wiring diagram is an operation in the induced operad \\(\\mathsf{UWD} = \\mathrm{Op}(\\mathsf{Csp})\\)."
+  },
+  {
+    "objectID": "presentation.html#operad-algebras",
+    "href": "presentation.html#operad-algebras",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Operad algebras",
+    "text": "Operad algebras\nThe thing that gives us the “button to push” to compose systems is an operad algebra\n\nAn operad algebra \\(F\\) for an operad \\(\\mathcal{O}\\) consists of\n\na set \\(F(A)\\) for every type \\(A\\)\na function \\(F(f) \\colon F(A_1) \\times \\cdots \\times F(A_n) \\to F(B)\\) for every operation \\(f \\in \\mathcal{O}(A_1,\\ldots,A_n;B)\\)\n\nsuch that the assignment of functions to operations commutes with composition, identities, and symmetries.\n\nThe sets \\(F(A)\\) tell us what sort of things we are allowed to put in the bubbles, and then the function is the button we push to compose."
+  },
+  {
+    "objectID": "presentation.html#operad-algebras-from-lax-symmetric-monoidal-functors",
+    "href": "presentation.html#operad-algebras-from-lax-symmetric-monoidal-functors",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Operad algebras from lax symmetric monoidal functors",
+    "text": "Operad algebras from lax symmetric monoidal functors\n\nA cospan-algebra is a lax symmetric monoidal functor \\(F \\colon (\\mathsf{Csp}, +, 0) \\to (\\mathsf{Set}, \\times, 1)\\)\n\nThe lax symmetric monoidal structure means that we have a function\n\n\n\nfor every \\(A_1,\\ldots,A_n \\in \\mathsf{FinSet}\\).\nThis gives us an operad algebra of \\(\\mathsf{UWD}\\), because given an undirected wiring diagram\n\n\n\nwe have a map"
+  },
+  {
+    "objectID": "presentation.html#the-operad-algebra-of-resource-sharers",
+    "href": "presentation.html#the-operad-algebra-of-resource-sharers",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "The operad algebra of resource sharers",
+    "text": "The operad algebra of resource sharers\nLet’s define a lax symmetric monoidal functor \\(\\mathrm{RS} \\colon (\\mathsf{Csp}, +, 0) \\to (\\mathsf{Set}, \\times, 1)\\)\n\n\\(\\mathrm{RS}(P)\\) is the set of resource sharers with interface \\(P\\)\nFor the laxator, given resource sharers \\((I_1,\\mathrm{expose}_1, v_1), \\ldots, (I_n,\\mathrm{expose}_n, v_n)\\) on interfaces \\(P_1, \\ldots, P_n\\), we construct a resource sharer\n\\[(I_1 + \\cdots + I_n, \\mathrm{expose}_1 + \\cdots + \\mathrm{expose}_n, v_1 \\times \\cdots \\times v_n)\\]\non \\(P_1 + \\cdots + P_n\\).\nFinally, for the action of morphisms, given \\((I, \\mathrm{expose} \\colon P \\to I, v \\colon \\mathbb{R}^I \\to \\mathbb{R}^I)\\) and a cospan \\(P \\to X \\leftarrow Q\\), we make a new resource sharer \\((I', \\mathrm{expose}', v')\\) on \\(Q\\) by\n\n\n\nand \\(v' = f^\\ast \\circ v \\circ f_\\ast \\colon \\R^{I'} \\to \\R^{I'}\\)"
+  },
+  {
+    "objectID": "presentation.html#unpacking-composition-of-resource-sharers",
+    "href": "presentation.html#unpacking-composition-of-resource-sharers",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Unpacking composition of resource sharers",
+    "text": "Unpacking composition of resource sharers\n\n\n\nAny two state variables in \\(I\\) connected to the same junction in \\(X\\) via a port in \\(P\\) are merged.\nThen to make a vector field, we apply \\(f\\) contravariangly to go from \\(\\mathbb{R}^{I'}\\) to \\(\\mathbb{R}^I\\), apply the vector field, and then apply \\(f\\) covariantly to go from \\(\\mathbb{R}^I\\) to \\(\\mathbb{R}^{I'}\\), via\n\\[ f_\\ast(x)_{i'} = \\sum_{f(i) = i'} x_{i'} \\]\nThis means that when state variables from multiple resource sharers are merged, we sum each resource sharer’s “pull” on that state variable to get the overall derivative."
+  },
+  {
+    "objectID": "presentation.html#example-setup",
+    "href": "presentation.html#example-setup",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Example setup",
+    "text": "Example setup\ndotr(u,p,t) = p.α*u\ndotrf(u,p,t) = [-p.β*u[1]*u[2], p.γ*u[1]*u[2]]\ndotf(u,p,t) = -p.δ*u\n\nrabbit_growth = ContinuousResourceSharer{Float64}(1, dotr)\nrabbitfox_predation = ContinuousResourceSharer{Float64}(2, dotrf)\nfox_decline = ContinuousResourceSharer{Float64}(1, dotf)\n\nrf = @relation (rabbits,foxes) begin\n    growth(rabbits)\n    predation(rabbits,foxes)\n    decline(foxes)\nend"
+  },
+  {
+    "objectID": "presentation.html#example-composed",
+    "href": "presentation.html#example-composed",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Example composed",
+    "text": "Example composed\n# | output: true\nusing LabelledArrays, AlgebraicDynamics.UWDDynam, Catlab.WiringDiagrams\n\nsys = oapply(rf, [rabbit_growth, rabbitfox_predation, fox_decline])\n\nu0 = [10.0, 100.0]\nparams = LVector(α=.3, β=0.015, γ=0.015, δ=0.7)\ntspan = (0.0, 100.0)\n\nprob = ODEProblem(sys, u0, tspan, params)\nplot(solve(prob, Tsit5()))"
+  },
+  {
+    "objectID": "presentation.html#bibliography",
+    "href": "presentation.html#bibliography",
+    "title": "ACT2023 AlgebraicJulia Tutorial",
+    "section": "Bibliography",
+    "text": "Bibliography\n\n\n\nback to main site | ACT2023 AlgebraicJulia Tutorial\n\n\n\nBaez, John C., and Kenny Courser. 2020. “Structured Cospans.” arXiv. https://doi.org/10.48550/arXiv.1911.04630.\n\n\nBrown, Kristopher, Tyler Hanks, and James Fairbanks. 2022. “Compositional Exploration of Combinatorial Scientific Models.” arXiv. https://doi.org/10.48550/arXiv.2206.08755.\n\n\nHalter, Micah, Evan Patterson, Andrew Baas, and James Fairbanks. 2020. “Compositional Scientific Computing with Catlab and SemanticModels.” arXiv. https://doi.org/10.48550/arXiv.2005.04831.\n\n\nLibkind, Sophie, Andrew Baas, Micah Halter, Evan Patterson, and James Fairbanks. 2022. “An Algebraic Framework for Structured Epidemic Modeling.” Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences 380 (2233): 20210309. https://doi.org/10.1098/rsta.2021.0309.\n\n\nLibkind, Sophie, Andrew Baas, Evan Patterson, and James Fairbanks. 2022. “Operadic Modeling of Dynamical Systems: Mathematics and Computation.” Electronic Proceedings in Theoretical Computer Science 372 (November): 192–206. https://doi.org/10.4204/EPTCS.372.14.\n\n\nPatterson, Evan, Andrew Baas, Timothy Hosgood, and James Fairbanks. 2022. “A Diagrammatic View of Differential Equations in Physics.” Mathematics in Engineering 5 (2): 1–59. https://doi.org/10.3934/mine.2023036.\n\n\nPatterson, Evan, Owen Lynch, and James Fairbanks. 2022. “Categorical Data Structures for Technical Computing.” Compositionality 4 (December): 5. https://doi.org/10.32408/compositionality-4-5.\n\n\nVagner, Dmitry, David I. Spivak, and Eugene Lerman. 2015. “Algebras of Open Dynamical Systems on the Operad of Wiring Diagrams.” arXiv. https://doi.org/10.48550/arXiv.1408.1598."
   }
 ]
