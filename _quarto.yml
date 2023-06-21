@@ -2,13 +2,14 @@ project:
   type: website
 
 website:
-  title: "ACT2023 AlgebraicJulia Tutorial Session"
+  title: "ACT2023 Tutorial Sessions"
   navbar:
     left:
-      - quickstart.qmd
-      - text: "Presentation"
-        file: presentation.qmd
-      - exercises.qmd
+      - index.qmd
+      # - quickstart.qmd
+      # - text: "Presentation"
+      #   file: presentation.qmd
+      # - exercises.qmd
 
 format:
   html:
