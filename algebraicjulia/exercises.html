@@ -241,15 +241,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><span class="math display">\[ \dot{R} = \alpha R \]</span></p>
 <p>in <code>AlgebraicDynamics</code>.</p>
 </div>
+<div class="rmenv" title="Exercise (UWDs as data structure, ★)">
+<p>The <code>@relation</code> macro in Catlab is a convenient DSL for defining UWDs, but that’s all it is: the real data is stored in the acset that the macro produces. This exercise is about understanding the connection between the DSL and the data of the UWD.</p>
+<ol type="a">
+<li>Write a call to the <code>@relation</code> macro that constructs the following UWD.</li>
+</ol>
+<pre><code>┌─────┬──────┐
+│ Box │ name │
+├─────┼──────┤
+│   1 │    R │
+│   2 │    S │
+│   3 │    T │
+└─────┴──────┘
+┌──────┬─────┬──────────┐
+│ Port │ box │ junction │
+├──────┼─────┼──────────┤
+│    1 │   1 │        2 │
+│    2 │   1 │        1 │
+│    3 │   2 │        3 │
+│    4 │   2 │        1 │
+│    5 │   3 │        4 │
+│    6 │   3 │        1 │
+└──────┴─────┴──────────┘
+┌───────────┬────────────────┐
+│ OuterPort │ outer_junction │
+├───────────┼────────────────┤
+│         1 │              2 │
+│         2 │              3 │
+│         3 │              4 │
+└───────────┴────────────────┘
+┌──────────┬──────────┐
+│ Junction │ variable │
+├──────────┼──────────┤
+│        1 │        w │
+│        2 │        x │
+│        3 │        y │
+│        4 │        z │
+└──────────┴──────────┘</code></pre>
+<ol start="2" type="a">
+<li>Construct the above UWD manually using the API for UWDs (<code>add_box!</code>, <code>set_junction!</code>) or the lower-level API for acsets (<code>add_part(s)!</code>, <code>set_part(s)!</code>). It might be helpful to know that the Julia type of the UWD return by the <code>@relation</code> macro is <code>RelationDiagram</code>.</li>
+</ol>
+</div>
 <div class="rmenv" title="Exercise (Pendulum, ★ ★)">
 <p>Implement a dynamical system modeling the trajectory of a pendulum.</p>
 <p>This exercise has two parts; first you must come up with an ordinary differential equation that models a pendulum; here you need a bit of physics. Then you must write down this system in AlgebraicDynamics.</p>
 </div>
 <div class="rmenv" title="Exercise (Graph traversal, ★ ★)">
-<p>Using a graph data structure created in the Part 1 exercise or the one already available in <code>Catlab.Graphs</code>, implement a graph traversal algorithm, such as depth-first search or breadth-first search, using the acsets API (<code>subpart</code>, <code>incident</code>).</p>
+<p>Using a graph data structure created in the Part 1 exercise or the one already available in <code>Catlab.Graphs</code>, implement a graph traversal algorithm, such as <a href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a> or <a href="https://en.wikipedia.org/wiki/Breadth-first_search">breadth-first search</a>, using the acsets API (<code>subpart</code>, <code>incident</code>).</p>
 </div>
 <div class="rmenv" title="Exercise (Union-find, ★ ★)">
-<p>Union-find data structures are used to represent equivalence relations on finite sets in computer science. In Julia, we have an implementation of union-find called IntDisjointSets, from the DataStructures package.</p>
+<p><a href="https://en.wikipedia.org/wiki/Disjoint-set_data_structure">Union-find</a> data structures are used to represent equivalence relations on finite sets in computer science. In Julia, there is an implementation of union-find called <code>IntDisjointSets</code> in the <a href="https://github.com/JuliaCollections/DataStructures.jl">DataStructures.jl</a> package.</p>
 <p>Use this data structure to find the connected components of a graph, by making <code>src(e)</code> and <code>tgt(e)</code> be in the same equivalence class for each edge <code>e</code>.</p>
 </div>
 <div class="rmenv" title="Exercise (Cospan composition, ★ ★ ★)">
