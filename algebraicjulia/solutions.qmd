@@ -1,0 +1,110 @@
+---
+title: Solutions to Exercises
+---
+
+## Part 1
+
+:::{.rmenv title="Exercise (Installation)"}
+Follow the [quick start](quickstart) instructions to install Julia, a code editor, and the git version control system.
+:::
+
+:::{.solenv}
+If you're stuck on setup, please ask an instructor or TA for help!
+:::
+
+:::{.rmenv title="Exercise (Hello World)"}
+Get Julia to print "Hello World".
+:::
+
+:::{.solenv}
+Output text with the `println` function.
+
+```{julia}
+println("Hello World!")
+```
+
+String concatentation in Julia uses the `*` symbol.
+
+```{julia}
+println("Hello" * " " * "World!")
+```
+
+Print everything in a vector by using broadcasting. To broadcast, append `.` to your function, and pass it something you can iterate over (like a vector). Or, use `map` or `foreach`.
+
+```{julia}
+# Both of these return a vector of `nothing`s:
+
+# println.(["Hello", "World!"])
+# map(println, ["Hello", "World!"])
+
+# This one produces side effects only:
+foreach(println, ["Hello", "World!"])
+```
+
+Perform string interpolation using `$`.
+
+```{julia}
+favorite_library = "AlgebraicDynamics.jl"
+
+println("My favorite AlgebraicJulia package is $(favorite_library)!")
+```
+:::
+
+:::{.rmenv title="Exercise (Package management)"}
+Install a Julia package, such as `Catlab` or `AlgebraicDynamics`, using the [Julia package manager](https://docs.julialang.org/en/v1/stdlib/Pkg/).
+:::
+
+:::{.solenv}
+From a Julia REPL, enter the package manager by typing `]`. Create a new project, which will organize the packages you're using for this workshop, by typing
+`pkg> activate .`
+Next, add Catlab to your project by typing
+`pkg> add Catlab`
+You should see a bunch of stuff happening, including precompilation of the Catlab code.
+
+When that's finished, hit backspace to get out of the package manager and type
+```julia
+using Catlab
+```
+to load Catlab into your REPL session. To make sure it worked right, try something like
+```julia
+g = path_graph(Graph, 7)
+```
+to produce your first graph in Catlab!
+:::
+
+
+:::{.rmenv title="Exercise (Sharing is caring)"}
+Fork and clone the [ACT2023Tutorial](https://github.com/AlgebraicJulia/ACT2023Tutorial) repository, make a change, commit it, and create a pull request.
+:::
+
+:::{.solenv}
+
+1. Log into [github.com](https://github.com)
+2. Navigate to [github.com/AlgebraicJulia/ACT2023Tutorials](https://github.com/AlgebraicJulia/ACT2023Tutorials)
+3. By the top right of the page there click the "Fork" button to the left of the "Star" button.
+4. On the next page click "Create fork", this will create a copy of the repository on your own GitHub account
+5. Clone your fork (replacing `<user_name>` with your own GitHub username)
+   ```sh
+   git clone https://github.com/<user_name>/ACT2023Tutorials.git
+   ```
+6. Navigate into the solutions folder and create a new directory with your name (replacing `<your_name>` with your own name)
+   ```sh
+   cd ACT2023Tutorials/solutions
+   mkdir <your_name>
+   ```
+7. Put some code in there!
+   ```sh
+   echo "print('Hello, World!')" > hello_world.jl
+   ```
+8. Stage, commit, and push your changes
+   ```sh
+   git add hello_world.jl
+   git commit -m "Adding solutions for <your_name>"
+   git push
+   ```
+9. Navigate to your fork on GitHub (replacing `<user_name>` with your GitHub username): `https://github.com/<user_name>/ACT2023Tutorials`
+10. Click the "Pull requests" tab across the top of the page and click the "New pull request". This will automatically create a new pull request on the original repository from your fork
+11. Click "Create pull request"
+12. Put a short title and description and click "Create pull request"
+
+:::

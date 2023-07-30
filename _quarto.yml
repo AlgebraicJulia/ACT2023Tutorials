@@ -10,6 +10,7 @@ website:
       # - text: "Presentation"
       #   file: presentation.qmd
       # - exercises.qmd
+      # - solutions.qmd
 
 format:
   html:

@@ -6,6 +6,9 @@
   margin-bottom: 1.2em;
   border: 1px solid #007481;
 }
+.solenv {
+  margin-bottom: 1.8em;
+}
 
 .itenv {
   font-style: italic;
@@ -23,14 +26,23 @@
 }
 
 .itenv > p:first-of-type,
-.rmenv > p:first-of-type {
+.rmenv > p:first-of-type,
+.solenv > p:first-of-type {
   margin-top: 0 !important;
   display: inline;
 }
 
 .itenv > :last-child,
-.rmenv > :last-child {
+.rmenv > :last-child,
+.solenv > :last-child {
   margin-bottom: 0 !important;
+}
+
+.solenv:before {
+  content: "Solution.";
+  font-weight: 600;
+  padding-right: 0.5em;
+  display: inline;
 }
 
 .tikzcd {
