@@ -94,6 +94,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -226,6 +228,35 @@ println("My favorite AlgebraicJulia package is $(favorite_library)!")</code></pr
 <li><p>Put a short title and description and click “Create pull request”</p></li>
 </ol>
 </div>
+<div class="rmenv" title="Exercise (Finite sets)">
+<p>Write a function that computes the product of two finite sets, along with the projection maps out.</p>
+</div>
+<div class="solenv">
+<p>For convenience, we’ll use the types <code>FinSet</code> and <code>FinFunction</code> exported by Catlab, which are similar to but more general than those in the problem statement.</p>
+<pre class="{julia}"><code>#| output: false
+using Catlab
+
+function product_projections(A::FinSet{Int}, B::FinSet{Int})
+  m, n = length(A), length(B)
+  AB = FinSet(m*n)
+  
+  # In this calculation, `÷` (short for `div` function) is truncating integer
+  # division and `%` (short for `mod` function) is the modulus.
+  # Notice that we're using the skeleton of FinSet with sets `1:n` but the
+  # calculation below is most natural for sets `0:(n-1)`.
+  πA = FinFunction(i -&gt; (i-1) ÷ n + 1, AB, A)
+  πB = FinFunction(i -&gt; (i-1) % n + 1, AB, B)
+  
+  (πA, πB)
+end</code></pre>
+<p>An example:</p>
+<pre class="{julia}"><code>using Test
+
+π₁, π₂ = product_projections(FinSet(3), FinSet(4))
+@test dom(π₁) == dom(π₂) == FinSet(12)
+@test collect(π₁) == [1,1,1,1, 2,2,2,2, 3,3,3,3]
+@test collect(π₂) == [1,2,3,4, 1,2,3,4, 1,2,3,4]</code></pre>
+</div>
 <div class="rmenv" title="Exercise (Graphs)">
 <p>Implement a graph data structure in Catlab either (a) using Catlab’s support for C-sets (<code>@acset_type</code>) or (b) more directly, using finite sets (<code>FinSet</code>) and functions (<code>FinFunction</code>).</p>
 </div>
@@ -297,9 +328,76 @@ g = MyGraph(s, t)
 @test edges(g) == FinSet(2)</code></pre></li>
 </ol>
 </div>
+<div class="rmenv" title="Exercise (Optimizing Euler)">
+<p>Write an optimized implementation of Euler’s method that writes out the derivative in place, and only makes <em>one</em> allocation at the very beginning.</p>
+</div>
+<div class="solenv">
+<p>For the sake of comparison, let’s first measure the allocations of the naive implementation of Euler’s method.</p>
+<pre class="{julia}"><code>function euler(du::Function, init::Vector{Float64}, dt::Float64, m::Int)
+  n = length(init)
+  x = zeros(Float64, (m+1, n))
+  x[1,:] = init
+  for i in 1:m
+    x[i+1,:] = x[i,:] + dt * du(x[i,:])
+  end
+  x
+end
+
+du(u) = [u[3], u[4], 0, -9.8]
+@time trajectory = euler(du, [0, 0, 5.0, 10.0], 0.1, 1000);</code></pre>
+<p>In the optimized version, we pass a function <code>du!</code> that computes the derivative in-place.</p>
+<pre class="{julia}"><code>function inplace_euler(du!::Function, init::Vector{Float64}, dt::Float64, m::Int)
+  n = length(init)
+  x = zeros(Float64, (m+1, n))
+  du = zeros(Float64, n)
+  x[1,:] = init
+  for i in 1:m
+    du!(du, j -&gt; x[i,j])
+    for j in 1:n
+      x[i+1,j] = x[i,j] + dt * du[j]
+    end
+  end
+  x
+end
+
+@inline function du!(du, u)
+  du[1] = u(3)
+  du[2] = u(4)
+  du[3] = 0
+  du[4] = -9.8
+end
+@time trajectory′ = inplace_euler(du!, [0, 0, 5.0, 10.0], 0.1, 1000);</code></pre>
+<p>Notice that the number of allocations is constant in the length of the trajectory. We better also check that we get the same answer as before.</p>
+<pre class="{julia}"><code>@test trajectory′ ≈ trajectory</code></pre>
+</div>
 </section>
 <section id="part-2" class="level1">
 <h1>Part 2</h1>
+<div class="rmenv" title="Exercise (Growing rabbits)">
+<p>Implement the dynamical system</p>
+<p><span class="math display">\[ \dot{R} = \alpha R \]</span></p>
+<p>using <code>AlgebraicDynamics</code>.</p>
+</div>
+<div class="solenv">
+<p>Define the dynamical system as a resource sharer:</p>
+<pre class="{julia}"><code>using AlgebraicDynamics
+
+ṙ(r,p,t) = p.α * r
+rabbit_growth = ContinuousResourceSharer{Float64}(1, ṙ)</code></pre>
+<p>Simulate and plot:</p>
+<pre class="{julia}"><code>using LabelledArrays
+using DifferentialEquations, Plots
+
+u0 = [1.0]
+params = LVector(α=0.3)
+tspan = (0.0, 10.0)
+
+prob = ODEProblem(rabbit_growth, u0, tspan, params)
+sol = solve(prob, Tsit5())
+
+plot(sol, title="Exponential growth of rabbit population",
+     legend=false, xlabel="time", ylabel="population size")</code></pre>
+</div>
 <div class="rmenv" title="Exercise (UWDs as data structure)">
 <ol type="a">
 <li>Write a call to the <code>@relation</code> macro that constructs the shown UWD.</li>
@@ -328,7 +426,6 @@ for (i, box) in enumerate(boxes(d))
   set_junction!(d, (box, 2), 1)
 end
 
-using Test
 @test d == uwd</code></pre>
 <p>The advantange of using the programmatic API is that this code is easily generalized to a function that creates a “star-shaped UWD” of any size. You might try implementing this function as a further exercise.</p>
 </div>

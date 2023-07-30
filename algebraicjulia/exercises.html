@@ -205,7 +205,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This may seem intimidating; that’s why you need to find a friend!</p>
 </div>
 <div class="rmenv" title="Exercise (Finite sets, ★ ★)">
-<p>We can represent the objects and morphisms in the skeleton of <span class="math inline">\(\mathsf{FinSet}\)</span> using the following Julia structs.</p>
+<p>We can represent the objects and morphisms in the skeleton of the category <span class="math inline">\(\mathsf{FinSet}\)</span> using the Julia <a href="https://docs.julialang.org/en/v1/manual/types/#Composite-Types">structs</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> FinSet</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  n<span class="op">::</span><span class="dt">Int</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
@@ -218,7 +218,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>A, B <span class="op">=</span> <span class="fu">FinSet</span>(<span class="fl">3</span>), <span class="fu">FinSet</span>(<span class="fl">2</span>)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="fu">FinFunction</span>([<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>], A, B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>If you aren’t familiar with structs in Julia, here’s the <a href="https://docs.julialang.org/en/v1/manual/types/#Composite-Types">documentation</a>.</p>
 <p>Write a function that computes the product of two finite sets, along with the projection maps out.</p>
 </div>
 <div class="rmenv" title="Exercise (Graphs, ★ ★)">
@@ -229,9 +228,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Implement a graph data structure in Catlab either (a) using Catlab’s support for C-sets (<code>@acset_type</code>) or (b) more directly, using finite sets (<code>FinSet</code>) and functions (<code>FinFunction</code>).</p>
 </div>
 <div class="rmenv" title="Exercise (Optimizing Euler, ★ ★ ★)">
-<p>In the presentation, I gave an example implementation of Euler’s method for numerically solving a differential equation. This is not ideal, because it allocates a new vector every time we compute the derivative of the system.</p>
-<p>We can do better than this. Write an optimized implementation that writes out the derivative in place, and only makes <em>one</em> allocation at the very beginning.</p>
-<p>Hint: you can use <code>@time f(x,y,z)</code> in the repl to check how many allocations a function <code>f</code> makes while running.</p>
+<p>In the presentation, we saw an implementation of Euler’s method for numerically integrating a differential equation. This implementation is inefficient because it allocates a new vector every time we compute the derivative of the system.</p>
+<p>Write an optimized implementation of Euler’s method that writes out the derivative in place, and only makes <em>one</em> allocation at the very beginning.</p>
+<p><em>Hint</em>: you can use <code>@time f(x,y,z)</code> in the repl to check how many allocations a function <code>f</code> makes while running.</p>
 </div>
 </section>
 <section id="part-2" class="level2">
@@ -239,7 +238,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="rmenv" title="Exercise (Growing rabbits, ★)">
 <p>Implement the dynamical system</p>
 <p><span class="math display">\[ \dot{R} = \alpha R \]</span></p>
-<p>in <code>AlgebraicDynamics</code>.</p>
+<p>using <code>AlgebraicDynamics</code>.</p>
 </div>
 <div class="rmenv" title="Exercise (UWDs as data structure, ★)">
 <p>The <code>@relation</code> macro in Catlab is a convenient DSL for defining UWDs, but that’s all it is: the real data is stored in the acset that the macro produces. This exercise is about understanding the connection between the DSL and the data of the UWD.</p>
@@ -302,9 +301,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="rmenv" title="Exercise (Lotka-Volterra with a twist, ★ ★)">
 <p>Suppose that there are populations of rocks, populations of papers, and populations of scissors. Predation happens to each based on the classic pattern; i.e.&nbsp;scissors eat papers, papers eat rocks, and rocks eat scissors.</p>
 <p>Write down a model for a pairwise interaction between two implements based on Lotka-Volterra dynamics, and then compose three copies of that model to produce a three-population system.</p>
-</div>
-<div class="rmenv" title="Exercise ()">
-
 </div>
 
 
