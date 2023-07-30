@@ -53,7 +53,7 @@ This may seem intimidating; that's why you need to find a friend!
 :::
 
 :::{.rmenv title="Exercise (Finite sets, &starf; &starf;)"}
-We can represent the objects and morphisms in the skeleton of $\mathsf{FinSet}$ using the following Julia structs.
+We can represent the objects and morphisms in the skeleton of the category $\mathsf{FinSet}$ using the Julia [structs](https://docs.julialang.org/en/v1/manual/types/#Composite-Types):
 
 ```julia
 struct FinSet
@@ -69,8 +69,6 @@ end
 A, B = FinSet(3), FinSet(2)
 f = FinFunction([1,2,2], A, B)
 ```
-
-If you aren't familiar with structs in Julia, here's the [documentation](https://docs.julialang.org/en/v1/manual/types/#Composite-Types).
 
 Write a function that computes the product of two finite sets, along with the projection maps out.
 :::

@@ -78,7 +78,6 @@ Fork and clone the [ACT2023Tutorial](https://github.com/AlgebraicJulia/ACT2023Tu
 :::
 
 :::{.solenv}
-
 1. Log into [github.com](https://github.com)
 2. Navigate to [github.com/AlgebraicJulia/ACT2023Tutorials](https://github.com/AlgebraicJulia/ACT2023Tutorials)
 3. By the top right of the page there click the "Fork" button to the left of the "Star" button.
@@ -106,7 +105,42 @@ Fork and clone the [ACT2023Tutorial](https://github.com/AlgebraicJulia/ACT2023Tu
 10. Click the "Pull requests" tab across the top of the page and click the "New pull request". This will automatically create a new pull request on the original repository from your fork
 11. Click "Create pull request"
 12. Put a short title and description and click "Create pull request"
+:::
 
+:::{.rmenv title="Exercise (Finite sets)"}
+Write a function that computes the product of two finite sets, along with the projection maps out.
+:::
+
+:::{.solenv}
+We'll use the types `FinSet` and `FinFunction` exported by Catlab, which are similar to but more general than those in the problem statement.
+
+```{julia}
+#| output: false
+using Catlab
+
+function product_projections(A::FinSet{Int}, B::FinSet{Int})
+  m, n = length(A), length(B)
+  AB = FinSet(m*n)
+  # In this calculation, `÷` (short for `div` function) is truncating integer
+  # division and `%` (short for `mod` function) is the modulus.
+  # Notice that we're using the skeleton of FinSet with sets `1:n` but the
+  # calculation below is most natural for sets `0:(n-1)`.
+  πA = FinFunction(i -> (i-1) ÷ n + 1, AB, A)
+  πB = FinFunction(i -> (i-1) % n + 1, AB, B)
+  (πA, πB)
+end
+```
+
+An example:
+
+```{julia}
+using Test
+
+π₁, π₂ = product_projections(FinSet(3), FinSet(4))
+@test dom(π₁) == dom(π₂) == FinSet(12)
+@test collect(π₁) == [1,1,1,1, 2,2,2,2, 3,3,3,3]
+@test collect(π₂) == [1,2,3,4, 1,2,3,4, 1,2,3,4]
+```
 :::
 
 :::{.rmenv title="Exercise (Graphs)"}
