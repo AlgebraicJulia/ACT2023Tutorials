@@ -112,7 +112,7 @@ Write a function that computes the product of two finite sets, along with the pr
 :::
 
 :::{.solenv}
-We'll use the types `FinSet` and `FinFunction` exported by Catlab, which are similar to but more general than those in the problem statement.
+For convenience, we'll use the types `FinSet` and `FinFunction` exported by Catlab, which are similar to but more general than those in the problem statement.
 
 ```{julia}
 #| output: false
@@ -121,12 +121,14 @@ using Catlab
 function product_projections(A::FinSet{Int}, B::FinSet{Int})
   m, n = length(A), length(B)
   AB = FinSet(m*n)
+  
   # In this calculation, `÷` (short for `div` function) is truncating integer
   # division and `%` (short for `mod` function) is the modulus.
   # Notice that we're using the skeleton of FinSet with sets `1:n` but the
   # calculation below is most natural for sets `0:(n-1)`.
   πA = FinFunction(i -> (i-1) ÷ n + 1, AB, A)
   πB = FinFunction(i -> (i-1) % n + 1, AB, B)
+  
   (πA, πB)
 end
 ```
@@ -235,6 +237,62 @@ b. Using finite sets and functions:
 
 :::
 
+:::{.rmenv title="Exercise (Optimizing Euler)"}
+Write an optimized implementation of Euler's method that writes out the derivative in place, and only makes *one* allocation at the very beginning.
+:::
+
+:::{.solenv}
+For the sake of comparison, let's first measure the allocations of the naive implementation of Euler's method.
+
+```{julia}
+function euler(du::Function, init::Vector{Float64}, dt::Float64, m::Int)
+  n = length(init)
+  x = zeros(Float64, (m+1, n))
+  x[1,:] = init
+  for i in 1:m
+    x[i+1,:] = x[i,:] + dt * du(x[i,:])
+  end
+  x
+end
+
+du(u) = [u[3], u[4], 0, -9.8]
+@time trajectory = euler(du, [0, 0, 5.0, 10.0], 0.1, 1000);
+```
+
+In the optimized version, we pass a function `du!` that computes the derivative in-place.
+
+```{julia}
+function inplace_euler(du!::Function, init::Vector{Float64}, dt::Float64, m::Int)
+  n = length(init)
+  x = zeros(Float64, (m+1, n))
+  du = zeros(Float64, n)
+  x[1,:] = init
+  for i in 1:m
+    du!(du, j -> x[i,j])
+    for j in 1:n
+      x[i+1,j] = x[i,j] + dt * du[j]
+    end
+  end
+  x
+end
+
+@inline function du!(du, u)
+  du[1] = u(3)
+  du[2] = u(4)
+  du[3] = 0
+  du[4] = -9.8
+end
+@time trajectory′ = inplace_euler(du!, [0, 0, 5.0, 10.0], 0.1, 1000);
+```
+
+Notice that the number of allocations is constant in the length of the trajectory. We better also check that we get the same answer as before.
+
+```{julia}
+@test trajectory′ ≈ trajectory
+```
+
+:::
+
 # Part 2
 
 :::{.rmenv title="Exercise (Growing rabbits)"}
@@ -306,7 +364,6 @@ for (i, box) in enumerate(boxes(d))
   set_junction!(d, (box, 2), 1)
 end
 
-using Test
 @test d == uwd
 ```
 
