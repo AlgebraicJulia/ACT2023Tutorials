@@ -136,6 +136,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#part-1" id="toc-part-1" class="nav-link active" data-scroll-target="#part-1">Part 1</a></li>
+  <li><a href="#part-2" id="toc-part-2" class="nav-link" data-scroll-target="#part-2">Part 2</a></li>
   </ul>
 </nav>
     </div>
@@ -224,6 +225,113 @@ println("My favorite AlgebraicJulia package is $(favorite_library)!")</code></pr
 <li><p>Click “Create pull request”</p></li>
 <li><p>Put a short title and description and click “Create pull request”</p></li>
 </ol>
+</div>
+<div class="rmenv" title="Exercise (Graphs)">
+<p>Implement a graph data structure in Catlab either (a) using Catlab’s support for C-sets (<code>@acset_type</code>) or (b) more directly, using finite sets (<code>FinSet</code>) and functions (<code>FinFunction</code>).</p>
+</div>
+<div class="solenv">
+<ol type="a">
+<li><p>Graphs as C-sets:</p>
+<pre class="{julia}"><code>using Catlab
+
+@present SchGph(FreeSchema) begin
+   V::Ob
+   E::Ob
+   src::Hom(E,V)
+   tgt::Hom(E,V)
+end
+
+# Index the `src` and `tgt` functions for fast lookups of inverse images
+# using the `incident` function.
+@acset_type Gph(SchGph, index=[:src,:tgt])
+
+# An example graph
+g = @acset Gph begin
+  V = 3
+  E = 2
+  src = [1,1]
+  tgt = [2,1]
+end</code></pre>
+<p>We use the name <code>Gph</code> to avoid a name conflict with Catlab’s exported type <code>Graph</code>, but <code>Graph</code> is defined in Catlab in exactly the same way!</p>
+<p>The exported <code>Graph</code> type includes support for visualization using <a href="https://graphviz.org/">Graphviz</a>, which we can use to see what the above graph looks like:</p>
+<pre class="{julia}"><code>g = @acset Graph begin
+  V = 3
+  E = 2
+  src = [1,1]
+  tgt = [2,1]
+end
+
+to_graphviz(g, node_labels=true)</code></pre></li>
+<li><p>Using finite sets and functions:</p>
+<pre class="{julia}"><code>#| output: false
+# Catlab exports these generic functions. We import them explicitly so that
+# we can add new methods to them.
+import Catlab: src, tgt, vertices, edges
+
+struct MyGraph
+  # We don't need fields for `E` and `V` since these are the domain and
+  # codomain of `src` and `tgt`.
+  src::FinFunction
+  tgt::FinFunction
+
+  function MyGraph(src::FinFunction, tgt::FinFunction)
+    dom(src) == dom(tgt) || error("Source and target must have same domain")
+    codom(src) == codom(tgt) || error("Source and target must have same codomain")
+    new(src, tgt)
+  end
+end
+
+# A few accessor functions. Our users shouldn't need to know the internal
+# layout of the fields in the struct!
+src(g::MyGraph) = g.src
+tgt(g::MyGraph) = g.tgt
+vertices(g::MyGraph) = codom(src(g)) # == codom(tgt(g))
+edges(g::MyGraph) = dom(src(g)) # == dom(tgt(g))</code></pre>
+<p>Now let’s test that it works!</p>
+<pre class="{julia}"><code>using Test
+
+s, t = FinFunction([1,1], 3), FinFunction([2,1], 3)
+g = MyGraph(s, t)
+
+@test vertices(g) == FinSet(3)
+@test edges(g) == FinSet(2)</code></pre></li>
+</ol>
+</div>
+</section>
+<section id="part-2" class="level1">
+<h1>Part 2</h1>
+<div class="rmenv" title="Exercise (Graph traversal)">
+<p>Implement a graph traversal algorithm, such as depth-first search or breadth-first search, using the acsets API (<code>subpart</code>, <code>incident</code>).</p>
+</div>
+<div class="solenv">
+<p>A stack-based depth-first search algorithm:</p>
+<pre class="{julia}"><code>#| output: false
+using Catlab
+using DataStructures: Stack
+
+""" Depth-first search in graph `g` starting at vertex `v`
+
+The function `f` is called at every vertex in the search path.
+"""
+function dfs(f::Function, g::ACSet, v::Int)
+  seen = falses(nparts(g, :V))
+  next = Stack{Int}()
+  push!(next, v)
+  while !isempty(next)
+    v = pop!(next)
+    seen[v] &amp;&amp; continue
+    f(v)
+    seen[v] = true
+    # Add all outgoing edges to the stack.
+    for e in incident(g, v, :src)
+      # Syntactic sugar: `g[e, :tgt] == subpart(g, e, :tgt)``
+      push!(next, g[e, :tgt])
+    end
+  end
+end</code></pre>
+<p>Traversal of a directed cycle, starting at the third vertex, yields the vertices in the expected order.</p>
+<pre class="{julia}"><code>g = cycle_graph(Graph, 6)
+dfs(println, g, 3)</code></pre>
 </div>
 
 
