@@ -100,7 +100,7 @@ Implement the dynamical system
 
 $$ \dot{R} = \alpha R $$
 
-in `AlgebraicDynamics`.
+using `AlgebraicDynamics`.
 :::
 
 :::{.rmenv title="Exercise (UWDs as data structure, &starf;)"}
@@ -170,7 +170,4 @@ Implement composition of cospans using union-find.
 Suppose that there are populations of rocks, populations of papers, and populations of scissors. Predation happens to each based on the classic pattern; i.e. scissors eat papers, papers eat rocks, and rocks eat scissors.
 
 Write down a model for a pairwise interaction between two implements based on Lotka-Volterra dynamics, and then compose three copies of that model to produce a three-population system.
-:::
-
-:::{.rmenv title="Exercise ()"}
 :::

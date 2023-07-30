@@ -203,6 +203,42 @@ b. Using finite sets and functions:
 
 # Part 2
 
+:::{.rmenv title="Exercise (Growing rabbits)"}
+Implement the dynamical system
+
+$$ \dot{R} = \alpha R $$
+
+using `AlgebraicDynamics`.
+:::
+
+:::{.solenv}
+Define the dynamical system as a resource sharer:
+
+```{julia}
+using AlgebraicDynamics
+
+ṙ(r,p,t) = p.α * r
+rabbit_growth = ContinuousResourceSharer{Float64}(1, ṙ)
+```
+
+Simulate and plot:
+
+```{julia}
+using LabelledArrays
+using DifferentialEquations, Plots
+
+u0 = [1.0]
+params = LVector(α=0.3)
+tspan = (0.0, 10.0)
+
+prob = ODEProblem(rabbit_growth, u0, tspan, params)
+sol = solve(prob, Tsit5())
+
+plot(sol, title="Exponential growth of rabbit population",
+     legend=false, xlabel="time", ylabel="population size")
+```
+:::
+
 :::{.rmenv title="Exercise (UWDs as data structure)"}
 a. Write a call to the `@relation` macro that constructs the shown UWD.
 b. Construct the UWD manually using the API for UWDs or the lower-level API for acsets.
