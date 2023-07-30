@@ -2,10 +2,10 @@
 
 This is the website for the [ACT2023](https://act2023.github.io/) tutorial sessions. The schedule is
 
-- Monday afternoon (simultaneously)
+- Monday afternoon (concurrently)
   - David Jaz Myers, Lenses
   - Paolo Perrone, Markov categories
-- Tuesday afternoon (simultaneously)
+- Tuesday afternoon (concurrently)
   - Dorette Pronk, Double categories
   - Evan Patterson and Owen Lynch, AlgebraicJulia
 

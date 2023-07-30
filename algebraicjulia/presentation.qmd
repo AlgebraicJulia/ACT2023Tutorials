@@ -338,7 +338,7 @@ $$ \mathrm{expose}(1) = 1 $$
 
 ```{julia}
 # | output: true
-using AlgebraicDynamics.UWDDynam, DifferentialEquations
+using AlgebraicDynamics, DifferentialEquations
 
 predator_prey = ContinuousResourceSharer{Float64}(
   2, 2,
@@ -583,7 +583,7 @@ end
 
 ```{julia}
 # | output: true
-using LabelledArrays, AlgebraicDynamics.UWDDynam, Catlab.WiringDiagrams
+using LabelledArrays, AlgebraicDynamics, Catlab.WiringDiagrams
 
 sys = oapply(rf, [rabbit_growth, rabbitfox_predation, fox_decline])
 
