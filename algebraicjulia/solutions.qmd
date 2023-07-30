@@ -108,3 +108,142 @@ Fork and clone the [ACT2023Tutorial](https://github.com/AlgebraicJulia/ACT2023Tu
 12. Put a short title and description and click "Create pull request"
 
 :::
+
+:::{.rmenv title="Exercise (Graphs)"}
+Implement a graph data structure in Catlab either (a) using Catlab's support for C-sets (`@acset_type`) or (b) more directly, using finite sets (`FinSet`) and functions (`FinFunction`).
+:::
+
+:::{.solenv}
+
+a. Graphs as C-sets:
+
+   ```{julia}
+   using Catlab
+
+   @present SchGph(FreeSchema) begin
+      V::Ob
+      E::Ob
+      src::Hom(E,V)
+      tgt::Hom(E,V)
+   end
+
+   # Index the `src` and `tgt` functions for fast lookups of inverse images
+   # using the `incident` function.
+   @acset_type Gph(SchGph, index=[:src,:tgt])
+
+   # An example graph
+   g = @acset Gph begin
+     V = 3
+     E = 2
+     src = [1,1]
+     tgt = [2,1]
+   end
+   ```
+   
+   We use the name `Gph` to avoid a name conflict with Catlab's exported type
+   `Graph`, but `Graph` is defined in Catlab in exactly the same way!
+   
+   The exported `Graph` type includes support for visualization using
+   [Graphviz](https://graphviz.org/), which we can use to see what the above
+   graph looks like:
+   
+   ```{julia}
+   g = @acset Graph begin
+     V = 3
+     E = 2
+     src = [1,1]
+     tgt = [2,1]
+   end
+   
+   to_graphviz(g, node_labels=true)
+   ```
+   
+b. Using finite sets and functions:
+
+   ```{julia}
+   #| output: false
+   # Catlab exports these generic functions. We import them explicitly so that
+   # we can add new methods to them.
+   import Catlab: src, tgt, vertices, edges
+   
+   struct MyGraph
+     # We don't need fields for `E` and `V` since these are the domain and
+     # codomain of `src` and `tgt`.
+     src::FinFunction
+     tgt::FinFunction
+
+     function MyGraph(src::FinFunction, tgt::FinFunction)
+       dom(src) == dom(tgt) || error("Source and target must have same domain")
+       codom(src) == codom(tgt) || error("Source and target must have same codomain")
+       new(src, tgt)
+     end
+   end
+
+   # A few accessor functions. Our users shouldn't need to know the internal
+   # layout of the fields in the struct!
+   src(g::MyGraph) = g.src
+   tgt(g::MyGraph) = g.tgt
+   vertices(g::MyGraph) = codom(src(g)) # == codom(tgt(g))
+   edges(g::MyGraph) = dom(src(g)) # == dom(tgt(g))
+   ```
+   
+   Now let's test that it works!
+
+   ```{julia}
+   using Test
+
+   s, t = FinFunction([1,1], 3), FinFunction([2,1], 3)
+   g = MyGraph(s, t)
+   
+   @test vertices(g) == FinSet(3)
+   @test edges(g) == FinSet(2)
+   ```
+
+:::
+
+# Part 2
+
+:::{.rmenv title="Exercise (Graph traversal)"}
+Implement a graph traversal algorithm, such as depth-first search or
+breadth-first search, using the acsets API (`subpart`, `incident`).
+:::
+
+:::{.solenv}
+A stack-based depth-first search algorithm:
+
+```{julia}
+#| output: false
+using Catlab
+using DataStructures: Stack
+
+""" Depth-first search in graph `g` starting at vertex `v`
+
+The function `f` is called at every vertex in the search path.
+"""
+function dfs(f::Function, g::ACSet, v::Int)
+  seen = falses(nparts(g, :V))
+  next = Stack{Int}()
+  push!(next, v)
+  while !isempty(next)
+    v = pop!(next)
+    seen[v] && continue
+    f(v)
+    seen[v] = true
+    # Add all outgoing edges to the stack.
+    for e in incident(g, v, :src)
+      # Syntactic sugar: `g[e, :tgt] == subpart(g, e, :tgt)``
+      push!(next, g[e, :tgt])
+    end
+  end
+end
+```
+
+Traversal of a directed cycle, starting at the third vertex, yields the vertices
+in the expected order.
+
+```{julia}
+g = cycle_graph(Graph, 6)
+dfs(println, g, 3)
+```
+
+:::
