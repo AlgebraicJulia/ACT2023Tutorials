@@ -52,7 +52,6 @@ In my opinion, one of the biggest barriers to entry to software development for 
 This may seem intimidating; that's why you need to find a friend!
 :::
 
-
 :::{.rmenv title="Exercise (Finite sets, &starf; &starf;)"}
 We can represent the objects and morphisms in the skeleton of $\mathsf{FinSet}$ using the following Julia structs.
 
@@ -104,6 +103,47 @@ $$ \dot{R} = \alpha R $$
 in `AlgebraicDynamics`.
 :::
 
+:::{.rmenv title="Exercise (UWDs as data structure, &starf;)"}
+The `@relation` macro in Catlab is a convenient DSL for defining UWDs, but that's all it is: the real data is stored in the acset that the macro produces. This exercise is about understanding the connection between the DSL and the data of the UWD.
+
+a. Write a call to the `@relation` macro that constructs the following UWD.
+  ```
+  ┌─────┬──────┐
+  │ Box │ name │
+  ├─────┼──────┤
+  │   1 │    R │
+  │   2 │    S │
+  │   3 │    T │
+  └─────┴──────┘
+  ┌──────┬─────┬──────────┐
+  │ Port │ box │ junction │
+  ├──────┼─────┼──────────┤
+  │    1 │   1 │        2 │
+  │    2 │   1 │        1 │
+  │    3 │   2 │        3 │
+  │    4 │   2 │        1 │
+  │    5 │   3 │        4 │
+  │    6 │   3 │        1 │
+  └──────┴─────┴──────────┘
+  ┌───────────┬────────────────┐
+  │ OuterPort │ outer_junction │
+  ├───────────┼────────────────┤
+  │         1 │              2 │
+  │         2 │              3 │
+  │         3 │              4 │
+  └───────────┴────────────────┘
+  ┌──────────┬──────────┐
+  │ Junction │ variable │
+  ├──────────┼──────────┤
+  │        1 │        w │
+  │        2 │        x │
+  │        3 │        y │
+  │        4 │        z │
+  └──────────┴──────────┘
+  ```
+b. Construct the above UWD manually using the API for UWDs (`add_box!`, `set_junction!`) or the lower-level API for acsets (`add_part(s)!`, `set_part(s)!`). It might be helpful to know that the Julia type of the UWD return by the `@relation` macro is `RelationDiagram`.
+:::
+
 :::{.rmenv title="Exercise (Pendulum, &starf; &starf;)"}
 Implement a dynamical system modeling the trajectory of a pendulum.
 
@@ -111,11 +151,11 @@ This exercise has two parts; first you must come up with an ordinary differentia
 :::
 
 :::{.rmenv title="Exercise (Graph traversal, &starf; &starf;)"}
-Using a graph data structure created in the Part 1 exercise or the one already available in `Catlab.Graphs`, implement a graph traversal algorithm, such as depth-first search or breadth-first search, using the acsets API (`subpart`, `incident`).
+Using a graph data structure created in the Part 1 exercise or the one already available in `Catlab.Graphs`, implement a graph traversal algorithm, such as [depth-first search](https://en.wikipedia.org/wiki/Depth-first_search) or [breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search), using the acsets API (`subpart`, `incident`).
 :::
 
 :::{.rmenv title="Exercise (Union-find, &starf; &starf;)"}
-Union-find data structures are used to represent equivalence relations on finite sets in computer science. In Julia, we have an implementation of union-find called IntDisjointSets, from the DataStructures package.
+[Union-find](https://en.wikipedia.org/wiki/Disjoint-set_data_structure) data structures are used to represent equivalence relations on finite sets in computer science. In Julia, there is an implementation of union-find called `IntDisjointSets` in the [DataStructures.jl](https://github.com/JuliaCollections/DataStructures.jl) package.
 
 Use this data structure to find the connected components of a graph, by making `src(e)` and `tgt(e)` be in the same equivalence class for each edge `e`.
 :::
