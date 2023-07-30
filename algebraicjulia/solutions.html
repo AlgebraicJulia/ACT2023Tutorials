@@ -429,6 +429,31 @@ end
 @test d == uwd</code></pre>
 <p>The advantange of using the programmatic API is that this code is easily generalized to a function that creates a “star-shaped UWD” of any size. You might try implementing this function as a further exercise.</p>
 </div>
+<div class="rmenv" title="Exercise (Pendulum)">
+<p>Implement a dynamical system modeling the trajectory of a pendulum.</p>
+</div>
+<div class="solenv">
+<p>We’ll use the differential equation for the motion of a <a href="https://en.wikipedia.org/wiki/Pendulum_(mechanics)">simple pendulum</a></p>
+<p><span class="math display">\[ \frac{d^2 \theta}{dt^2} + \frac{g}{\ell} \sin\theta = 0, \]</span></p>
+<p>where <span class="math inline">\(g\)</span> is the acceleration due to gravity and <span class="math inline">\(\ell\)</span> is the length of the rod. It’s fun that since we’re working numerically, we don’t need to bother with the small-angle approximation <span class="math inline">\(\sin(\theta) \approx \theta\)</span> that you probably remember from physics class.</p>
+<p>We turn this second-order ODE into a first-order system of ODEs by introducing a new variable, the angular velocity <span class="math inline">\(\omega\)</span>:</p>
+<p><span class="math display">\[\begin{align*}
+  \dot\theta &amp;= \omega \\
+  \dot\omega &amp;= -\frac{g}{\ell} \sin\theta
+\end{align*}\]</span></p>
+<p>Now we can plug this into AlgebraicDynamics:</p>
+<pre class="{julia}"><code>du(u,p,t) = [u[2], -p.g/p.ℓ * sin(u[1])]
+
+pendulum = ContinuousResourceSharer{Float64}(2, du)
+
+u0 = [π/4, 0]
+params = LVector(g=9.8, ℓ=1)
+tspan = (0.0, 10.0)
+
+prob = ODEProblem(pendulum, u0, tspan, params)
+sol = solve(prob, Tsit5())
+plot(sol, title="Simple pendulum", xlabel="time", label=["θ" "ω"])</code></pre>
+</div>
 <div class="rmenv" title="Exercise (Graph traversal)">
 <p>Implement a graph traversal algorithm, such as depth-first search or breadth-first search, using the acsets API (<code>subpart</code>, <code>incident</code>).</p>
 </div>
