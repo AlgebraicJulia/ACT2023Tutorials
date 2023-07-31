@@ -2,8 +2,10 @@
 title: AlgebraicJulia Tutorial
 subtitle: Applied Category Theory 2023
 author:
- - name: "Owen Lynch"
- - name: "Evan Patterson"
+ - name: Owen Lynch
+   affiliation: Topos Institute
+ - name: Evan Patterson
+   affiliation: Topos Institute
 width: 1500
 height: 1200
 format:
@@ -44,7 +46,7 @@ $$
 Overview of part 1:
 
 1. Category theory in a dynamic language??!?!
-2. Julia
+2. The Julia programming language
 3. Category theory in Julia
 
 :::{.notes}
@@ -61,12 +63,13 @@ Before we get into details of how the AlgebraicJulia ecosystem works, we're goin
 >
 > -- Owen Lynch, 2023
 
-- Curry-Howard correspondence gives a connection between *typed lambda calculus* and *cartesian closed categories*
+- Curry-Howard correspondence makes a connection between *typed lambda calculus* and *cartesian closed categories*
 - This is not the only way of doing category theory on a computer
-- Many categorical things can be implemented without working in a faithful implementation of the typed lambda calculus
+- Many categorical things can be implemented without working in a faithful implementation of the typed lambda calculus:
   - Databases
   - Dynamical systems
   - Computer algebra
+  - ...
 
 :::{.notes}
 Roughly speaking, a dynamic language is one where *variables* are not associated with types, only *values*. So the type associated to a variable is only known when that variable is associated with a value at runtime, and this can change as it is associated with different values.
@@ -75,11 +78,11 @@ In a static language, in contrast, one can determine the type of a variable with
 
 When people typically think about doing category theory in a programming language, they think about the category where the objects are types in a statically typed programming language, and the morphisms are functions between them. This category is typically a cartesian closed category.
 
-However, this particular way of connecting category theory to computing is not the last word on computing and category theory. Applied Category Theory in particular gives rise to a lot of questions where the answer can be computed, and a-priori the most ergonomic and performant way to compute the answers to those questions is not necessarily via one of the existing programming languages (Haskell, Agda, Idris, etc.) whose type system forms a cartesian closed category.
+However, this particular way of connecting category theory to computing is not the last word on computing and category theory. Applied Category Theory in particular gives rise to a lot of questions where the answer can be computed, and the most ergonomic and performant way to compute the answers to those questions is not necessarily via one of the existing programming languages (Haskell, Agda, Idris, etc.) whose type system forms a cartesian closed category.
 
 For example:
 
-- Databases operations a la Spivak
+- Categorical databases a la Spivak
 - Open dynamical systems
 - String diagrams as combinatorial objects
 
@@ -90,19 +93,19 @@ Julia of course is not the *best* language for all of the things that we do in i
 
 Julia is a programming language that is...
 
-- Dynamic
+- *Dynamic*:
 
   Variables don't have types, only values do.
 
-- Fast
+- *Fast*:
 
-  Carefully written Julia is competitive with C or Fortran.
+  Carefully written Julia is competitive with C or Fortran in performance.
 
-- Dependently typed
+- *Dependently typed*:
 
   Although only values have types, the types of those values can depend on other values. For instance `StaticVector{Float64, n}` represents $\mathbb{R}^n$.
 
-- Looks like math
+- *Looks like math*:
 
   $$ ||v||^2 = v^T v $$
 
@@ -110,9 +113,9 @@ Julia is a programming language that is...
   magnitude(x::Vector) = x' * x
   ```
 
-## Why is Julia?
+## Why Julia?
 
-Julia was built to solve the so-called "two-language" problem for scientific computing.
+Julia was built to solve the "two-language problem" in scientific computing.
 
 - Numerical algorithms written in C/C++/Fortran
 - High-level, dynamic interfaces written in Python/R
@@ -143,9 +146,9 @@ end
 
 Notable features:
 
-- Built-in vectors/matrices
+- Built-in numerical linear algebra
 - Auto-broadcasted arithmetic
-- Syntax familiar to a Python user
+- Syntax familiar to a Python/MATLAB user
 
 ## How do you Julia? (2)
 
@@ -192,13 +195,22 @@ Notable features:
  
 ## Where is Julia?
 
-[julialang.org](https://julialang.org)
+Downloads and documentation:
+
+- [julialang.org](https://julialang.org)
+
+Julia community:
+
+- [Julia Discourse](https://discourse.julialang.org/)
+- [Julia Zulip](https://julialang.zulipchat.com/)
+  - Find us in #catlab.jl stream!
 
 ## Category theory in Julia: FinSet
 
 ```{julia}
-struct FinSet n::Int end
-
+struct FinSet
+  n::Int
+end
 struct FinFunction
   dom::FinSet
   codom::FinSet
@@ -211,16 +223,32 @@ compose(f::FinFunction, g::FinFunction) =
   FinFunction(f.dom, g.codom, Int[g.values[j] for j in f.values])
 ```
 
-## Category theory in Julia: FinVect
+## Category theory in Julia: FdVect
+
+Simple version:
 
 ```{julia}
-struct FinVect
+struct FdVectℝ
   dim::Int
 end
 
-id(V::FinVect) = Float64[i == j ? 1.0 : 0.0 for i in 1:V.dim, j in 1:V.dim]
+id(V::FdVectℝ) = Float64[i == j ? 1.0 : 0.0 for i in 1:V.dim, j in 1:V.dim]
 
 compose(M::Matrix{Float64}, N::Matrix{Float64}) = M * N
+```
+
+<br/>
+Fancier version with type parameter for scalar field:
+
+```{julia}
+struct FdVect{T<:Number}
+  dim::Int
+end
+
+id(V::FdVect{T}) where T = T[i == j ? one(T) : zero(T)
+                             for i in 1:V.dim, j in 1:V.dim]
+
+compose(M::Matrix{T}, N::Matrix{T}) where T = M * N
 ```
 
 # Part 2: Dynamical systems and composition patterns
