@@ -86,9 +86,9 @@ Implement a graph data structure in Catlab either (a) using Catlab's support for
 :::{.rmenv title="Exercise (Optimizing Euler, &starf; &starf; &starf;)"}
 In the presentation, we saw an implementation of Euler's method for numerically integrating a differential equation. This implementation is inefficient because it allocates a new vector every time we compute the derivative of the system.
 
-Write an optimized implementation of Euler's method that writes out the derivative in place, and only makes *one* allocation at the very beginning.
+Write an optimized implementation of Euler's method that computes the derivative in place and only makes allocations when initializing the algorithm.
 
-*Hint*: you can use `@time f(x,y,z)` in the repl to check how many allocations a function `f` makes while running.
+*Hint*: you can use `@time f(x,y,z)` in the REPL to check how many allocations a function `f` makes while running.
 :::
 
 ## Part 2
@@ -160,6 +160,24 @@ Use this data structure to find the connected components of a graph, by making `
 
 :::{.rmenv title="Exercise (Cospan composition, &starf; &starf; &starf;)"}
 Implement composition of cospans using union-find.
+:::
+
+:::{.rmenv title="Exercise (Julia macros, &starf; &starf; &starf; &starf;)"}
+[Macros](https://docs.julialang.org/en/v1/manual/metaprogramming/) in Julia, such as the `@relation` macro, are a useful tool for creating embedded domain-specific languages (DSLs) with special notation.
+
+Write a macro that creates a graph using a Graphviz-like syntax:
+
+```julia
+g = @make_graph begin
+  a
+  b
+  c
+  a -> b
+  b -> c
+end
+```
+
+*Hint*: Use the `dump` function to see what a Julia expression looks like internally.
 :::
 
 ## Part 3

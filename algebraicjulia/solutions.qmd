@@ -238,7 +238,7 @@ b. Using finite sets and functions:
 :::
 
 :::{.rmenv title="Exercise (Optimizing Euler)"}
-Write an optimized implementation of Euler's method that writes out the derivative in place, and only makes *one* allocation at the very beginning.
+Write an optimized implementation of Euler's method that computes the derivative in place and only makes allocations when initializing the algorithm.
 :::
 
 :::{.solenv}
@@ -486,6 +486,56 @@ g = path_graph(Graph, 3) ⊕ cycle_graph(Graph, 4) ⊕ star_graph(Graph, 4)
 values(connected_components(g))
 ```
 
+:::{.rmenv title="Exercise (Julia macros)"}
+Write a macro that creates a graph using a Graphviz-like syntax.
+:::
+
+:::{.solenv}
+In Catlab, we typically use the pattern-matching features of [MLStyle.jl](https://github.com/thautwarm/MLStyle.jl) to simplify the parsing of Julia expressions. For the sake of illustration, we deconstruct the expressions "by hand" below.
+
+```{julia}
+#| output: false
+macro make_graph(expr)
+  make_graph(expr)
+end
+
+function make_graph(block::Expr)
+  g = Graph()
+  vnames = Dict{Symbol,Int}()
+  block.head == :block || error("Input to `make_graph` must be a block")
+  for arg in block.args
+    if arg isa LineNumberNode
+      continue
+    elseif arg isa Symbol
+      haskey(vnames, arg) && error("Vertex $arg already defined")
+      vnames[arg] = add_vertex!(g)
+    elseif arg isa Expr && arg.head == :(->)
+      sname, rhs = arg.args
+      tname = rhs.args[2]
+      add_edge!(g, vnames[sname], vnames[tname])
+    else
+      error("Cannot parse statement $arg")
+    end
+  end
+  g
+end
+```
+
+Let's try it out on the given example:
+
+```{julia}
+g = @make_graph begin
+  a
+  b
+  c
+  a -> b
+  b -> c
+end
+
+to_graphviz(g)
+```
+
+For comparison, Catlab ships with a similar macro `@graph` and a host of related but more complicated macros for building categories, diagrams in a category, and so on.
 :::
 
 ## Part 3
