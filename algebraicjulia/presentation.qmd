@@ -1,6 +1,9 @@
 ---
-title: ACT2023 AlgebraicJulia Tutorial
-author: "Owen Lynch"
+title: AlgebraicJulia Tutorial
+subtitle: Applied Category Theory 2023
+author:
+ - name: "Owen Lynch"
+ - name: "Evan Patterson"
 width: 1500
 height: 1200
 format:
@@ -18,10 +21,6 @@ nocite: |
  @brown_compositional_2022, @patterson_diagrammatic_2022, @libkind_algebraic_2022, @patterson_categorical_2022, @libkind_operadic_2022, @halter_compositional_2020, @vagner_algebras_2015, @baez_structured_2020
 ---
 
-$$
-\newcommand{\R}{\mathbb{R}}
-$$
-
 ```{julia}
 # | echo: false
 import Pkg
@@ -29,6 +28,16 @@ Pkg.activate(".")
 using Plots
 using Catlab
 ```
+
+# Outline
+
+$$
+\newcommand{\R}{\mathbb{R}}
+$$
+
+1. Category theory in Julia
+2. Dynamical systems and composition patterns
+3. Operadic composition of dynamical systems
 
 # Part 1: Category theory in Julia
 
@@ -417,7 +426,7 @@ This constructs a undirected wiring diagram with
 
 Ports are connected to junctions according to name.
 
-# Part 3: Combinatorial operads
+# Part 3: Operadic composition of dynamical systems
 
 ## Using operads to compose systems
 
