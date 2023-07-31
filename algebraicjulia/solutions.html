@@ -329,7 +329,7 @@ g = MyGraph(s, t)
 </ol>
 </div>
 <div class="rmenv" title="Exercise (Optimizing Euler)">
-<p>Write an optimized implementation of Euler’s method that writes out the derivative in place, and only makes <em>one</em> allocation at the very beginning.</p>
+<p>Write an optimized implementation of Euler’s method that computes the derivative in place and only makes allocations when initializing the algorithm.</p>
 </div>
 <div class="solenv">
 <p>For the sake of comparison, let’s first measure the allocations of the naive implementation of Euler’s method.</p>
@@ -457,8 +457,7 @@ plot(sol, title="Simple pendulum", xlabel="time", label=["θ" "ω"])</code></pre
 <div class="rmenv" title="Exercise (Graph traversal)">
 <p>Implement a graph traversal algorithm, such as depth-first search or breadth-first search, using the acsets API (<code>subpart</code>, <code>incident</code>).</p>
 </div>
-<div class="solenv">
-<p>A stack-based depth-first search algorithm:</p>
+<p>:::{.solenv} A stack-based depth-first search algorithm:</p>
 <pre class="{julia}"><code>#| output: false
 using Catlab
 using DataStructures: Stack
@@ -516,6 +515,47 @@ end</code></pre>
 <pre class="{julia}"><code>g = path_graph(Graph, 3) ⊕ cycle_graph(Graph, 4) ⊕ star_graph(Graph, 4)
 
 values(connected_components(g))</code></pre>
+<div class="rmenv" title="Exercise (Julia macros)">
+<p>Write a macro that creates a graph using a Graphviz-like syntax.</p>
+</div>
+<div class="solenv">
+<p>In Catlab, we typically use the pattern-matching features of <a href="https://github.com/thautwarm/MLStyle.jl">MLStyle.jl</a> to simplify the parsing of Julia expressions. For the sake of illustration, we deconstruct the expressions “by hand” below.</p>
+<pre class="{julia}"><code>#| output: false
+macro make_graph(expr)
+  make_graph(expr)
+end
+
+function make_graph(block::Expr)
+  g = Graph()
+  vnames = Dict{Symbol,Int}()
+  block.head == :block || error("Input to `make_graph` must be a block")
+  for arg in block.args
+    if arg isa LineNumberNode
+      continue
+    elseif arg isa Symbol
+      haskey(vnames, arg) &amp;&amp; error("Vertex $arg already defined")
+      vnames[arg] = add_vertex!(g)
+    elseif arg isa Expr &amp;&amp; arg.head == :(-&gt;)
+      sname, rhs = arg.args
+      tname = rhs.args[2]
+      add_edge!(g, vnames[sname], vnames[tname])
+    else
+      error("Cannot parse statement $arg")
+    end
+  end
+  g
+end</code></pre>
+<p>Let’s try it out on the given example:</p>
+<pre class="{julia}"><code>g = @make_graph begin
+  a
+  b
+  c
+  a -&gt; b
+  b -&gt; c
+end
+
+to_graphviz(g)</code></pre>
+<p>For comparison, Catlab ships with a similar macro <code>@graph</code> and a host of related but more complicated macros for building categories, diagrams in a category, and so on.</p>
 </div>
 <section id="part-3" class="level2">
 <h2 class="anchored" data-anchor-id="part-3">Part 3</h2>

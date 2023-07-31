@@ -229,8 +229,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="rmenv" title="Exercise (Optimizing Euler, ★ ★ ★)">
 <p>In the presentation, we saw an implementation of Euler’s method for numerically integrating a differential equation. This implementation is inefficient because it allocates a new vector every time we compute the derivative of the system.</p>
-<p>Write an optimized implementation of Euler’s method that writes out the derivative in place, and only makes <em>one</em> allocation at the very beginning.</p>
-<p><em>Hint</em>: you can use <code>@time f(x,y,z)</code> in the repl to check how many allocations a function <code>f</code> makes while running.</p>
+<p>Write an optimized implementation of Euler’s method that computes the derivative in place and only makes allocations when initializing the algorithm.</p>
+<p><em>Hint</em>: you can use <code>@time f(x,y,z)</code> in the REPL to check how many allocations a function <code>f</code> makes while running.</p>
 </div>
 </section>
 <section id="part-2" class="level2">
@@ -294,6 +294,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="rmenv" title="Exercise (Cospan composition, ★ ★ ★)">
 <p>Implement composition of cospans using union-find.</p>
+</div>
+<div class="rmenv" title="Exercise (Julia macros, ★ ★ ★ ★)">
+<p><a href="https://docs.julialang.org/en/v1/manual/metaprogramming/">Macros</a> in Julia, such as the <code>@relation</code> macro, are a useful tool for creating embedded domain-specific languages (DSLs) with special notation.</p>
+<p>Write a macro that creates a graph using a Graphviz-like syntax:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="pp">@make_graph</span> <span class="cf">begin</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  a</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  b</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  c</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  a <span class="op">-&gt;</span> b</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  b <span class="op">-&gt;</span> c</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>Hint</em>: Use the <code>dump</code> function to see what a Julia expression looks like internally.</p>
 </div>
 </section>
 <section id="part-3" class="level2">
