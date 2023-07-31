@@ -255,21 +255,33 @@ compose(M::Matrix{T}, N::Matrix{T}) where T = M * N
 
 ## Compositional systems theory
 
-- Every **system** has an **interface** by which it interacts with other systems
-- Interaction with other systems is captured via **composition**
-- The types of allowed interaction are specified by a **doctrine**
+In the categorical approach to systems theory, we separate:
 
-In this part, we discuss systems, interfaces, and composition patterns for the doctrine of resource sharers, and how they work in AlgebraicJulia.
+1. **Interface** for systems, specified by
+   - a kind of monoidal category with extra structure, or
+   - an operad
+2. **Systems** conforming to the interface, forming
+   - a monoidal category of that kind, or
+   - an algebra of the operad
 
-:::{.speaker-notes}
-The key to compositional systems theory is to split a system into the system itself and the interface to the system.
+Different kinds of systems can use the same interface, enabling reuse in
 
-Then different systems with the same interface can play the same role in composition patterns.
+- mathematics
+- software
 
-In this section we are going to talk about one type of system, and one type of composition pattern.
+## Composing dynamical systems
 
-Finally, in the last section we are going to talk about how to use that composition pattern to compose the systems.
-:::
+Dynamical systems can be composed in several different styles:
+
+1. As **resource sharers**:
+   - Identifying shared states between systems
+   - "Undirected" interface
+2. As **machines**:
+   - Plugging outputs of one system into parameters of another
+   - "Directed" interface
+3. As **resource-sharing machines**: combines both
+
+We focus on resource sharers and their implementation in AlgebraicJulia.
 
 ## What are resource sharers?
 
