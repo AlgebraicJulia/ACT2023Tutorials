@@ -257,14 +257,14 @@ compose(M::Matrix{T}, N::Matrix{T}) where T = M * N
 
 In the categorical approach to systems theory, we separate:
 
-1. **Interface** for systems, specified by
+1. **Interfaces** for systems, specified by
    - a kind of monoidal category with extra structure, or
    - an operad
 2. **Systems** conforming to the interface, forming
    - a monoidal category of that kind, or
    - an algebra of the operad
 
-Different kinds of systems can use the same interface, enabling reuse in
+Different kinds of systems can use the same kind of interface, enabling reuse in
 
 - mathematics
 - software
@@ -285,10 +285,15 @@ We focus on resource sharers and their implementation in AlgebraicJulia.
 
 ## What are resource sharers?
 
-- Continuous dynamical systems (i.e. ODEs)
+- Continuous dynamical systems: systems of ODEs
 - Expose "resources" as their interface
-- Compose by "agreeing" on the value of resources
+- Compose by "identifying" or "sharing" the values of resources
 - Derivative of a resource is the sum of the vectorfields from all systems using that resource
+
+Category-theoretically, resource sharers will form
+
+- a hypergraph category, or
+- an algebra of the operad of undirected wiring diagrams
 
 :::{.speaker-notes}
 Resource sharers are dynamical systems that expose certain quantities that we call resources. They are composed by "sharing" resources. One might assume that "sharing" means "dividing between them", however this is not the case. What it means for two machines to share a resource is that they both agree on the value of that resource.
@@ -298,17 +303,18 @@ For instance, if one machine represents the dynamics of a population of foxes an
 However, both the fox-rabbit system and the hawk-rabbit system can both "tug" on the population of rabbits, by sending it down.
 :::
 
-## A note on representations of morphisms
+## Interlude: computing with morphisms
 
-- In a non-dependently typed language
-  - Can't assert any properties about arbitrary functions, i.e. smoothness or termination
-  - Can't compute general limits or colimits where the morphisms are arbitrary functions
-- When we need to do something with functions other than simply apply them to arguments, we need an introspectable representation
-- Two special cases:
+- When *computing*, as opposed to *proving*, with functions or other morphisms
+  - we can't treat them as black boxes
+  - we need a finitary and introspectable representation
+- A few examples:
   - Functions between finite sets
   - Linear maps between finite dimensional vector spaces
-- AlgebraicJulia, in contrast to most functional programming category theory libraries, focuses on working with these representations
-- We will contrast the two approaches as geometric (concerned with the points of spaces and the actions of functions on those points) vs. symbolic (concerned with symbolic representations of spaces and functions between them)
+- AlgebraicJulia, unlike more formalized math libraries, focuses on concrete computations in categories
+- We contrast the two approaches as
+  1. **geometric**: concerned with abstract spaces and the maps between them
+  2. **symbolic**: concerned with symbolic representations of spaces and functions
 
 :::{.speaker-notes}
 One way of mathematically defining resource sharers would be to say that their interfaces were *spaces*. However, what does this actually mean on a computer? We could say that a space was a type. But in a dynamic language, this is not very helpful. Moreover, we really want some smooth structure on our spaces.
@@ -323,54 +329,63 @@ A more introspectable, yet more restrictive choice would be matrices. These are 
 ## Geometric definition of resource sharers
 
 :::{.rmenv title="Definition"}
-An **interface** for a *geometric resource sharer* is a space $A$.
+An **interface** for a *geometric resource sharer* is a space $I$.
 :::
 
-We think of an interface as a description of the resources that a machine has available to share.
+We think of the interface as specifying the resources that a dynamical system has available to share.
+
+<br/>
 
 :::{.rmenv title="Definition"}
-A **geometric resource sharer** on an interface $A$ consists of
+A **geometric resource sharer** on an interface $I$ consists of
 
-- A space $X$
-- A function $\mathrm{out} \colon X \to A$
+- A space $X$, the **state space**
+- A function $\mathrm{expose} \colon X \to I$
 - A vector field $v \colon X \to TX$
 :::
-
-## Example resource sharer
-
-This is a system which models predation of a predator species $W$ on a prey species $S$
-
-$$ X = A = \R^2 $$
-$$ \mathrm{expose} = \mathrm{id}_A $$
-$$ v(W,S) = (\beta W S, -\beta W S) $$
 
 ## Symbolic definition of resource sharer
 
 :::{.rmenv title="Definition"}
-An **interface** for a *symbolic resource sharer* is a finite set $P$.
+An **interface** for a *symbolic resource sharer* is a finite set $I$.
 :::
 
-This finite set symbolically represents the space $\R^P$. We think of $P$ as the set of ports.
+This finite set symbolically represents the space $\R^I$. We think of $I$ as the set of **ports** or **interface variables**
+
+<br/>
 
 :::{.rmenv title="Definition"}
-A **symbolic resource sharer** on an interface $P$ consists of
+A **symbolic resource sharer** on an interface $I$ consists of
 
-- A finite set $I$
-- A function $\mathrm{expose} \colon P \to I$
-- A vector field $v \colon \R^I \to \R^I$
+- A finite set $S$, the **state variables**
+- A function $\mathrm{expose} \colon I \to S$
+- A vector field $v \colon \R^S \to \R^S$
 :::
 
-The function $\mathrm{expose}$ symbolically represents the function $\R^I \to \R^P$ given by precomposition with $\mathrm{expose}$.
-
-Note that we keep a geometric definition of $v$; this is because we will only need to call $v$ and don't need to introspect it.
+The function $\mathrm{expose}$ symbolically represents the function $\R^S \to \R^I$ given by precomposition with $\mathrm{expose}$.
 
 :::{.speaker-notes}
-Composing resource sharers $(X_1, v_1, P_1)$ and $(X_1, v_2, P_2)$ to make a resource sharer with interface $P_3$ involves imposing some relation between $P_1$, $P_2$ and $P_3$. For instance, if $P_i$ has coordinates $(x_i,y_i)$, we might assert that $y_1 = y_2 = y_3$, and $x_3 = x_1$.
-
-The most general way to do this is with a span $P_1 \leftarrow Q \to P_2$. However, an arbitrary span between spaces is hard to compute with.
-
-If we have $P_1 = \R^{n_1}$, $P_2 = \R^{n_2}$, $Q = \R^m$, then we can express particularly simple relations as 
+We can keep a geometric definition of $v$ because we will only need to call $v$ and don't need to introspect it.
 :::
+
+## Example: predator-prey interaction
+
+A simple system that models
+
+- predation of a predator species, say foxes $f$
+- on a prey species, say rabbits $r$
+
+is given geometrically by
+
+$$ X = I = \R^2, \qquad \mathrm{expose} = \mathrm{id}_X $$
+
+or symbolically by
+
+$$ X = I = \{f,r\}, \qquad \mathrm{expose} = \mathrm{id}_X $$
+
+The vector field is:
+
+$$ v(f,r) = (\beta f r, -\beta f r) $$
 
 ## Example: diffusion in two chambers
 
@@ -390,23 +405,23 @@ $$ \mathrm{expose}(1) = 1 $$
 using AlgebraicDynamics, DifferentialEquations
 
 predator_prey = ContinuousResourceSharer{Float64}(
-  2, 2,
-  (u, p, t) -> p[1] * u[1] * u[2] * [1, -1],
-  [1, 2]
+  2, # number of ports
+  2, # number of states
+  (u, p, t) -> p[1] * u[1] * u[2] * [1, -1], # vector field
+  [1, 2] # exposed states
 )
 
 u0, params, tspan = [10.0, 100.0],  [0.015], (0.0, 5.0)
 
 prob = ODEProblem(predator_prey, u0, tspan, params)
-plot(solve(prob, Tsit5()))
+plot(solve(prob, Tsit5()), label=["predator" "prey"])
 ```
 
-## Composition patterns for resource sharers
+## Undirected wiring diagrams (UWDs)
 
 ```{julia}
 # | output: true
-using Catlab.Programs
-using Catlab.Graphics
+using Catlab
 
 R = @relation (x, z) where (x, y, z) begin
   A(x, y)
@@ -414,14 +429,14 @@ R = @relation (x, z) where (x, y, z) begin
   C(z, x)
 end
 
-to_graphviz(R)
+to_graphviz(R, box_labels=:name)
 ```
 
 :::{.speaker-notes}
 The simplest combinatorial operad is undirected wiring diagrams. An undirected wiring diagram consists of boxes, ports, outer ports, and junctions.
 :::
 
-## UWDs as Cospans
+## UWDs as cospans of finite sets
 
 ::: {#fig-uwd-cospan layout-ncol=2 layout-valign="bottom"}
 
@@ -434,7 +449,7 @@ Two styles of drawing an undirected wiring diagram
 
 ## Undirected wiring diagrams as C-sets
 
-An undirected wiring diagram is a functor into $\mathsf{FinSet}$ from the category $\mathsf{UWD}$ presented as
+An **undirected wiring diagram** is a functor into $\mathsf{FinSet}$ from the category $\mathsf{UWD}$ freely generated by:
 
 ```tikzcd
 && {\mathbf{Box}} \\
@@ -444,12 +459,12 @@ An undirected wiring diagram is a functor into $\mathsf{FinSet}$ from the catego
 \arrow[from=2-1, to=2-2]
 ```
 
-This is a cospan with a grouping of the ports on one side.
+So a UWD is a cospan with a grouping of the "ports" on one side into "boxes."
 
 ## Undirected wiring diagrams in Catlab
 
 - We have generic infrastructure for C-sets in Catlab (explored in exercises)
-- The easier way to construct wiring diagrams is with the `@relation` macro
+- The easiest way to construct UWDs is via the `@relation` macro:
 
 ```{julia}
 @relation (x,z) where (x,y,z) begin
@@ -458,13 +473,11 @@ This is a cospan with a grouping of the ports on one side.
 end
 ```
 
-This constructs a undirected wiring diagram with 
+This call constructs an undirected wiring diagram with 
 
-- three junctions (`x,y,z`)
-- two external ports (`x,z`)
-- two boxes (`R,S`), each of which have two ports (`x,y` and `y,z`)
-
-Ports are connected to junctions according to name.
+- three junctions, named `x,y,z`
+- two outer ports, exposing `x,z`
+- two boxes (`R,S`), each of which has two ports, connected to `x,y` and `y,z`
 
 # Part 3: Operadic composition of dynamical systems
 
