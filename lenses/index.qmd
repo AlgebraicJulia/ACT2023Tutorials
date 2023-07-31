@@ -4,3 +4,13 @@ title: Lens tutorial
 
 - [Presentation](tutorial.pdf)
 - [Exercises](exercises.pdf)
+
+Further reading:
+
+- [Lenses for Philosophers](https://julesh.com/2018/08/16/lenses-for-philosophers/)
+
+- [Categorical Systems Theory](http://davidjaz.com/Papers/DynamicalBook.pdf)
+
+- [Poly Book](https://topos.site/poly-course/)
+
+- [Introduction to Bidirectional Transformations](https://www.cs.ox.ac.uk/people/jeremy.gibbons/publications/ssbx-intro.pdf)
