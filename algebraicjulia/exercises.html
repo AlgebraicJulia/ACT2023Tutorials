@@ -314,6 +314,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Suppose that there are populations of rocks, populations of papers, and populations of scissors. Predation happens to each based on the classic pattern; i.e.&nbsp;scissors eat papers, papers eat rocks, and rocks eat scissors.</p>
 <p>Write down a model for a pairwise interaction between two implements based on Lotka-Volterra dynamics, and then compose three copies of that model to produce a three-population system.</p>
 </div>
+<div class="rmenv" title="Exercise (Double nested undirected wiring diagram, ★ ★ ★)">
+<p>Suppose that you have a <em>doubly nested</em> undirected wiring diagram of resource sharers. By this, I mean you have an undirected wiring diagram, where each box contains an undirected wiring diagram, and each box of this contains a resource sharer.</p>
+<p>Then you can put together these resource sharers in two different ways. The first is by composing each of the inner undirected wiring diagrams, so that the outer wiring diagram now has a resource sharer in each box, and then composing the outer undirected wiring diagram. In other words, call <code>oapply</code> on each inner wiring diagram, and then call <code>oapply</code> on the other diagram.</p>
+<p>The second way is to first collapse the nesting, by composing the two layers of wiring diagrams into one big wiring diagram, and then compose all of the resource sharers at one. In other words, call <code>ocompose</code> on the UWD of UWDs, and then call <code>oapply</code> on the remaining UWD with a resource sharer in each box.</p>
+<p>Both methods of composition should ultimately result in the same composed resource sharer.</p>
+<p>This is analogous to the law for a monad algebra:</p>
+<!-- https://q.uiver.app/#q=WzAsNCxbMCwwLCJUXjJBIl0sWzEsMCwiVCBBIl0sWzAsMSwiVCBBIl0sWzEsMSwiQSJdLFswLDEsIlxcbXVfQSJdLFsxLDMsImYiXSxbMiwzLCJmIiwyXSxbMCwyLCJUIGYiLDJdXQ== -->
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNCxbMCwwLCJUXjJBIl0sWzEsMCwiVCBBIl0sWzAsMSwiVCBBIl0sWzEsMSwiQSJdLFswLDEsIlxcbXVfQSJdLFsxLDMsImYiXSxbMiwzLCJmIiwyXSxbMCwyLCJUIGYiLDJdXQ==&amp;embed" width="304" height="304" style="border-radius: 8px; border: none;">
+</iframe>
+<p>Verify this rule by testing it out in code; construct a nested undirected wiring diagram, and then try out both ways of composing it.</p>
+</div>
+<div class="rmenv" title="Exercise (Petri nets as dynamical systems, ★ ★ ★ ★)">
+<p>Any Petri net induces a dynamical system where the state space is <span class="math inline">\(\mathbb{R}^S\)</span> (<span class="math inline">\(S\)</span> is the set of species), and the vector field is given by <a href="https://arxiv.org/pdf/1209.3632.pdf">mass action semantics</a> (see Chapter 2: The rate equation). In <a href="https://github.com/AlgebraicJulia/AlgebraicPetri.jl">AlgebraicPetri</a>, we have a function called <a href="https://github.com/AlgebraicJulia/AlgebraicPetri.jl/blob/37247dd15bb1130275ff3b074aa2e19e1cdd38ee/src/AlgebraicPetri.jl#L283"><code>vectorfield</code></a> which produces a function that computes the vector field for the mass action equations. Use this function (or for an extra challenge, reimplement this function) to turn an arbitrary Petri net into a resource sharer that exposes all of the populations of the species. Then pick a Petri net, turn it into a resource sharer, and compose it with another resource sharer of your choice.</p>
+<p>Now think about the following question. You can compose Petri nets together by gluing their species together. If you compose Petri nets and then take the dynamical system given by mass action on the composed Petri net, is that the same dynamical system as turning each Petri net into a resource sharer and then composing the resource sharers? Prove or give a counterexample.</p>
+</div>
+<div class="rmenv" title="Exercise (Nested acsets, ★ ★ ★ ★ ★)">
+<p>Figure out a good mathematical abstraction for, and implement nested acsets in Julia.</p>
+<p>For some thoughts on what this might mean, see:</p>
+<ul>
+<li><a href="https://github.com/AlgebraicJulia/Semagrams.jl/blob/main/scala/core/src/acsets/acsets.scala">Source code for Semagrams</a></li>
+<li><a href="https://www.localcharts.org/t/nested-wiring-diagrams-via-bicomodules/792">Some thoughts on nested wiring diagrams</a></li>
+<li><a href="https://owenlynch.org/static/2023-ACT-Semagrams/talk.html#/nested-wiring-diagrams-via-free-monads">My talk on Semagrams</a></li>
+</ul>
+</div>
 
 
 </section>
