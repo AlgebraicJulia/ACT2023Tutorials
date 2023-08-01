@@ -544,6 +544,9 @@ For comparison, Catlab ships with a similar macro `@graph` and a host of related
 :::
 
 :::{.solenv}
+
+We can the schema for a discrete dynamical system as a schema category with a single object, $X$, and a single morphism ϕ from $X$ to $X$:
+
 ```{julia}
 using Catlab
 @present SchDDS(FreeSchema) begin
@@ -556,11 +559,28 @@ end
 :::
 
 :::{.solenv}
+
+Instantiate can be done by calling DDS as an empty constructor. We can then mutate this object to provide values for $X$ and ϕ.
+
 ```{julia}
 using Catlab
 
 myDDS = DDS()
 add_parts!(myDDS, :X, 5, ϕ=[3,3,4,1,2])
+myDDS
+```
+
+:::{.solenv}
+
+We could alternatively make use of the `@acset` macro. This lets us specify an instance declaratively.
+
+```{julia}
+using Catlab
+
+myDDS = @acset DDS begin
+  X = 5
+  ϕ = [3,3,4,1,2]
+end
 myDDS
 ```
 :::
