@@ -3,8 +3,9 @@ title: Solutions to Exercises
 ---
 
 ```{julia}
+# | echo: false
+# | output: false
 using Pkg
-
 Pkg.activate(".")
 ```
 
@@ -481,8 +482,8 @@ function connected_components(g::HasGraph)
 
   components = Dict{Int,Vector{Int}}()
   for v in parts(g, :V)
-    #The first argument inserts an empty array
-    #when v's connected component has not yet been visited.
+    # The first argument inserts an empty array
+    # when v's connected component has not yet been visited.
     component = get!(() -> Int[], components, find_root(sets, v))
     push!(component, v)
   end
@@ -551,8 +552,7 @@ to_graphviz(g)
 For comparison, Catlab ships with a similar macro `@graph` and a host of related but more complicated macros for building categories, diagrams in a category, and so on.
 :::
 
-## Part 3
-
+# Part 3
 
 :::{.rmenv title="Exercise (Your first DDS)"}
 :::
