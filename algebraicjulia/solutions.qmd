@@ -2,6 +2,12 @@
 title: Solutions to Exercises
 ---
 
+```{julia}
+using Pkg
+
+Pkg.activate(".")
+```
+
 ## Part 1
 
 :::{.rmenv title="Exercise (Installation)"}
@@ -447,6 +453,7 @@ in the expected order.
 g = cycle_graph(Graph, 6)
 dfs(println, g, 3)
 ```
+:::
 
 :::{.rmenv title="Exercise (Union-find)"}
 Use the union-find data structure to find the connected components of a graph, by making `src(e)` and `tgt(e)` be in the same equivalence class for each edge `e`.
@@ -485,6 +492,7 @@ g = path_graph(Graph, 3) ⊕ cycle_graph(Graph, 4) ⊕ star_graph(Graph, 4)
 
 values(connected_components(g))
 ```
+:::
 
 :::{.rmenv title="Exercise (Julia macros)"}
 Write a macro that creates a graph using a Graphviz-like syntax.
@@ -540,6 +548,7 @@ For comparison, Catlab ships with a similar macro `@graph` and a host of related
 
 ## Part 3
 
+
 :::{.rmenv title="Exercise (Your first DDS)"}
 :::
 
@@ -585,4 +594,76 @@ myDDS
 ```
 :::
 
+:::{.rmenv title="Exercise (Double nested undirected wiring diagram, &starf; &starf; &starf;)"}
+Suppose that you have a *doubly nested* undirected wiring diagram of resource sharers. By this, I mean you have an undirected wiring diagram, where each box contains an undirected wiring diagram, and each box of this contains a resource sharer.
+
+Then you can put together these resource sharers in two different ways. The first is by composing each of the inner undirected wiring diagrams, so that the outer wiring diagram now has a resource sharer in each box, and then composing the outer undirected wiring diagram. In other words, call `oapply` on each inner wiring diagram, and then call `oapply` on the other diagram.
+
+The second way is to first collapse the nesting, by composing the two layers of wiring diagrams into one big wiring diagram, and then compose all of the resource sharers at one. In other words, call `ocompose` on the UWD of UWDs, and then call `oapply` on the remaining UWD with a resource sharer in each box.
+
+Both methods of composition should ultimately result in the same composed resource sharer.
+
+This is analogous to the law for a monad algebra:
+
+<!-- https://q.uiver.app/#q=WzAsNCxbMCwwLCJUXjJBIl0sWzEsMCwiVCBBIl0sWzAsMSwiVCBBIl0sWzEsMSwiQSJdLFswLDEsIlxcbXVfQSJdLFsxLDMsImYiXSxbMiwzLCJmIiwyXSxbMCwyLCJUIGYiLDJdXQ== -->
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNCxbMCwwLCJUXjJBIl0sWzEsMCwiVCBBIl0sWzAsMSwiVCBBIl0sWzEsMSwiQSJdLFswLDEsIlxcbXVfQSJdLFsxLDMsImYiXSxbMiwzLCJmIiwyXSxbMCwyLCJUIGYiLDJdXQ==&embed" width="304" height="304" style="border-radius: 8px; border: none;"></iframe>
+
+Verify this rule by testing it out in code; construct a nested undirected wiring diagram, and then try out both ways of composing it.
+:::
+
+:::{.solenv}
+[This part](https://github.com/AlgebraicJulia/AlgebraicDynamics.jl/blob/43989a4035b315b61676034a63c4ad5d5b4086bf/test/uwd_dynam.jl#L158) of the AlgebraicDynamics code tests this out (more or less), with the caveat that they simplify things by only putting a sub-UWD in one box of the overall UWD, and then use a method of "ocompose" that just collapses a single nested box at a time, in accordance with the treatment of operads in which you compose two operations at a time, rather than $n+1$.
+:::
+
+:::{.rmenv title="Exercise (Petri nets as dynamical systems, &starf; &starf; &starf; &starf;)"}
+Any Petri net induces a dynamical system where the state space is $\mathbb{R}^S$ ($S$ is the set of species), and the vector field is given by [mass action semantics](https://arxiv.org/pdf/1209.3632.pdf) (see Chapter 2: The rate equation). In [AlgebraicPetri](https://github.com/AlgebraicJulia/AlgebraicPetri.jl), we have a function called [`vectorfield`](https://github.com/AlgebraicJulia/AlgebraicPetri.jl/blob/37247dd15bb1130275ff3b074aa2e19e1cdd38ee/src/AlgebraicPetri.jl#L283) which produces a function that computes the vector field for the mass action equations. Use this function (or for an extra challenge, reimplement this function) to turn an arbitrary Petri net into a resource sharer that exposes all of the populations of the species. Then pick a Petri net, turn it into a resource sharer, and compose it with another resource sharer of your choice.
+
+Now think about the following question. You can compose Petri nets together by gluing their species together. If you compose Petri nets and then take the dynamical system given by mass action on the composed Petri net, is that the same dynamical system as turning each Petri net into a resource sharer and then composing the resource sharers? Prove or give a counterexample.
+:::
+
+:::{.solenv}
+```{julia}
+using AlgebraicPetri, AlgebraicDynamics.UWDDynam
+
+function ContinuousResourceSharer{T}(pn::AbstractPetriNet) where {T}
+  vf! = vectorfield(pn)
+  vf(u, p, t) = vf!(zero(u), u, p, t)
+  ContinuousResourceSharer{T}(ns(pn), vf)
+end
+
+sir_petri = PetriNet(LabelledPetriNet([:S,:I,:R], :inf=>((:S,:I)=>(:I,:I)), :rec=>(:I=>:R)))
+
+sir_sharer = ContinuousResourceSharer{Float64}(sir_petri)
+
+birth = ContinuousResourceSharer{Float64}(1, (u, p, t) -> sqrt(u[1]))
+
+uwd = @relation (s,i,r) where (s,i,r) begin
+  SIR(s,i,r)
+  Birth(s)
+end
+
+sys = oapply(uwd, [sir_sharer, birth])
+
+u0 = [1.0, 0.1, 0]
+params = [0.5, 0.2]
+tspan = (0.0, 10.0)
+
+prob = ODEProblem(sys, u0, tspan, params)
+sol = solve(prob, Tsit5())
+plot(sol, title="SIR with square root growth", xlabel="time", label=["s" "i" "r"])
+```
+:::
+
+:::{.rmenv title="Exercise (Nested acsets, &starf; &starf; &starf; &starf; &starf;)"}
+Figure out a good mathematical abstraction for, and implement nested acsets in Julia.
+
+For some thoughts on what this might mean, see:
+
+- [Source code for Semagrams](https://github.com/AlgebraicJulia/Semagrams.jl/blob/main/scala/core/src/acsets/acsets.scala)
+- [Some thoughts on nested wiring diagrams](https://www.localcharts.org/t/nested-wiring-diagrams-via-bicomodules/792)
+- [My talk on Semagrams](https://owenlynch.org/static/2023-ACT-Semagrams/talk.html#/nested-wiring-diagrams-via-free-monads)
+:::
+
+:::{.solenv}
+If I knew, I'd tell you.
 :::
