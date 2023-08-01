@@ -67,7 +67,7 @@ struct FinFunction
 end
 
 A, B = FinSet(3), FinSet(2)
-f = FinFunction([1,2,2], A, B)
+f = FinFunction(A, B, [1,2,2])
 ```
 Here, we simply identify the finite set $\{1,2,\ldots,n\}$ with
 its number of elements since set operations then operate at the 
