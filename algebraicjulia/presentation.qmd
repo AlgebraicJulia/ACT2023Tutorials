@@ -33,9 +33,11 @@ using Catlab
 
 # Outline
 
-$$
+::: {.hidden}
 \newcommand{\R}{\mathbb{R}}
-$$
+:::
+
+Tutorial in three parts:
 
 1. Category theory in Julia
 2. Dynamical systems and composition patterns
@@ -69,7 +71,6 @@ Before we get into details of how the AlgebraicJulia ecosystem works, we're goin
   - Databases
   - Dynamical systems
   - Computer algebra
-  - ...
 
 :::{.notes}
 Roughly speaking, a dynamic language is one where *variables* are not associated with types, only *values*. So the type associated to a variable is only known when that variable is associated with a value at runtime, and this can change as it is associated with different values.
@@ -103,11 +104,11 @@ Julia is a programming language that is...
 
 - *Dependently typed*:
 
-  Although only values have types, the types of those values can depend on other values. For instance `StaticVector{Float64, n}` represents $\mathbb{R}^n$.
+  Although only values have types, the types of those values can depend on other values. For instance `StaticVector{Float64, n}` represents $\R^n$.
 
 - *Looks like math*:
 
-  $$ ||v||^2 = v^T v $$
+  $$ \lVert v \rVert^2 = v^T v $$
 
   ```julia
   magnitude(x::Vector) = x' * x
@@ -292,7 +293,7 @@ We focus on resource sharers and their implementation in AlgebraicJulia.
 
 Category-theoretically, resource sharers will form
 
-- a hypergraph category, or
+- a hypergraph category, or equivalently
 - an algebra of the operad of undirected wiring diagrams
 
 :::{.speaker-notes}
@@ -362,7 +363,7 @@ A **symbolic resource sharer** on an interface $I$ consists of
 - A vector field $v \colon \R^S \to \R^S$
 :::
 
-The function $\mathrm{expose}$ symbolically represents the function $\R^S \to \R^I$ given by precomposition with $\mathrm{expose}$.
+The function $\mathrm{expose}$ symbolically represents the function $\R^S \to \R^I$ given by precomposition with $\mathrm{expose} \colon I \to S$.
 
 :::{.speaker-notes}
 We can keep a geometric definition of $v$ because we will only need to call $v$ and don't need to introspect it.
@@ -377,26 +378,31 @@ A simple system that models
 
 is given geometrically by
 
-$$ X = I = \R^2, \qquad \mathrm{expose} = \mathrm{id}_X $$
+$$ X = I = \R^2, \qquad \mathrm{expose} = \mathrm{id}_X, $$
 
 or symbolically by
 
-$$ X = I = \{f,r\}, \qquad \mathrm{expose} = \mathrm{id}_X $$
+$$ X = I = \{f,r\}, \qquad \mathrm{expose} = \mathrm{id}_X. $$
 
-The vector field is:
+The vector field is
 
-$$ v(f,r) = (\beta f r, -\beta f r) $$
+$$ v(f,r) = (\beta f r, -\beta f r). $$
 
 ## Example: diffusion in two chambers
 
-![Two chambers](diffusion_boxes.svg){height=400px}
+![Two interconnected chambers](diffusion_boxes.svg){height=400px}
 
-$$ \dot{c}_1 = \rho(c_2 - c_1) $$
-$$ \dot{c}_2 = \rho(c_1 - c_2) $$
+\begin{align*}
+  \dot{c}_1 &= \rho(c_2 - c_1) \\
+  \dot{c}_2 &= \rho(c_1 - c_2)
+\end{align*}
 
-$$ X = \{1,2\} $$
-$$ P = \{1\} $$
-$$ \mathrm{expose}(1) = 1 $$
+\begin{align*}
+  X &= \{1,2\} \\
+  I &= \{1\}
+\end{align*}
+
+$$ \mathrm{expose}: 1 \mapsto 1 $$
 
 ## Resource sharers in AlgebraicJulia
 
@@ -473,7 +479,7 @@ So a UWD is a cospan with a grouping of the "ports" on one side into "boxes."
 end
 ```
 
-This call constructs an undirected wiring diagram with 
+This call constructs a UWD with 
 
 - three junctions, named `x,y,z`
 - two outer ports, exposing `x,z`
@@ -481,11 +487,11 @@ This call constructs an undirected wiring diagram with
 
 # Part 3: Operadic composition of dynamical systems
 
-## Using operads to compose systems
+## Composing systems using operads
 
-Loosely speaking, we want to:
+In compositional systems theory, we want to...
 
-- put systems inside the bubbles
+- put systems inside the bubbles of a composition pattern
 
   ```{julia}
   # | echo: false
@@ -493,27 +499,47 @@ Loosely speaking, we want to:
   to_graphviz(R)
   ```
 
-- press a button and end up with a larger system.
+- "push a button" to get a larger, composite system
 
-## Operads and symmetric monoidal categories
+In the case study from Part 2:
 
-![Nested undirected wiring diagrams](nested_bubbles.svg)
+- the systems are dynamical systems as resource sharers
+- the composition patterns are undirected wiring diagrams
 
-Operads (we will always consider typed operads) are a generalization of categories where the domain of a morphism (called an operation in an operad) consists of a finite set of objects (called types in an operad) rather than a single object.
+"Composition patterns" are formalized as the operations of an **operad**.
 
-:::{.rmenv title="Proposition"}
-Any symmetric monoidal category $\mathsf{C}$ induces an operad $\mathrm{Op}(\mathsf{C})$ with types given by the objects of $\mathsf{C}$ and with an operation $A_1,\ldots,A_n \to B$ being a morphism $A_1 \otimes \cdots \otimes A_n \to B$.
+## Operads and SMCs
+
+:::: columns
+
+::: {.column width="66%"}
+(Typed) **operads**, aka **symmetric multicategories**
+
+- have objects ("types")
+- have morphisms ("operations") whose domains are finite *lists* of objects rather than single objects
+- formalize "hierarchical" composition
+- generalize symmetric monoidal categories
 :::
 
-Operads are more intuitive for composition, SMCs are more convenient mathematically.
+::: {.column width="33%"}
+![](nested_bubbles.svg)
+:::
+::::
+
+:::{.rmenv title="Proposition"}
+Any symmetric monoidal category $(\mathsf{C},\otimes)$ induces an operad $\mathrm{Op}(\mathsf{C})$ with types given by the objects of $\mathsf{C}$ and with operations $(A_1,\ldots,A_n) \to B$ given by the morphisms $A_1 \otimes \cdots \otimes A_n \to B$ of $\mathsf{C}$.
+:::
+
+- Operads are more practically convenient for specifying compositions
+- SMCs are more mathematically convenient
 
 ## Category theory of UWDs
 
 :::{.rmenv title="Proposition"}
-There is a symmetric monoidal category $\mathsf{Csp}$ where
+There is a symmetric monoidal category $\mathsf{Csp}$ whose
 
-- the objects are finite sets
-- the morphisms are (equivalence classes of) cospans, composed by pushout
+- objects are finite sets
+- morphisms are (equivalence classes of) cospans, composed by pushout
 
 ```tikzcd
 && X +_B Y \\
@@ -521,22 +547,19 @@ There is a symmetric monoidal category $\mathsf{Csp}$ where
 A \ar[ur] && B \ar[ul] \ar[ur] \ar[uu, draw=none, "\lrcorner"{anchor=center, pos=0.875, rotate=-45}] && C \ar[ul]
 ```
 
-- The symmetric monoidal structure is given by $+$ (coproduct in $\mathsf{FinSet}$)
+The symmetric monoidal product is $+$ (coproduct in $\mathsf{FinSet}$).
 :::
 
-An undirected wiring diagram is an operation in the induced operad $\mathsf{UWD} = \mathrm{Op}(\mathsf{Csp})$.
+So a UWD is an operation in the induced operad $\mathsf{UWD} = \mathrm{Op}(\mathsf{Csp})$:
 
-```tikzcd
-& X \\
-A_1 + \cdots + A_n \ar[ur] && B \ar[ul]
-```
+$$ A_1 + \cdots + A_n \longrightarrow X \longleftarrow B $$
 
 ## Operad algebras
 
-The thing that gives us the "button to push" to compose systems is an operad algebra
+The thing that gives us the "button to push" to compose systems is an operad algebra:
 
 :::{.rmenv title="Definition"}
-An operad algebra $F$ for an operad $\mathcal{O}$ consists of
+An **operad algebra** $F$ for an operad $\mathcal{O}$ consists of
 
 - a set $F(A)$ for every type $A$
 - a function $F(f) \colon F(A_1) \times \cdots \times F(A_n) \to F(B)$ for every operation $f \in \mathcal{O}(A_1,\ldots,A_n;B)$
@@ -544,7 +567,7 @@ An operad algebra $F$ for an operad $\mathcal{O}$ consists of
 such that the assignment of functions to operations commutes with composition, identities, and symmetries.
 :::
 
-The sets $F(A)$ tell us what sort of things we are allowed to put in the bubbles, and then the function is the button we push to compose.
+The sets $F(A)$ tell us what sort of things we are allowed to put in the bubbles, and then the functions are the buttons we push to compose.
 
 ## Operad algebras from lax symmetric monoidal functors
 
@@ -552,80 +575,80 @@ The sets $F(A)$ tell us what sort of things we are allowed to put in the bubbles
 A **cospan-algebra** is a lax symmetric monoidal functor $F \colon (\mathsf{Csp}, +, 0) \to (\mathsf{Set}, \times, 1)$
 :::
 
-The lax symmetric monoidal structure means that we have a function
+The laxators associated with the lax SMF are functions
 
-```tikzcd
-F(A_1) \times \cdots \times F(A_n) \ar[r, "\varepsilon_{A_1,\ldots,A_n}"] & F(A_1 + \cdots + A_n)
-```
+$$ F_{A_1,\ldots,A_n}: F(A_1) \times \cdots \times F(A_n) \longrightarrow F(A_1 + \cdots + A_n) $$
 
-for every $A_1,\ldots,A_n \in \mathsf{FinSet}$.
+for each $A_1,\ldots,A_n \in \mathsf{FinSet}$.
 
-This gives us an operad algebra of $\mathsf{UWD}$, because given an undirected wiring diagram
+<br/>
 
-```tikzcd
-& X \\
-A_1 + \cdots + A_n \ar[ur, "f"] && B \ar[ul, "g", swap]
-```
+We get an operad algebra of $\mathsf{UWD}$: to each UWD
 
-we have a map
+$$ A_1 + \cdots + A_n \xrightarrow{f} X \xleftarrow{g} B, $$
 
-```tikzcd
-F(A_1) \times \cdots \times F(A_n) \ar[r, "\varepsilon_{A_1,\ldots,A_n}"] & F(A_1 + \cdots + A_n) \ar[r, "{F(f,g)}"] & F(B)
-```
+we associate the function
+
+\begin{equation*}
+  F(A_1) \times \cdots \times F(A_n) \xrightarrow{F_{A_1,\ldots,A_n}} 
+    F(A_1 + \cdots + A_n) \xrightarrow{F(f,g)}
+    F(B)
+\end{equation*}
 
 ## The operad algebra of resource sharers
 
 Let's define a lax symmetric monoidal functor $\mathrm{RS} \colon (\mathsf{Csp}, +, 0) \to (\mathsf{Set}, \times, 1)$
 
-- $\mathrm{RS}(P)$ is the set of resource sharers with interface $P$
-- For the laxator, given resource sharers $(I_1,\mathrm{expose}_1, v_1), \ldots, (I_n,\mathrm{expose}_n, v_n)$ on interfaces $P_1, \ldots, P_n$, we construct a resource sharer
+- $\mathrm{RS}(I)$ is the set of resource sharers with interface $I$
+- For the laxators, given resource sharers $(S_1,\mathrm{expose}_1, v_1), \ldots, (S_n,\mathrm{expose}_n, v_n)$ on interfaces $I_1, \ldots, I_n$, we construct a resource sharer
 
-  $$(I_1 + \cdots + I_n, \mathrm{expose}_1 + \cdots + \mathrm{expose}_n, v_1 \times \cdots \times v_n)$$
+  $$(S_1 + \cdots + S_n, \mathrm{expose}_1 + \cdots + \mathrm{expose}_n, v_1 \times \cdots \times v_n)$$
 
-  on $P_1 + \cdots + P_n$.
-- Finally, for the action of morphisms, given $(I, \mathrm{expose} \colon P \to I, v \colon \mathbb{R}^I \to \mathbb{R}^I)$ and a cospan $P \to X \leftarrow Q$, we make a new resource sharer $(I', \mathrm{expose}', v')$ on $Q$ by
+  on the interface $I_1 + \cdots + I_n$.
+- Finally, for the action on morphisms, given a cospan $I \rightarrow J \leftarrow I'$ and a resource sharer $(S, \mathrm{expose} \colon I \to S, v \colon \R^S \to \R^S)$, we make a new resource sharer $(S', \mathrm{expose}', v')$ on $I'$ by taking
 
   ```tikzcd
-  & {I'} \\
-  I && X \\
-  & P && Q
+  & {S'} \\
+  S && J \\
+  & I && {I'}
   \arrow[from=3-2, to=2-3]
   \arrow["{\mathrm{expose}}", from=3-2, to=2-1]
   \arrow["f", from=2-1, to=1-2]
   \arrow[from=2-3, to=1-2]
   \arrow[from=3-4, to=2-3]
   \arrow["\lrcorner"{anchor=center, pos=0.125, rotate=-45}, draw=none, from=1-2, to=3-2]
-  \arrow["{\mathrm{expose}'}"', curve={height=12pt}, from=3-4, to=1-2]
+  \arrow["{\mathrm{expose}'}"', curve={height=20pt}, from=3-4, to=1-2]
   ```
 
-  and $v' = f^\ast \circ v \circ f_\ast \colon \R^{I'} \to \R^{I'}$
+  and $v' := f_\ast \circ v \circ f^\ast \colon \R^{S'} \to \R^{S'}$
 
-## Unpacking composition of resource sharers
+## Unpacking the composition of resource sharers
+
+Via the pushout, any two state variables in $S$ connected to the same junction in $J$ by a port in the interface $I$ are merged.
 
 ```tikzcd
-& {I'} \\
-I && X \\
-& P && Q
-\arrow[from=3-2, to=2-3]
-\arrow["{\mathrm{expose}}", from=3-2, to=2-1]
-\arrow["f", from=2-1, to=1-2]
-\arrow[from=2-3, to=1-2]
-\arrow[from=3-4, to=2-3]
-\arrow["\lrcorner"{anchor=center, pos=0.125, rotate=-45}, draw=none, from=1-2, to=3-2]
-\arrow["{\mathrm{expose}'}"', curve={height=12pt}, from=3-4, to=1-2]
+  & {S'} \\
+  S && J \\
+  & I && {I'}
+  \arrow[from=3-2, to=2-3]
+  \arrow["{\mathrm{expose}}", from=3-2, to=2-1]
+  \arrow["f", from=2-1, to=1-2]
+  \arrow[from=2-3, to=1-2]
+  \arrow[from=3-4, to=2-3]
+  \arrow["\lrcorner"{anchor=center, pos=0.125, rotate=-45}, draw=none, from=1-2, to=3-2]
+  \arrow["{\mathrm{expose}'}"', curve={height=20pt}, from=3-4, to=1-2]
 ```
 
-Any two state variables in $I$ connected to the same junction in $X$ via a port in $P$ are merged.
+Then, to make the vector field $v'$, we precompose with $f$ to go from $\R^{S'}$ to $\R^S$, apply the vector field $v$, and finally pushforward along $f$ to go from $\R^S$ to $\R^{S'}$, via
 
-Then to make a vector field, we apply $f$ contravariangly to go from $\mathbb{R}^{I'}$ to $\mathbb{R}^I$, apply the vector field, and then apply $f$ covariantly to go from $\mathbb{R}^I$ to $\mathbb{R}^{I'}$, via
+$$ f_\ast(s)_{x'} := \sum_{x \in f^{-1}(x')} s_x $$
 
-$$ f_\ast(x)_{i'} = \sum_{f(i) = i'} x_{i'} $$
-
-This means that when state variables from multiple resource sharers are merged, we sum each resource sharer's "pull" on that state variable to get the overall derivative.
+Intuitively, when state variables from multiple resource sharers are merged, we sum each resource sharer's "pull" on that state variable to get the overall derivative.
 
 ## Example setup
 
 ```{julia}
+# | output: true
 dotr(u,p,t) = p.α*u
 dotrf(u,p,t) = [-p.β*u[1]*u[2], p.γ*u[1]*u[2]]
 dotf(u,p,t) = -p.δ*u
@@ -635,17 +658,19 @@ rabbitfox_predation = ContinuousResourceSharer{Float64}(2, dotrf)
 fox_decline = ContinuousResourceSharer{Float64}(1, dotf)
 
 rf = @relation (rabbits,foxes) begin
-    growth(rabbits)
-    predation(rabbits,foxes)
-    decline(foxes)
+  growth(rabbits)
+  predation(rabbits,foxes)
+  decline(foxes)
 end
+
+to_graphviz(rf, box_labels=:name, junction_labels=:variable)
 ```
 
 ## Example composed
 
 ```{julia}
 # | output: true
-using LabelledArrays, AlgebraicDynamics, Catlab.WiringDiagrams
+using DifferentialEquations, LabelledArrays
 
 sys = oapply(rf, [rabbit_growth, rabbitfox_predation, fox_decline])
 
@@ -654,7 +679,7 @@ params = LVector(α=.3, β=0.015, γ=0.015, δ=0.7)
 tspan = (0.0, 100.0)
 
 prob = ODEProblem(sys, u0, tspan, params)
-plot(solve(prob, Tsit5()))
+plot(solve(prob, Tsit5()), label=["rabbits" "foxes"])
 ```
 
 ## Bibliography
