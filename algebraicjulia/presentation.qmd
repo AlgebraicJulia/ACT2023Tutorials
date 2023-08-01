@@ -530,6 +530,8 @@ In the case study from Part 2:
 Any symmetric monoidal category $(\mathsf{C},\otimes)$ induces an operad $\mathrm{Op}(\mathsf{C})$ with types given by the objects of $\mathsf{C}$ and with operations $(A_1,\ldots,A_n) \to B$ given by the morphisms $A_1 \otimes \cdots \otimes A_n \to B$ of $\mathsf{C}$.
 :::
 
+Why talk about both?
+
 - Operads are more practically convenient for specifying compositions
 - SMCs are more mathematically convenient
 
@@ -605,7 +607,7 @@ Let's define a lax symmetric monoidal functor $\mathrm{RS} \colon (\mathsf{Csp},
   $$(S_1 + \cdots + S_n, \mathrm{expose}_1 + \cdots + \mathrm{expose}_n, v_1 \times \cdots \times v_n)$$
 
   on the interface $I_1 + \cdots + I_n$.
-- Finally, for the action on morphisms, given a cospan $I \rightarrow J \leftarrow I'$ and a resource sharer $(S, \mathrm{expose} \colon I \to S, v \colon \R^S \to \R^S)$, we make a new resource sharer $(S', \mathrm{expose}', v')$ on $I'$ by taking
+- Finally, for the action on morphisms, given a cospan $I \rightarrow J \leftarrow I'$ and a resource sharer $(S, \mathrm{expose}, v \colon \R^S \to \R^S)$ on $I$, we make a new resource sharer $(S', \mathrm{expose}', v')$ on $I'$ by taking
 
   ```tikzcd
   & {S'} \\
@@ -624,7 +626,7 @@ Let's define a lax symmetric monoidal functor $\mathrm{RS} \colon (\mathsf{Csp},
 
 ## Unpacking the composition of resource sharers
 
-Via the pushout, any two state variables in $S$ connected to the same junction in $J$ by a port in the interface $I$ are merged.
+Via the pushout, any two state variables in $S$ connected to the same junction in $J$ by a variable in the interface $I$ are merged:
 
 ```tikzcd
   & {S'} \\
@@ -641,7 +643,7 @@ Via the pushout, any two state variables in $S$ connected to the same junction i
 
 Then, to make the vector field $v'$, we precompose with $f$ to go from $\R^{S'}$ to $\R^S$, apply the vector field $v$, and finally pushforward along $f$ to go from $\R^S$ to $\R^{S'}$, via
 
-$$ f_\ast(s)_{x'} := \sum_{x \in f^{-1}(x')} s_x $$
+$$ f_\ast(s)_{x'} := \sum_{x \in f^{-1}(x')} s_x. $$
 
 Intuitively, when state variables from multiple resource sharers are merged, we sum each resource sharer's "pull" on that state variable to get the overall derivative.
 
