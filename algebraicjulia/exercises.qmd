@@ -198,8 +198,12 @@ $$ X \arrow[loop right]{r}{\mathrm{next}}. $$
 
 Implement an empty acset for this schema in Catlab.
 
-After you have a specitification for the DDS schema, instantiate an acset with data that represents the following DDS:
-<embed href="https://q.uiver.app/#q=WzAsNSxbMCwxLCJcXHRleHRjaXJjbGVkezF9Il0sWzEsMSwiXFx0ZXh0Y2lyY2xlZHsyfSJdLFsxLDAsIlxcdGV4dGNpcmNsZWR7M30iXSxbMCwwLCJcXHRleHRjaXJjbGVkezR9Il0sWzIsMSwiXFx0ZXh0Y2lyY2xlZHs1fSJdLFswLDJdLFsxLDJdLFsyLDNdLFszLDBdLFs0LDFdXQ==" \>
+After you have a specification for the DDS schema, instantiate an acset with data that represents the following DDS:
+::: {#fig-dds}
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNSxbMCwxLCJcXHRleHRjaXJjbGVkezF9Il0sWzEsMSwiXFx0ZXh0Y2lyY2xlZHsyfSJdLFsxLDAsIlxcdGV4dGNpcmNsZWR7M30iXSxbMCwwLCJcXHRleHRjaXJjbGVkezR9Il0sWzIsMSwiXFx0ZXh0Y2lyY2xlZHs1fSJdLFswLDJdLFsxLDJdLFsyLDNdLFszLDBdLFs0LDFdXQ==&embed" width="432" height="304" style="border-radius: 8px; border: none;"></iframe>
+
+A simple discrete dynamical system.
+:::
 
 :::
 
