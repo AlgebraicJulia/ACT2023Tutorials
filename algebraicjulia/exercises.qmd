@@ -187,3 +187,36 @@ Suppose that there are populations of rocks, populations of papers, and populati
 
 Write down a model for a pairwise interaction between two implements based on Lotka-Volterra dynamics, and then compose three copies of that model to produce a three-population system.
 :::
+
+:::{.rmenv title="Exercise (Double nested undirected wiring diagram, &starf; &starf; &starf;)"}
+Suppose that you have a *doubly nested* undirected wiring diagram of resource sharers. By this, I mean you have an undirected wiring diagram, where each box contains an undirected wiring diagram, and each box of this contains a resource sharer.
+
+Then you can put together these resource sharers in two different ways. The first is by composing each of the inner undirected wiring diagrams, so that the outer wiring diagram now has a resource sharer in each box, and then composing the outer undirected wiring diagram. In other words, call `oapply` on each inner wiring diagram, and then call `oapply` on the other diagram.
+
+The second way is to first collapse the nesting, by composing the two layers of wiring diagrams into one big wiring diagram, and then compose all of the resource sharers at one. In other words, call `ocompose` on the UWD of UWDs, and then call `oapply` on the remaining UWD with a resource sharer in each box.
+
+Both methods of composition should ultimately result in the same composed resource sharer.
+
+This is analogous to the law for a monad algebra:
+
+<!-- https://q.uiver.app/#q=WzAsNCxbMCwwLCJUXjJBIl0sWzEsMCwiVCBBIl0sWzAsMSwiVCBBIl0sWzEsMSwiQSJdLFswLDEsIlxcbXVfQSJdLFsxLDMsImYiXSxbMiwzLCJmIiwyXSxbMCwyLCJUIGYiLDJdXQ== -->
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNCxbMCwwLCJUXjJBIl0sWzEsMCwiVCBBIl0sWzAsMSwiVCBBIl0sWzEsMSwiQSJdLFswLDEsIlxcbXVfQSJdLFsxLDMsImYiXSxbMiwzLCJmIiwyXSxbMCwyLCJUIGYiLDJdXQ==&embed" width="304" height="304" style="border-radius: 8px; border: none;"></iframe>
+
+Verify this rule by testing it out in code; construct a nested undirected wiring diagram, and then try out both ways of composing it.
+:::
+
+:::{.rmenv title="Exercise (Petri nets as dynamical systems, &starf; &starf; &starf; &starf;)"}
+Any Petri net induces a dynamical system where the state space is $\mathbb{R}^S$ ($S$ is the set of species), and the vector field is given by [mass action semantics](https://arxiv.org/pdf/1209.3632.pdf) (see Chapter 2: The rate equation). In [AlgebraicPetri](https://github.com/AlgebraicJulia/AlgebraicPetri.jl), we have a function called [`vectorfield`](https://github.com/AlgebraicJulia/AlgebraicPetri.jl/blob/37247dd15bb1130275ff3b074aa2e19e1cdd38ee/src/AlgebraicPetri.jl#L283) which produces a function that computes the vector field for the mass action equations. Use this function (or for an extra challenge, reimplement this function) to turn an arbitrary Petri net into a resource sharer that exposes all of the populations of the species. Then pick a Petri net, turn it into a resource sharer, and compose it with another resource sharer of your choice.
+
+Now think about the following question. You can compose Petri nets together by gluing their species together. If you compose Petri nets and then take the dynamical system given by mass action on the composed Petri net, is that the same dynamical system as turning each Petri net into a resource sharer and then composing the resource sharers? Prove or give a counterexample.
+:::
+
+:::{.rmenv title="Exercise (Nested acsets, &starf; &starf; &starf; &starf; &starf;)"}
+Figure out a good mathematical abstraction for, and implement nested acsets in Julia.
+
+For some thoughts on what this might mean, see:
+
+- [Source code for Semagrams](https://github.com/AlgebraicJulia/Semagrams.jl/blob/main/scala/core/src/acsets/acsets.scala)
+- [Some thoughts on nested wiring diagrams](https://www.localcharts.org/t/nested-wiring-diagrams-via-bicomodules/792)
+- [My talk on Semagrams](https://owenlynch.org/static/2023-ACT-Semagrams/talk.html#/nested-wiring-diagrams-via-free-monads)
+:::
