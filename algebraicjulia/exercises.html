@@ -310,6 +310,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="part-3" class="level2">
 <h2 class="anchored" data-anchor-id="part-3">Part 3</h2>
+<div class="rmenv" title="Exercise (Your first discrete dynamical system (DDS), ★)">
+<p>A discrete dynamical system (DDS) is a set,</p>
+<p><span class="math display">\[ X, \]</span></p>
+<p>representing states, and a function,</p>
+<p><span class="math display">\[ \phi: X \rightarrow X, \]</span></p>
+<p>representing steps from one state to another. Given this, the schema for a discrete dynamical system (DDS) can be</p>
+<p><span class="math display">\[ X \arrow[loop right]{r}{\mathrm{next}}. \]</span></p>
+<p>Implement an empty acset for this schema in Catlab.</p>
+<p>After you have a specification for the DDS schema, instantiate an acset with data that represents the following DDS: ::: {#fig-dds} <iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNSxbMCwxLCJcXHRleHRjaXJjbGVkezF9Il0sWzEsMSwiXFx0ZXh0Y2lyY2xlZHsyfSJdLFsxLDAsIlxcdGV4dGNpcmNsZWR7M30iXSxbMCwwLCJcXHRleHRjaXJjbGVkezR9Il0sWzIsMSwiXFx0ZXh0Y2lyY2xlZHs1fSJdLFswLDJdLFsxLDJdLFsyLDNdLFszLDBdLFs0LDFdXQ==&amp;embed" width="432" height="304" style="border-radius: 8px; border: none;"></iframe></p>
+<p>A simple discrete dynamical system.</p>
+</div>
+<p>:::</p>
 <div class="rmenv" title="Exercise (Lotka-Volterra with a twist, ★ ★)">
 <p>Suppose that there are populations of rocks, populations of papers, and populations of scissors. Predation happens to each based on the classic pattern; i.e.&nbsp;scissors eat papers, papers eat rocks, and rocks eat scissors.</p>
 <p>Write down a model for a pairwise interaction between two implements based on Lotka-Volterra dynamics, and then compose three copies of that model to produce a three-population system.</p>

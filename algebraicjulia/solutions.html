@@ -568,6 +568,36 @@ to_graphviz(g)</code></pre>
 </div>
 <section id="part-3" class="level2">
 <h2 class="anchored" data-anchor-id="part-3">Part 3</h2>
+<div class="rmenv" title="Exercise (Your first DDS)">
+
+</div>
+<div class="solenv">
+<p>We can the schema for a discrete dynamical system as a schema category with a single object, <span class="math inline">\(X\)</span>, and a single morphism ϕ from <span class="math inline">\(X\)</span> to <span class="math inline">\(X\)</span>:</p>
+<pre class="{julia}"><code>using Catlab
+@present SchDDS(FreeSchema) begin
+  X::Ob
+  ϕ::Hom(X,X)
+end
+
+@acset_type DDS(SchDDS)</code></pre>
+</div>
+<p>:::{.solenv}</p>
+<p>Instantiate can be done by calling DDS as an empty constructor. We can then mutate this object to provide values for <span class="math inline">\(X\)</span> and ϕ.</p>
+<pre class="{julia}"><code>using Catlab
+
+myDDS = DDS()
+add_parts!(myDDS, :X, 5, ϕ=[3,3,4,1,2])
+myDDS</code></pre>
+<div class="solenv">
+<p>We could alternatively make use of the <code>@acset</code> macro. This lets us specify an instance declaratively.</p>
+<pre class="{julia}"><code>using Catlab
+
+myDDS = @acset DDS begin
+  X = 5
+  ϕ = [3,3,4,1,2]
+end
+myDDS</code></pre>
+</div>
 <div class="rmenv" title="Exercise (Double nested undirected wiring diagram, ★ ★ ★)">
 <p>Suppose that you have a <em>doubly nested</em> undirected wiring diagram of resource sharers. By this, I mean you have an undirected wiring diagram, where each box contains an undirected wiring diagram, and each box of this contains a resource sharer.</p>
 <p>Then you can put together these resource sharers in two different ways. The first is by composing each of the inner undirected wiring diagrams, so that the outer wiring diagram now has a resource sharer in each box, and then composing the outer undirected wiring diagram. In other words, call <code>oapply</code> on each inner wiring diagram, and then call <code>oapply</code> on the other diagram.</p>
