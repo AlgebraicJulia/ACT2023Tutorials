@@ -7,7 +7,7 @@ This is the website for the [ACT2023](https://act2023.github.io/) tutorial sessi
   - [Paolo Perrone, Markov categories](/markov/)
 - Tuesday afternoon (simultaneously)
   - Dorette Pronk, Double categories
-  - Evan Patterson and Owen Lynch, AlgebraicJulia
+  - [Evan Patterson and Owen Lynch, AlgebraicJulia](/algebraicjulia/)
 
 The format of each tutorial will be the following. They will last for approximately three hours, which is divided up as the presenter sees fit, but approximately in the following way. There will be only about an hour of lecturing. The bulk of the time, an hour and a half, will be spent on exercises. The exercises will have a large range of difficulty, from simple checking of definitions to open problems, so all are encouraged to come. And finally at least a half an hour will be break time.
 
