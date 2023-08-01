@@ -600,37 +600,18 @@ subsystems = Dict(
 rps_system = oapply(d, subsystems)
 ```
 
-To see the results of our game, we can discretize the system using Euler's method and plot a trajectory.
+To see the results of our game, we can construct and solve an ODE problem for the system and plot the solution.
 
 ```{julia}
-# Helper functions
+using OrdinaryDiffEq
 
-# Run a DDS s from initial state x0 for iters number of iterations.
-function simulate(s, x0, iters)
-    trajectory = [x0]
-    xk = x0
-    for i in 1:iters
-        xk = eval_dynamics(s, xk)
-        push!(trajectory, xk)
-    end
-    return trajectory
-end
-# Get the trajectory of a specific population.
-get_traj(trajs, i::Int) = [trajs[j][i] for j in 1:length(trajs)]
+u0 = [125.0, 100.0, 90.0]
+tspan = (0.0,5.0)
 
-rps_discrete_system = euler_approx(rps_system, 0.01)
+prob = ODEProblem(rps_system, u0, tspan)
+sol = solve(prob, Tsit5())
 
-sol = simulate(rps_discrete_system, [100.0, 125.0, 90.0], 100)
-
-rock_traj = get_traj(sol, 1)
-paper_traj = get_traj(sol, 2)
-scissor_traj = get_traj(sol, 3)
-
-plt = plot(rock_traj, label="Rock")
-plot!(paper_traj, label="Paper")
-plot!(scissor_traj, label="Scissors")
-
-display(plt)
+plot(sol, rps_system)
 ```
 
 As we can see, this choice of parameters has led us to a steady state position where rock has won!
