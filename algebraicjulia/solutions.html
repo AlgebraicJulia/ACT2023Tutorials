@@ -191,11 +191,12 @@ Pkg.activate(".")</code></pre>
 # map(println, ["Hello", "World!"])
 
 # This one produces side effects only:
-foreach(println, ["Hello", "World!"])</code></pre>
+foreach(print, ["Hello", " World!"])</code></pre>
 <p>Perform string interpolation using <code>$</code>.</p>
-<pre class="{julia}"><code>favorite_library = "AlgebraicDynamics.jl"
+<pre class="{julia}"><code>greeting = "Hello"
+greetee = "World"
 
-println("My favorite AlgebraicJulia package is $(favorite_library)!")</code></pre>
+println("$greeting, $(greetee)!")</code></pre>
 </div>
 <div class="rmenv" title="Exercise (Package management)">
 <p>Install a Julia package, such as <code>Catlab</code> or <code>AlgebraicDynamics</code>, using the <a href="https://docs.julialang.org/en/v1/stdlib/Pkg/">Julia package manager</a>.</p>
@@ -333,6 +334,7 @@ g = MyGraph(s, t)
 @test vertices(g) == FinSet(3)
 @test edges(g) == FinSet(2)</code></pre></li>
 </ol>
+<p>While the direct implementation is rather straightforward, the acset-based implementation will be dramatically faster in certain situations, especially for graph algorithms that involve iterating over all edges with a given source or target–all such lists of edges are pre-computed by the indexing of <code>src</code> and <code>tgt</code> in the exported <code>Graph</code> type. It’s also much better-suited for efficiently generalizing graph algorithms to other types of graphs.</p>
 </div>
 <div class="rmenv" title="Exercise (Optimizing Euler)">
 <p>Write an optimized implementation of Euler’s method that computes the derivative in place and only makes allocations when initializing the algorithm.</p>
@@ -366,7 +368,7 @@ du(u) = [u[3], u[4], 0, -9.8]
   x
 end
 
-@inline function du!(du, u)
+function du!(du, u)
   du[1] = u(3)
   du[2] = u(4)
   du[3] = 0
