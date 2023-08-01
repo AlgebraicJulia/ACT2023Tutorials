@@ -2,9 +2,23 @@
 title: "ACT2023 AlgebraicJulia Tutorial Session"
 ---
 
-Welcome to the ACT2023 tutorial session on AlgebraicJulia, presented by Owen Lynch and assisted by
+Welcome to the ACT2023 tutorial session on AlgebraicJulia, instructed by
 
+- Owen Lynch
+- Evan Patterson
+
+and assisted by
+
+- Angeline Aguinaldo
+- Kevin Arlin
 - Kris Brown
 - Micah Halter
 - Tyler Hanks
+- Harper Hults
 - Luke Morris
+
+Here you can find:
+
+- [slides](presentation.html)
+- [exercises](exercises.html)
+- [solutions](solutions.html)

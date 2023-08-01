@@ -1,0 +1,4 @@
+- source: project
+  netlify:
+    - id: 92ee1760-99d1-43fd-85ae-d1259970575f
+      url: 'https://act2023tutorial.algebraicjulia.org'

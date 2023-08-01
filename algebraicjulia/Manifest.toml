@@ -2,7 +2,7 @@
 
 julia_version = "1.9.2"
 manifest_format = "2.0"
-project_hash = "5dfc6800ed05f494d4f0aeffed010035d93355a7"
+project_hash = "261e5e84a7fb89b0fceffe7106a87ecf0d098b86"
 
 [[deps.ACSets]]
 deps = ["CompTime", "JSON", "MLStyle", "OrderedCollections", "Pkg", "PrettyTables", "Reexport", "StaticArrays", "StructEquality", "Tables"]
@@ -30,15 +30,27 @@ deps = ["Catlab", "Compose", "LabelledArrays", "LinearAlgebra", "LinearMaps", "P
 git-tree-sha1 = "5457b89a9b6e646ba8a1f399d7d1e1c43fa19b73"
 uuid = "5fd6ff03-a254-427e-8840-ba658f502e32"
 version = "0.2.1"
+weakdeps = ["AlgebraicPetri", "DelayDiffEq", "OrdinaryDiffEq"]
 
     [deps.AlgebraicDynamics.extensions]
     AlgebraicDynamicsAlgebraicPetriExt = "AlgebraicPetri"
     AlgebraicDynamicsDelayDiffEqExt = "DelayDiffEq"
     AlgebraicDynamicsOrdinaryDiffEqExt = "OrdinaryDiffEq"
 
-    [deps.AlgebraicDynamics.weakdeps]
-    AlgebraicPetri = "4f99eebe-17bf-4e98-b6a1-2c4f205a959b"
-    DelayDiffEq = "bcd4f6db-9728-5f36-b5f7-82caef46ccdb"
+[[deps.AlgebraicPetri]]
+deps = ["Catlab", "GeneralizedGenerated", "LabelledArrays"]
+git-tree-sha1 = "d798c838e065927a09edf431791d34fd5a709023"
+uuid = "4f99eebe-17bf-4e98-b6a1-2c4f205a959b"
+version = "0.9.0"
+
+    [deps.AlgebraicPetri.extensions]
+    AlgebraicPetriCatalystExt = "Catalyst"
+    AlgebraicPetriModelingToolkitExt = "ModelingToolkit"
+    AlgebraicPetriOrdinaryDiffEqExt = "OrdinaryDiffEq"
+
+    [deps.AlgebraicPetri.weakdeps]
+    Catalyst = "479239e8-5488-4da2-87a7-35f2df7eef83"
+    ModelingToolkit = "961ee093-0014-501f-94e3-6117800e7a78"
     OrdinaryDiffEq = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
 
 [[deps.ArgTools]]
