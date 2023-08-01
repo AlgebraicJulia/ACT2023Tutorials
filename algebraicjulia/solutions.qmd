@@ -655,6 +655,83 @@ plot(sol, title="SIR with square root growth", xlabel="time", label=["s" "i" "r"
 ```
 :::
 
+:::{.rmenv title="Exercise (Lotka-Volterra with a twist, &starf; &starf;)"}
+Suppose that there are populations of rocks, populations of papers, and populations of scissors. Predation happens to each based on the classic pattern; i.e. scissors eat papers, papers eat rocks, and rocks eat scissors.
+
+Write down a model for a pairwise interaction between two implements based on Lotka-Volterra dynamics, and then compose three copies of that model to produce a three-population system.
+:::
+
+:::{.solenv}
+
+First, let's define a resource sharing machine representing a predation process. This resource sharer has two state variables, one for the predator population and the other for the prey population. It is parameterized by a predation rate (i.e. how efficiently our predator inanimate objects eat the prey inanimate objects) and a growth rate (i.e. how efficiently our predators reproduce given how much they eat).
+
+```{julia}
+using AlgebraicDynamics.UWDDynam
+using Catlab
+using Plots
+
+# Return a continuous resource sharer describing the interaction
+# of a predator and prey based on predation rate and growth rate parameters.
+function binary_predation_system(growth_rate, predation_rate)
+    dynamics(u,_,_) = [
+        # The predators can reproduce if there are at least 2 of them.
+        u[1] >= 2 ? growth_rate*u[1]*u[2] : 0,
+        # The predators cannot eat if there aren't at least 1 of them.
+        u[1] > 1 ? -predation_rate*u[1]*u[2] : 0
+    ]
+    return ContinuousResourceSharer{Float64}(2, dynamics)
+end
+```
+
+Now, we can use Catlab to define the composition pattern of our rock-paper-scissors system.
+
+```{julia}
+d = @relation (rocks, papers, scissors) begin
+    crush(rocks, scissors)
+    cover(papers, rocks)
+    cut(scissors, papers)
+end
+
+to_graphviz(d, box_labels = :name, junction_labels = :variable, edge_attrs=Dict(:len => ".75"))
+```
+
+Now we can pick some rate parameters and fill our boxes with binary predation systems.
+
+```{julia}
+crush_rate = .2
+cover_rate = .1
+cut_rate = .3
+
+rock_reproduction_rate = 0.1
+paper_reproduction_rate = 0.2
+scissor_reproduction_rate = 0.1
+
+subsystems = Dict(
+    :crush => binary_predation_system(rock_reproduction_rate, crush_rate),
+    :cover => binary_predation_system(paper_reproduction_rate, cover_rate),
+    :cut => binary_predation_system(scissor_reproduction_rate, cut_rate)
+)
+
+rps_system = oapply(d, subsystems)
+```
+
+To see the results of our game, we can construct and solve an ODE problem for the system and plot the solution.
+
+```{julia}
+using OrdinaryDiffEq
+
+u0 = [125.0, 100.0, 90.0]
+tspan = (0.0,5.0)
+
+prob = ODEProblem(rps_system, u0, tspan)
+sol = solve(prob, Tsit5())
+
+plot(sol, rps_system)
+```
+
+As we can see, this choice of parameters has led us to a steady state position where rock has won!
+:::
+
 :::{.rmenv title="Exercise (Nested acsets, &starf; &starf; &starf; &starf; &starf;)"}
 Figure out a good mathematical abstraction for, and implement nested acsets in Julia.
 
