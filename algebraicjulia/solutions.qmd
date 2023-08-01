@@ -548,6 +548,52 @@ For comparison, Catlab ships with a similar macro `@graph` and a host of related
 
 ## Part 3
 
+
+:::{.rmenv title="Exercise (Your first DDS)"}
+:::
+
+:::{.solenv}
+
+We can the schema for a discrete dynamical system as a schema category with a single object, $X$, and a single morphism ϕ from $X$ to $X$:
+
+```{julia}
+using Catlab
+@present SchDDS(FreeSchema) begin
+  X::Ob
+  ϕ::Hom(X,X)
+end
+
+@acset_type DDS(SchDDS)
+```
+:::
+
+:::{.solenv}
+
+Instantiate can be done by calling DDS as an empty constructor. We can then mutate this object to provide values for $X$ and ϕ.
+
+```{julia}
+using Catlab
+
+myDDS = DDS()
+add_parts!(myDDS, :X, 5, ϕ=[3,3,4,1,2])
+myDDS
+```
+
+:::{.solenv}
+
+We could alternatively make use of the `@acset` macro. This lets us specify an instance declaratively.
+
+```{julia}
+using Catlab
+
+myDDS = @acset DDS begin
+  X = 5
+  ϕ = [3,3,4,1,2]
+end
+myDDS
+```
+:::
+
 :::{.rmenv title="Exercise (Double nested undirected wiring diagram, &starf; &starf; &starf;)"}
 Suppose that you have a *doubly nested* undirected wiring diagram of resource sharers. By this, I mean you have an undirected wiring diagram, where each box contains an undirected wiring diagram, and each box of this contains a resource sharer.
 
