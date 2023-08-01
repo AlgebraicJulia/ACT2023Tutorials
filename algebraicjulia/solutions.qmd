@@ -568,9 +568,6 @@ end
 
 @acset_type DDS(SchDDS)
 ```
-:::
-
-:::{.solenv}
 
 Instantiate can be done by calling DDS as an empty constructor. We can then mutate this object to provide values for $X$ and ϕ.
 
@@ -581,8 +578,6 @@ myDDS = DDS()
 add_parts!(myDDS, :X, 5, ϕ=[3,3,4,1,2])
 myDDS
 ```
-
-:::{.solenv}
 
 We could alternatively make use of the `@acset` macro. This lets us specify an instance declaratively.
 
