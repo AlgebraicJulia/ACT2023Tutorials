@@ -44,15 +44,16 @@ Print everything in a vector by using broadcasting. To broadcast, append `.` to 
 # map(println, ["Hello", "World!"])
 
 # This one produces side effects only:
-foreach(println, ["Hello", "World!"])
+foreach(print, ["Hello", " World!"])
 ```
 
 Perform string interpolation using `$`.
 
 ```{julia}
-favorite_library = "AlgebraicDynamics.jl"
+greeting = "Hello"
+greetee = "World"
 
-println("My favorite AlgebraicJulia package is $(favorite_library)!")
+println("$greeting, $(greetee)!")
 ```
 :::
 
@@ -241,6 +242,8 @@ b. Using finite sets and functions:
    @test edges(g) == FinSet(2)
    ```
 
+  While the direct implementation is rather straightforward, the acset-based implementation will be dramatically faster in certain situations, especially for graph algorithms that involve iterating over all edges with a given source or target–all such lists of edges are pre-computed by the indexing of `src` and `tgt` in the exported `Graph` type. It's also much better-suited for efficiently generalizing graph algorithms to other types of graphs. 
+
 :::
 
 :::{.rmenv title="Exercise (Optimizing Euler)"}
@@ -282,7 +285,7 @@ function inplace_euler(du!::Function, init::Vector{Float64}, dt::Float64, m::Int
   x
 end
 
-@inline function du!(du, u)
+function du!(du, u)
   du[1] = u(3)
   du[2] = u(4)
   du[3] = 0
