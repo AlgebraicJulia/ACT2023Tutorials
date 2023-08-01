@@ -583,6 +583,7 @@ myDDS
 
 We could alternatively make use of the `@acset` macro. This lets us specify an instance declaratively.
 
+
 ```{julia}
 using Catlab
 
