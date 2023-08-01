@@ -481,6 +481,8 @@ function connected_components(g::HasGraph)
 
   components = Dict{Int,Vector{Int}}()
   for v in parts(g, :V)
+    #The first argument inserts an empty array
+    #when v's connected component has not yet been visited.
     component = get!(() -> Int[], components, find_root(sets, v))
     push!(component, v)
   end
@@ -557,7 +559,7 @@ For comparison, Catlab ships with a similar macro `@graph` and a host of related
 
 :::{.solenv}
 
-We can the schema for a discrete dynamical system as a schema category with a single object, $X$, and a single morphism ϕ from $X$ to $X$:
+Here is the schema for a DDS:
 
 ```{julia}
 using Catlab
@@ -568,11 +570,8 @@ end
 
 @acset_type DDS(SchDDS)
 ```
-:::
 
-:::{.solenv}
-
-Instantiate can be done by calling DDS as an empty constructor. We can then mutate this object to provide values for $X$ and ϕ.
+We can instantiate an empty DDS and then mutate this object to provide values for $X$ and $\phi$.
 
 ```{julia}
 using Catlab
@@ -581,8 +580,6 @@ myDDS = DDS()
 add_parts!(myDDS, :X, 5, ϕ=[3,3,4,1,2])
 myDDS
 ```
-
-:::{.solenv}
 
 We could alternatively make use of the `@acset` macro. This lets us specify an instance declaratively.
 

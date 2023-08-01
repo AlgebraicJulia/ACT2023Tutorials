@@ -188,22 +188,9 @@ end
 
 :::{.rmenv title="Exercise (Your first discrete dynamical system (DDS), &starf;)"}
 
-A discrete dynamical system (DDS) is a set,
+A discrete dynamical system (DDS) consists of a set $X$ of states and a function $\phi: X \rightarrow X$ defining the transition from one state to the next. Given this, the schema for a discrete dynamical system (DDS) has a single object object equipped with a single non-identity morphism. Implement this schema in Catlab. Then, instantiate an acset with data that represents the following DDS:
 
-$$ X, $$
-
-representing states, and a function,
-
-$$ \phi: X \rightarrow X, $$
-
-representing steps from one state to another. Given this, the schema for a discrete dynamical system (DDS) can be
-
-$$ X \arrow[loop right]{r}{\mathrm{next}}. $$
-
-Implement an empty acset for this schema in Catlab.
-
-After you have a specification for the DDS schema, instantiate an acset with data that represents the following DDS:
-::: {#fig-dds}
+:::{#fig-dds}
 <iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNSxbMCwxLCJcXHRleHRjaXJjbGVkezF9Il0sWzEsMSwiXFx0ZXh0Y2lyY2xlZHsyfSJdLFsxLDAsIlxcdGV4dGNpcmNsZWR7M30iXSxbMCwwLCJcXHRleHRjaXJjbGVkezR9Il0sWzIsMSwiXFx0ZXh0Y2lyY2xlZHs1fSJdLFswLDJdLFsxLDJdLFsyLDNdLFszLDBdLFs0LDFdXQ==&embed" width="432" height="304" style="border-radius: 8px; border: none;"></iframe>
 
 A simple discrete dynamical system.
