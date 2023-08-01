@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>git@github.com:AlgebraicJulia/ACT2023Tutorials/markov/index.html</loc>
+    <lastmod>2023-08-01T02:20:27.740Z</lastmod>
+  </url>
+  <url>
+    <loc>git@github.com:AlgebraicJulia/ACT2023Tutorials/index.html</loc>
+    <lastmod>2023-08-01T02:20:27.893Z</lastmod>
+  </url>
+  <url>
+    <loc>git@github.com:AlgebraicJulia/ACT2023Tutorials/lenses/index.html</loc>
+    <lastmod>2023-08-01T02:20:28.040Z</lastmod>
+  </url>
+  <url>
+    <loc>git@github.com:AlgebraicJulia/ACT2023Tutorials/algebraicjulia/presentation.html</loc>
+    <lastmod>2023-08-01T02:21:01.625Z</lastmod>
+  </url>
+  <url>
+    <loc>git@github.com:AlgebraicJulia/ACT2023Tutorials/algebraicjulia/index.html</loc>
+    <lastmod>2023-08-01T02:21:01.817Z</lastmod>
+  </url>
+  <url>
+    <loc>git@github.com:AlgebraicJulia/ACT2023Tutorials/algebraicjulia/quickstart.html</loc>
+    <lastmod>2023-08-01T02:21:02.006Z</lastmod>
+  </url>
+  <url>
+    <loc>git@github.com:AlgebraicJulia/ACT2023Tutorials/algebraicjulia/exercises.html</loc>
+    <lastmod>2023-08-01T02:21:02.375Z</lastmod>
+  </url>
+  <url>
+    <loc>git@github.com:AlgebraicJulia/ACT2023Tutorials/algebraicjulia/solutions.html</loc>
+    <lastmod>2023-08-01T02:21:46.466Z</lastmod>
+  </url>
+</urlset>

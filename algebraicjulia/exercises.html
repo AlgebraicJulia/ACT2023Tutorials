@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.340">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ACT2023 Tutorial Sessions - Exercises</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ACT2023 Tutorial Sessions</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#part-1" id="toc-part-1" class="nav-link active" data-scroll-target="#part-1">Part 1</a></li>
+  <li><a href="#part-2" id="toc-part-2" class="nav-link" data-scroll-target="#part-2">Part 2</a></li>
+  <li><a href="#part-3" id="toc-part-3" class="nav-link" data-scroll-target="#part-3">Part 3</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Exercises</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>The purpose of these exercises is to guide your efforts in learning AlgebraicJulia. Thus, some of these exercises are purposely underspecified; the specifics of the answer are not as important as the process of getting to that answer.</p>
+<p>For instance, in the first couple exercises, we ask you to install Julia and do some basic tasks. These are exercises in computer systems administrations, not mathematics! Hopefully, everything goes smoothly with installation, but if not, also think of this as an exercise in how to debug computer systems, and don’t hesitate to ask for help.</p>
+<p>Later exercises include some questions about how to design software; these too have very open-ended answers. Writing software is somewhat like doing mathematical research, in that as much or more time is spent thinking about <em>what</em> to prove as is spent actually proving it. In the context of software, this means that more of your time is spent designing the architecture of programs than in implementing algorithms whose specifications are known in advance. In computational category theory, this is especially true. So hopefully these exercises will get you started thinking about these questions, and perhaps you will come up with ideas and approaches that will be new to us!</p>
+<p>We expect that you have some familiarity with <em>some</em> programming language (not necessarily Julia). But more importantly, we expect that you will use every resource at your disposal to work through these exercises:</p>
+<ul>
+<li><a href="https://docs.julialang.org/en/v1/">Julia language documentation.</a> The Manual tab contains much more than all the general information on Julia you should find useful today.</li>
+<li>AlgebraicJulia documentation (<a href="https://algebraicjulia.github.io/Catlab.jl/dev/">Catlab.jl</a>, <a href="https://algebraicjulia.github.io/AlgebraicDynamics.jl/dev/">AlgebraicDynamics.jl</a>)</li>
+<li>Any other documentation for Julia packages, which often can be found as a link on their GitHub pages.</li>
+<li>The code itself for <a href="https://github.com/AlgebraicJulia/Catlab.jl">Catlab.jl</a> or any other Julia package. Reading code is a good habit to get into, kind of how like watching TV shows in a foreign language is a good way to pick up familiarity and idioms.</li>
+<li>the instructors and TAs</li>
+<li>your fellow learners</li>
+<li>your random friend you met a year ago who said they liked Julia</li>
+<li>literally anyone else</li>
+<li><a href="https://algebraicjulia.github.io/Kittenlab.jl">Kittenlab.jl</a>, which is a series of lecture notes for non-category theorists teaching the basics of category theory through the lens of Julia.</li>
+</ul>
+<p>The exercises are rated in difficulty from ★ (easiest) to ★ ★ ★ ★ ★ (open problem). Programming is always a time-consuming activity, so don’t be discouraged if even the easier exercises take a while to complete.</p>
+<section id="part-1" class="level2">
+<h2 class="anchored" data-anchor-id="part-1">Part 1</h2>
+<p>This first part will be focused on getting familiar with Julia, and the AlgebraicJulia philosophy of doing category theory on the computer.</p>
+<div class="rmenv" title="Exercise (Installation, ★)">
+<p>Follow the <a href="quickstart">quick start</a> instructions to install Julia, a code editor, and the git version control system.</p>
+</div>
+<div class="rmenv" title="Exercise (Hello World, ★)">
+<p>Get Julia to print “Hello World”.</p>
+</div>
+<div class="rmenv" title="Exercise (Package management, ★)">
+<p>Install a Julia package, such as <code>Catlab</code> or <code>AlgebraicDynamics</code>, using the <a href="https://docs.julialang.org/en/v1/stdlib/Pkg/">Julia package manager</a>.</p>
+</div>
+<div class="rmenv" title="Exercise (Sharing is caring, ★ ★)">
+<p>In my opinion, one of the biggest barriers to entry to software development for academics is how unintuitive version control is. If you aren’t familiar with git, find someone who is and walk through</p>
+<ul>
+<li>Forking the <a href="https://github.com/AlgebraicJulia/ACT2023Tutorial">ACT2023Tutorial</a> repository</li>
+<li>Clone your fork</li>
+<li>Make a directory called <code>solutions/$YOUR_NAME</code> (replace <code>$YOUR_NAME</code> with a space-free sequence of characters that you feel describes yourself). Put some code in there!</li>
+<li><em>stage</em> your changes</li>
+<li><em>commit</em> your changes</li>
+<li><em>push</em> your changes to your fork</li>
+<li><em>send a pull request</em> to <a href="https://github.com/AlgebraicJulia/ACT2023Tutorial">ACT2023Tutorial</a></li>
+</ul>
+<p>This may seem intimidating; that’s why you need to find a friend!</p>
+</div>
+<div class="rmenv" title="Exercise (Finite sets, ★ ★)">
+<p>We can represent the objects and morphisms in the skeleton of the category <span class="math inline">\(\mathsf{FinSet}\)</span> using the Julia <a href="https://docs.julialang.org/en/v1/manual/types/#Composite-Types">structs</a>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> FinSet</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  n<span class="op">::</span><span class="dt">Int</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> FinFunction</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  dom<span class="op">::</span><span class="dt">FinSet</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  codom<span class="op">::</span><span class="dt">FinSet</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  values<span class="op">::</span><span class="dt">Vector{Int}</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>A, B <span class="op">=</span> <span class="fu">FinSet</span>(<span class="fl">3</span>), <span class="fu">FinSet</span>(<span class="fl">2</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="fu">FinFunction</span>([<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>], A, B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here, we simply identify the finite set <span class="math inline">\(\{1,2,\ldots,n\}\)</span> with its number of elements since set operations then operate at the speed of Julia integers.</p>
+<p>Write a function that computes the product of two finite sets, along with the projection maps out.</p>
+</div>
+<div class="rmenv" title="Exercise (Graphs, ★ ★)">
+<p>A <strong>graph</strong> is a set-valued functor on the free category generated by the</p>
+<div class="tikzcd">
+<img src="tikz_build_abd0aae105efaa5395f0f270f1cdce010e43d8af.svg" class="img-fluid">
+</div>
+<p>Implement a graph data structure in Catlab either (a) using Catlab’s support for C-sets (<code>@acset_type</code>) or (b) more directly, using finite sets (<code>FinSet</code>) and functions (<code>FinFunction</code>). (Tip: Don’t call your data structure <code>Graph</code>.)</p>
+</div>
+<div class="rmenv" title="Exercise (Optimizing Euler, ★ ★ ★)">
+<p>In the presentation, we saw an implementation of Euler’s method for numerically integrating a differential equation. This implementation is inefficient because it allocates a new vector every time we compute the derivative of the system.</p>
+<p>Write an optimized implementation of Euler’s method that computes the derivative in place and only makes allocations when initializing the algorithm.</p>
+<p><em>Hint</em>: you can use <code>@time f(x,y,z)</code> in the REPL to check how many allocations a function <code>f</code> makes while running.</p>
+</div>
+</section>
+<section id="part-2" class="level2">
+<h2 class="anchored" data-anchor-id="part-2">Part 2</h2>
+<div class="rmenv" title="Exercise (Growing rabbits, ★)">
+<p>Implement the dynamical system</p>
+<p><span class="math display">\[ \dot{R} = \alpha R \]</span></p>
+<p>using <code>AlgebraicDynamics</code>.</p>
+</div>
+<div class="rmenv" title="Exercise (UWDs as data structure, ★ )">
+<p>The <code>@relation</code> macro in Catlab is a convenient DSL for defining UWDs, but that’s all it is: the real data is stored in the acset that the macro produces. This exercise is about understanding the connection between the DSL and the data of the UWD.</p>
+<ol type="a">
+<li>Write a call to the <code>@relation</code> macro that constructs the following UWD.</li>
+</ol>
+<pre><code>┌─────┬──────┐
+│ Box │ name │
+├─────┼──────┤
+│   1 │    R │
+│   2 │    S │
+│   3 │    T │
+└─────┴──────┘
+┌──────┬─────┬──────────┐
+│ Port │ box │ junction │
+├──────┼─────┼──────────┤
+│    1 │   1 │        2 │
+│    2 │   1 │        1 │
+│    3 │   2 │        3 │
+│    4 │   2 │        1 │
+│    5 │   3 │        4 │
+│    6 │   3 │        1 │
+└──────┴─────┴──────────┘
+┌───────────┬────────────────┐
+│ OuterPort │ outer_junction │
+├───────────┼────────────────┤
+│         1 │              2 │
+│         2 │              3 │
+│         3 │              4 │
+└───────────┴────────────────┘
+┌──────────┬──────────┐
+│ Junction │ variable │
+├──────────┼──────────┤
+│        1 │        w │
+│        2 │        x │
+│        3 │        y │
+│        4 │        z │
+└──────────┴──────────┘</code></pre>
+<ol start="2" type="a">
+<li>Construct the above UWD manually using the API for UWDs (<code>add_box!</code>, <code>set_junction!</code>) or the lower-level API for acsets (<code>add_part(s)!</code>, <code>set_part(s)!</code>). It might be helpful to know that the Julia type of the UWD return by the <code>@relation</code> macro is <code>RelationDiagram</code>.</li>
+</ol>
+</div>
+<div class="rmenv" title="Exercise (Pendulum, ★ ★)">
+<p>Implement a dynamical system modeling the trajectory of a pendulum.</p>
+<p>This exercise has two parts; first you must come up with an ordinary differential equation that models a pendulum; here you need a bit of physics. Then you must write down this system in AlgebraicDynamics.</p>
+</div>
+<div class="rmenv" title="Exercise (Graph traversal, ★ ★)">
+<p>Using a graph data structure created in the Part 1 exercise or the one already available in <code>Catlab.Graphs</code>, implement a graph traversal algorithm, such as <a href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a> or <a href="https://en.wikipedia.org/wiki/Breadth-first_search">breadth-first search</a>, using the acsets API (<code>subpart</code>, <code>incident</code>).</p>
+</div>
+<div class="rmenv" title="Exercise (Union-find, ★ ★)">
+<p><a href="https://en.wikipedia.org/wiki/Disjoint-set_data_structure">Union-find</a> data structures are used to represent equivalence relations on finite sets in computer science. In Julia, there is an implementation of union-find called <code>IntDisjointSets</code> in the <a href="https://github.com/JuliaCollections/DataStructures.jl">DataStructures.jl</a> package.</p>
+<p>Use this data structure to find the connected components of a graph, by making <code>src(e)</code> and <code>tgt(e)</code> be in the same equivalence class for each edge <code>e</code>.</p>
+</div>
+<div class="rmenv" title="Exercise (Cospan composition, ★ ★ ★)">
+<p>Implement composition of cospans using union-find.</p>
+</div>
+<div class="rmenv" title="Exercise (Julia macros, ★ ★ ★ ★)">
+<p><a href="https://docs.julialang.org/en/v1/manual/metaprogramming/">Macros</a> in Julia, such as the <code>@relation</code> macro, are a useful tool for creating embedded domain-specific languages (DSLs) with special notation.</p>
+<p>Write a macro that creates a graph using a Graphviz-like syntax:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="pp">@make_graph</span> <span class="cf">begin</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  a</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  b</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  c</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  a <span class="op">-&gt;</span> b</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  b <span class="op">-&gt;</span> c</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>Hint</em>: Use the <code>dump</code> function to see what a Julia expression looks like internally.</p>
+</div>
+</section>
+<section id="part-3" class="level2">
+<h2 class="anchored" data-anchor-id="part-3">Part 3</h2>
+<div class="rmenv" title="Exercise (Your first discrete dynamical system (DDS), ★)">
+<p>A discrete dynamical system (DDS) is a set,</p>
+<p><span class="math display">\[ X, \]</span></p>
+<p>representing states, and a function,</p>
+<p><span class="math display">\[ \phi: X \rightarrow X, \]</span></p>
+<p>representing steps from one state to another. Given this, the schema for a discrete dynamical system (DDS) can be</p>
+<p><span class="math display">\[ X \arrow[loop right]{r}{\mathrm{next}}. \]</span></p>
+<p>Implement an empty acset for this schema in Catlab.</p>
+<p>After you have a specification for the DDS schema, instantiate an acset with data that represents the following DDS: ::: {#fig-dds} <iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNSxbMCwxLCJcXHRleHRjaXJjbGVkezF9Il0sWzEsMSwiXFx0ZXh0Y2lyY2xlZHsyfSJdLFsxLDAsIlxcdGV4dGNpcmNsZWR7M30iXSxbMCwwLCJcXHRleHRjaXJjbGVkezR9Il0sWzIsMSwiXFx0ZXh0Y2lyY2xlZHs1fSJdLFswLDJdLFsxLDJdLFsyLDNdLFszLDBdLFs0LDFdXQ==&amp;embed" width="432" height="304" style="border-radius: 8px; border: none;"></iframe></p>
+<p>A simple discrete dynamical system.</p>
+</div>
+<p>:::</p>
+<div class="rmenv" title="Exercise (Lotka-Volterra with a twist, ★ ★)">
+<p>Suppose that there are populations of rocks, populations of papers, and populations of scissors. Predation happens to each based on the classic pattern; i.e.&nbsp;scissors eat papers, papers eat rocks, and rocks eat scissors.</p>
+<p>Write down a model for a pairwise interaction between two implements based on Lotka-Volterra dynamics, and then compose three copies of that model to produce a three-population system.</p>
+</div>
+<div class="rmenv" title="Exercise (Double nested undirected wiring diagram, ★ ★ ★)">
+<p>Suppose that you have a <em>doubly nested</em> undirected wiring diagram of resource sharers. By this, I mean you have an undirected wiring diagram, where each box contains an undirected wiring diagram, and each box of this contains a resource sharer.</p>
+<p>Then you can put together these resource sharers in two different ways. The first is by composing each of the inner undirected wiring diagrams, so that the outer wiring diagram now has a resource sharer in each box, and then composing the outer undirected wiring diagram. In other words, call <code>oapply</code> on each inner wiring diagram, and then call <code>oapply</code> on the other diagram.</p>
+<p>The second way is to first collapse the nesting, by composing the two layers of wiring diagrams into one big wiring diagram, and then compose all of the resource sharers at one. In other words, call <code>ocompose</code> on the UWD of UWDs, and then call <code>oapply</code> on the remaining UWD with a resource sharer in each box.</p>
+<p>Both methods of composition should ultimately result in the same composed resource sharer.</p>
+<p>This is analogous to the law for a monad algebra:</p>
+<!-- https://q.uiver.app/#q=WzAsNCxbMCwwLCJUXjJBIl0sWzEsMCwiVCBBIl0sWzAsMSwiVCBBIl0sWzEsMSwiQSJdLFswLDEsIlxcbXVfQSJdLFsxLDMsImYiXSxbMiwzLCJmIiwyXSxbMCwyLCJUIGYiLDJdXQ== -->
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNCxbMCwwLCJUXjJBIl0sWzEsMCwiVCBBIl0sWzAsMSwiVCBBIl0sWzEsMSwiQSJdLFswLDEsIlxcbXVfQSJdLFsxLDMsImYiXSxbMiwzLCJmIiwyXSxbMCwyLCJUIGYiLDJdXQ==&amp;embed" width="304" height="304" style="border-radius: 8px; border: none;">
+</iframe>
+<p>Verify this rule by testing it out in code; construct a nested undirected wiring diagram, and then try out both ways of composing it.</p>
+</div>
+<div class="rmenv" title="Exercise (Petri nets as dynamical systems, ★ ★ ★ ★)">
+<p>Any Petri net induces a dynamical system where the state space is <span class="math inline">\(\mathbb{R}^S\)</span> (<span class="math inline">\(S\)</span> is the set of species), and the vector field is given by <a href="https://arxiv.org/pdf/1209.3632.pdf">mass action semantics</a> (see Chapter 2: The rate equation). In <a href="https://github.com/AlgebraicJulia/AlgebraicPetri.jl">AlgebraicPetri</a>, we have a function called <a href="https://github.com/AlgebraicJulia/AlgebraicPetri.jl/blob/37247dd15bb1130275ff3b074aa2e19e1cdd38ee/src/AlgebraicPetri.jl#L283"><code>vectorfield</code></a> which produces a function that computes the vector field for the mass action equations. Use this function (or for an extra challenge, reimplement this function) to turn an arbitrary Petri net into a resource sharer that exposes all of the populations of the species. Then pick a Petri net, turn it into a resource sharer, and compose it with another resource sharer of your choice.</p>
+<p>Now think about the following question. You can compose Petri nets together by gluing their species together. If you compose Petri nets and then take the dynamical system given by mass action on the composed Petri net, is that the same dynamical system as turning each Petri net into a resource sharer and then composing the resource sharers? Prove or give a counterexample.</p>
+</div>
+<div class="rmenv" title="Exercise (Nested acsets, ★ ★ ★ ★ ★)">
+<p>Figure out a good mathematical abstraction for, and implement nested acsets in Julia.</p>
+<p>For some thoughts on what this might mean, see:</p>
+<ul>
+<li><a href="https://github.com/AlgebraicJulia/Semagrams.jl/blob/main/scala/core/src/acsets/acsets.scala">Source code for Semagrams</a></li>
+<li><a href="https://www.localcharts.org/t/nested-wiring-diagrams-via-bicomodules/792">Some thoughts on nested wiring diagrams</a></li>
+<li><a href="https://owenlynch.org/static/2023-ACT-Semagrams/talk.html#/nested-wiring-diagrams-via-free-monads">My talk on Semagrams</a></li>
+</ul>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
