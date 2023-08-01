@@ -540,4 +540,29 @@ For comparison, Catlab ships with a similar macro `@graph` and a host of related
 
 ## Part 3
 
+:::{.rmenv title="Exercise (Your first DDS)"}
+:::
+
+:::{.solenv}
+```{julia}
+using Catlab
+@present SchDDS(FreeSchema) begin
+  X::Ob
+  ϕ::Hom(X,X)
+end
+
+@acset_type DDS(SchDDS)
+```
+:::
+
+:::{.solenv}
+```{julia}
+using Catlab
+
+myDDS = DDS()
+add_parts!(myDDS, :X, 5, ϕ=[3,3,4,1,2])
+myDDS
+```
+:::
+
 :::
