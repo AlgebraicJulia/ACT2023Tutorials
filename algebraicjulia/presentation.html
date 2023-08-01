@@ -11,7 +11,8 @@
   <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Owen Lynch">
-  <title>ACT2023 Tutorial Sessions - ACT2023 AlgebraicJulia Tutorial</title>
+  <meta name="author" content="Evan Patterson">
+  <title>ACT2023 Tutorial Sessions - AlgebraicJulia Tutorial</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -409,35 +410,56 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">ACT2023 AlgebraicJulia Tutorial</h1>
+  <h1 class="title">AlgebraicJulia Tutorial</h1>
+  <p class="subtitle">Applied Category Theory 2023</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
 Owen Lynch 
 </div>
+        <p class="quarto-title-affiliation">
+            Topos Institute
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Evan Patterson 
 </div>
+        <p class="quarto-title-affiliation">
+            Topos Institute
+          </p>
+    </div>
 </div>
 
 </section>
 <section class="slide level2">
 
-<p><span class="math display">\[
-\newcommand{\R}{\mathbb{R}}
-\]</span></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="#cb1-1"></a># | echo: false</span>
 <span id="cb1-2"><a href="#cb1-2"></a>import Pkg</span>
 <span id="cb1-3"><a href="#cb1-3"></a>Pkg.activate(".")</span>
 <span id="cb1-4"><a href="#cb1-4"></a>using Plots</span>
 <span id="cb1-5"><a href="#cb1-5"></a>using Catlab</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
+<section id="outline" class="title-slide slide level1 center">
+<h1>Outline</h1>
+<p><span class="math display">\[
+\newcommand{\R}{\mathbb{R}}
+\]</span></p>
+<ol type="1">
+<li>Category theory in Julia</li>
+<li>Dynamical systems and composition patterns</li>
+<li>Operadic composition of dynamical systems</li>
+</ol>
+</section>
+
 <section>
 <section id="part-1-category-theory-in-julia" class="title-slide slide level1 center">
 <h1>Part 1: Category theory in Julia</h1>
 <p>Overview of part 1:</p>
 <ol type="1">
 <li>Category theory in a dynamic language??!?!</li>
-<li>Julia</li>
+<li>The Julia programming language</li>
 <li>Category theory in Julia</li>
 </ol>
 <aside class="notes">
@@ -466,23 +488,24 @@ Owen Lynch
 <p>– Owen Lynch, 2023</p>
 </blockquote>
 <ul>
-<li>Curry-Howard correspondence gives a connection between <em>typed lambda calculus</em> and <em>cartesian closed categories</em></li>
+<li>Curry-Howard correspondence makes a connection between <em>typed lambda calculus</em> and <em>cartesian closed categories</em></li>
 <li>This is not the only way of doing category theory on a computer</li>
-<li>Many categorical things can be implemented without working in a faithful implementation of the typed lambda calculus
+<li>Many categorical things can be implemented without working in a faithful implementation of the typed lambda calculus:
 <ul>
 <li>Databases</li>
 <li>Dynamical systems</li>
 <li>Computer algebra</li>
+<li>…</li>
 </ul></li>
 </ul>
 <aside class="notes">
 <p>Roughly speaking, a dynamic language is one where <em>variables</em> are not associated with types, only <em>values</em>. So the type associated to a variable is only known when that variable is associated with a value at runtime, and this can change as it is associated with different values.</p>
 <p>In a static language, in contrast, one can determine the type of a variable without running the program, and the type of a variable does not change over time.</p>
 <p>When people typically think about doing category theory in a programming language, they think about the category where the objects are types in a statically typed programming language, and the morphisms are functions between them. This category is typically a cartesian closed category.</p>
-<p>However, this particular way of connecting category theory to computing is not the last word on computing and category theory. Applied Category Theory in particular gives rise to a lot of questions where the answer can be computed, and a-priori the most ergonomic and performant way to compute the answers to those questions is not necessarily via one of the existing programming languages (Haskell, Agda, Idris, etc.) whose type system forms a cartesian closed category.</p>
+<p>However, this particular way of connecting category theory to computing is not the last word on computing and category theory. Applied Category Theory in particular gives rise to a lot of questions where the answer can be computed, and the most ergonomic and performant way to compute the answers to those questions is not necessarily via one of the existing programming languages (Haskell, Agda, Idris, etc.) whose type system forms a cartesian closed category.</p>
 <p>For example:</p>
 <ul>
-<li>Databases operations a la Spivak</li>
+<li>Categorical databases a la Spivak</li>
 <li>Open dynamical systems</li>
 <li>String diagrams as combinatorial objects</li>
 </ul>
@@ -503,20 +526,20 @@ Owen Lynch
 <h2>What is Julia?</h2>
 <p>Julia is a programming language that is…</p>
 <ul>
-<li><p>Dynamic</p>
+<li><p><em>Dynamic</em>:</p>
 <p>Variables don’t have types, only values do.</p></li>
-<li><p>Fast</p>
-<p>Carefully written Julia is competitive with C or Fortran.</p></li>
-<li><p>Dependently typed</p>
+<li><p><em>Fast</em>:</p>
+<p>Carefully written Julia is competitive with C or Fortran in performance.</p></li>
+<li><p><em>Dependently typed</em>:</p>
 <p>Although only values have types, the types of those values can depend on other values. For instance <code>StaticVector{Float64, n}</code> represents <span class="math inline">\(\mathbb{R}^n\)</span>.</p></li>
-<li><p>Looks like math</p>
+<li><p><em>Looks like math</em>:</p>
 <p><span class="math display">\[ ||v||^2 = v^T v \]</span></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">magnitude</span>(x<span class="op">::</span><span class="dt">Vector</span>) <span class="op">=</span> x<span class="op">'</span> <span class="op">*</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
 </section>
-<section id="why-is-julia" class="slide level2">
-<h2>Why is Julia?</h2>
-<p>Julia was built to solve the so-called “two-language” problem for scientific computing.</p>
+<section id="why-julia" class="slide level2">
+<h2>Why Julia?</h2>
+<p>Julia was built to solve the “two-language problem” in scientific computing.</p>
 <ul>
 <li>Numerical algorithms written in C/C++/Fortran</li>
 <li>High-level, dynamic interfaces written in Python/R</li>
@@ -542,9 +565,9 @@ Owen Lynch
 <span id="cb3-13"><a href="#cb3-13"></a>end</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Notable features:</p>
 <ul>
-<li>Built-in vectors/matrices</li>
+<li>Built-in numerical linear algebra</li>
 <li>Auto-broadcasted arithmetic</li>
-<li>Syntax familiar to a Python user</li>
+<li>Syntax familiar to a Python/MATLAB user</li>
 </ul>
 </section>
 <section id="how-do-you-julia-2" class="slide level2">
@@ -587,32 +610,54 @@ Owen Lynch
 </section>
 <section id="where-is-julia" class="slide level2">
 <h2>Where is Julia?</h2>
-<p><a href="https://julialang.org">julialang.org</a></p>
+<p>Downloads and documentation:</p>
+<ul>
+<li><a href="https://julialang.org">julialang.org</a></li>
+</ul>
+<p>Julia community:</p>
+<ul>
+<li><a href="https://discourse.julialang.org/">Julia Discourse</a></li>
+<li><a href="https://julialang.zulipchat.com/">Julia Zulip</a>
+<ul>
+<li>Find us in #catlab.jl stream!</li>
+</ul></li>
+</ul>
 </section>
 <section id="category-theory-in-julia-finset" class="slide level2">
 <h2>Category theory in Julia: FinSet</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb6-1"><a href="#cb6-1"></a>struct FinSet n::Int end</span>
-<span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a>struct FinFunction</span>
-<span id="cb6-4"><a href="#cb6-4"></a>  dom::FinSet</span>
-<span id="cb6-5"><a href="#cb6-5"></a>  codom::FinSet</span>
-<span id="cb6-6"><a href="#cb6-6"></a>  values::Vector{Int}</span>
-<span id="cb6-7"><a href="#cb6-7"></a>end</span>
-<span id="cb6-8"><a href="#cb6-8"></a></span>
-<span id="cb6-9"><a href="#cb6-9"></a>id(X::FinSet) = FinFunction(X, X, Int[i for i in 1:X.n])</span>
-<span id="cb6-10"><a href="#cb6-10"></a></span>
-<span id="cb6-11"><a href="#cb6-11"></a>compose(f::FinFunction, g::FinFunction) =</span>
-<span id="cb6-12"><a href="#cb6-12"></a>  FinFunction(f.dom, g.codom, Int[g.values[j] for j in f.values])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb6-1"><a href="#cb6-1"></a>struct FinSet</span>
+<span id="cb6-2"><a href="#cb6-2"></a>  n::Int</span>
+<span id="cb6-3"><a href="#cb6-3"></a>end</span>
+<span id="cb6-4"><a href="#cb6-4"></a>struct FinFunction</span>
+<span id="cb6-5"><a href="#cb6-5"></a>  dom::FinSet</span>
+<span id="cb6-6"><a href="#cb6-6"></a>  codom::FinSet</span>
+<span id="cb6-7"><a href="#cb6-7"></a>  values::Vector{Int}</span>
+<span id="cb6-8"><a href="#cb6-8"></a>end</span>
+<span id="cb6-9"><a href="#cb6-9"></a></span>
+<span id="cb6-10"><a href="#cb6-10"></a>id(X::FinSet) = FinFunction(X, X, Int[i for i in 1:X.n])</span>
+<span id="cb6-11"><a href="#cb6-11"></a></span>
+<span id="cb6-12"><a href="#cb6-12"></a>compose(f::FinFunction, g::FinFunction) =</span>
+<span id="cb6-13"><a href="#cb6-13"></a>  FinFunction(f.dom, g.codom, Int[g.values[j] for j in f.values])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="category-theory-in-julia-finvect" class="slide level2">
-<h2>Category theory in Julia: FinVect</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a href="#cb7-1"></a>struct FinVect</span>
+<section id="category-theory-in-julia-fdvect" class="slide level2">
+<h2>Category theory in Julia: FdVect</h2>
+<p>Simple version:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a href="#cb7-1"></a>struct FdVectℝ</span>
 <span id="cb7-2"><a href="#cb7-2"></a>  dim::Int</span>
 <span id="cb7-3"><a href="#cb7-3"></a>end</span>
 <span id="cb7-4"><a href="#cb7-4"></a></span>
-<span id="cb7-5"><a href="#cb7-5"></a>id(V::FinVect) = Float64[i == j ? 1.0 : 0.0 for i in 1:V.dim, j in 1:V.dim]</span>
+<span id="cb7-5"><a href="#cb7-5"></a>id(V::FdVectℝ) = Float64[i == j ? 1.0 : 0.0 for i in 1:V.dim, j in 1:V.dim]</span>
 <span id="cb7-6"><a href="#cb7-6"></a></span>
 <span id="cb7-7"><a href="#cb7-7"></a>compose(M::Matrix{Float64}, N::Matrix{Float64}) = M * N</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br> Fancier version with type parameter for scalar field:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a href="#cb8-1"></a>struct FdVect{T&lt;:Number}</span>
+<span id="cb8-2"><a href="#cb8-2"></a>  dim::Int</span>
+<span id="cb8-3"><a href="#cb8-3"></a>end</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a>id(V::FdVect{T}) where T = T[i == j ? one(T) : zero(T)</span>
+<span id="cb8-6"><a href="#cb8-6"></a>                             for i in 1:V.dim, j in 1:V.dim]</span>
+<span id="cb8-7"><a href="#cb8-7"></a></span>
+<span id="cb8-8"><a href="#cb8-8"></a>compose(M::Matrix{T}, N::Matrix{T}) where T = M * N</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section></section>
 <section>
 <section id="part-2-dynamical-systems-and-composition-patterns" class="title-slide slide level1 center">
@@ -621,26 +666,55 @@ Owen Lynch
 </section>
 <section id="compositional-systems-theory" class="slide level2">
 <h2>Compositional systems theory</h2>
+<p>In the categorical approach to systems theory, we separate:</p>
+<ol type="1">
+<li><strong>Interfaces</strong> for systems, specified by
 <ul>
-<li>Every <strong>system</strong> has an <strong>interface</strong> by which it interacts with other systems</li>
-<li>Interaction with other systems is captured via <strong>composition</strong></li>
-<li>The types of allowed interaction are specified by a <strong>doctrine</strong></li>
+<li>a kind of monoidal category with extra structure, or</li>
+<li>an operad</li>
+</ul></li>
+<li><strong>Systems</strong> conforming to the interface, forming
+<ul>
+<li>a monoidal category of that kind, or</li>
+<li>an algebra of the operad</li>
+</ul></li>
+</ol>
+<p>Different kinds of systems can use the same kind of interface, enabling reuse in</p>
+<ul>
+<li>mathematics</li>
+<li>software</li>
 </ul>
-<p>In this part, we discuss systems, interfaces, and composition patterns for the doctrine of resource sharers, and how they work in AlgebraicJulia.</p>
-<div class="speaker-notes">
-<p>The key to compositional systems theory is to split a system into the system itself and the interface to the system.</p>
-<p>Then different systems with the same interface can play the same role in composition patterns.</p>
-<p>In this section we are going to talk about one type of system, and one type of composition pattern.</p>
-<p>Finally, in the last section we are going to talk about how to use that composition pattern to compose the systems.</p>
-</div>
+</section>
+<section id="composing-dynamical-systems" class="slide level2">
+<h2>Composing dynamical systems</h2>
+<p>Dynamical systems can be composed in several different styles:</p>
+<ol type="1">
+<li>As <strong>resource sharers</strong>:
+<ul>
+<li>Identifying shared states between systems</li>
+<li>“Undirected” interface</li>
+</ul></li>
+<li>As <strong>machines</strong>:
+<ul>
+<li>Plugging outputs of one system into parameters of another</li>
+<li>“Directed” interface</li>
+</ul></li>
+<li>As <strong>resource-sharing machines</strong>: combines both</li>
+</ol>
+<p>We focus on resource sharers and their implementation in AlgebraicJulia.</p>
 </section>
 <section id="what-are-resource-sharers" class="slide level2">
 <h2>What are resource sharers?</h2>
 <ul>
-<li>Continuous dynamical systems (i.e.&nbsp;ODEs)</li>
+<li>Continuous dynamical systems: systems of ODEs</li>
 <li>Expose “resources” as their interface</li>
-<li>Compose by “agreeing” on the value of resources</li>
+<li>Compose by “identifying” or “sharing” the values of resources</li>
 <li>Derivative of a resource is the sum of the vectorfields from all systems using that resource</li>
+</ul>
+<p>Category-theoretically, resource sharers will form</p>
+<ul>
+<li>a hypergraph category, or</li>
+<li>an algebra of the operad of undirected wiring diagrams</li>
 </ul>
 <div class="speaker-notes">
 <p>Resource sharers are dynamical systems that expose certain quantities that we call resources. They are composed by “sharing” resources. One might assume that “sharing” means “dividing between them”, however this is not the case. What it means for two machines to share a resource is that they both agree on the value of that resource.</p>
@@ -648,22 +722,25 @@ Owen Lynch
 <p>However, both the fox-rabbit system and the hawk-rabbit system can both “tug” on the population of rabbits, by sending it down.</p>
 </div>
 </section>
-<section id="a-note-on-representations-of-morphisms" class="slide level2">
-<h2>A note on representations of morphisms</h2>
+<section id="interlude-computing-with-morphisms" class="slide level2">
+<h2>Interlude: computing with morphisms</h2>
 <ul>
-<li>In a non-dependently typed language
+<li>When <em>computing</em>, as opposed to <em>proving</em>, with functions or other morphisms
 <ul>
-<li>Can’t assert any properties about arbitrary functions, i.e.&nbsp;smoothness or termination</li>
-<li>Can’t compute general limits or colimits where the morphisms are arbitrary functions</li>
+<li>we can’t treat them as black boxes</li>
+<li>we need a finitary and introspectable representation</li>
 </ul></li>
-<li>When we need to do something with functions other than simply apply them to arguments, we need an introspectable representation</li>
-<li>Two special cases:
+<li>A few examples:
 <ul>
 <li>Functions between finite sets</li>
 <li>Linear maps between finite dimensional vector spaces</li>
 </ul></li>
-<li>AlgebraicJulia, in contrast to most functional programming category theory libraries, focuses on working with these representations</li>
-<li>We will contrast the two approaches as geometric (concerned with the points of spaces and the actions of functions on those points) vs.&nbsp;symbolic (concerned with symbolic representations of spaces and functions between them)</li>
+<li>AlgebraicJulia, unlike more formalized math libraries, focuses on concrete computations in categories</li>
+<li>We contrast the two approaches as
+<ol type="1">
+<li><strong>geometric</strong>: concerned with abstract spaces and the maps between them</li>
+<li><strong>symbolic</strong>: concerned with symbolic representations of spaces and functions</li>
+</ol></li>
 </ul>
 <div class="speaker-notes">
 <p>One way of mathematically defining resource sharers would be to say that their interfaces were <em>spaces</em>. However, what does this actually mean on a computer? We could say that a space was a type. But in a dynamic language, this is not very helpful. Moreover, we really want some smooth structure on our spaces.</p>
@@ -675,44 +752,52 @@ Owen Lynch
 <section id="geometric-definition-of-resource-sharers" class="slide level2">
 <h2>Geometric definition of resource sharers</h2>
 <div class="rmenv" title="Definition">
-<p>An <strong>interface</strong> for a <em>geometric resource sharer</em> is a space <span class="math inline">\(A\)</span>.</p>
+<p>An <strong>interface</strong> for a <em>geometric resource sharer</em> is a space <span class="math inline">\(I\)</span>.</p>
 </div>
-<p>We think of an interface as a description of the resources that a machine has available to share.</p>
+<p>We think of the interface as specifying the resources that a dynamical system has available to share.</p>
+<p><br></p>
 <div class="rmenv" title="Definition">
-<p>A <strong>geometric resource sharer</strong> on an interface <span class="math inline">\(A\)</span> consists of</p>
+<p>A <strong>geometric resource sharer</strong> on an interface <span class="math inline">\(I\)</span> consists of</p>
 <ul>
-<li>A space <span class="math inline">\(X\)</span></li>
-<li>A function <span class="math inline">\(\mathrm{out} \colon X \to A\)</span></li>
+<li>A space <span class="math inline">\(X\)</span>, the <strong>state space</strong></li>
+<li>A function <span class="math inline">\(\mathrm{expose} \colon X \to I\)</span></li>
 <li>A vector field <span class="math inline">\(v \colon X \to TX\)</span></li>
 </ul>
 </div>
 </section>
-<section id="example-resource-sharer" class="slide level2">
-<h2>Example resource sharer</h2>
-<p>This is a system which models predation of a predator species <span class="math inline">\(W\)</span> on a prey species <span class="math inline">\(S\)</span></p>
-<p><span class="math display">\[ X = A = \R^2 \]</span> <span class="math display">\[ \mathrm{expose} = \mathrm{id}_A \]</span> <span class="math display">\[ v(W,S) = (\beta W S, -\beta W S) \]</span></p>
-</section>
 <section id="symbolic-definition-of-resource-sharer" class="slide level2">
 <h2>Symbolic definition of resource sharer</h2>
 <div class="rmenv" title="Definition">
-<p>An <strong>interface</strong> for a <em>symbolic resource sharer</em> is a finite set <span class="math inline">\(P\)</span>.</p>
+<p>An <strong>interface</strong> for a <em>symbolic resource sharer</em> is a finite set <span class="math inline">\(I\)</span>.</p>
 </div>
-<p>This finite set symbolically represents the space <span class="math inline">\(\R^P\)</span>. We think of <span class="math inline">\(P\)</span> as the set of ports.</p>
+<p>This finite set symbolically represents the space <span class="math inline">\(\R^I\)</span>. We think of <span class="math inline">\(I\)</span> as the set of <strong>ports</strong> or <strong>interface variables</strong></p>
+<p><br></p>
 <div class="rmenv" title="Definition">
-<p>A <strong>symbolic resource sharer</strong> on an interface <span class="math inline">\(P\)</span> consists of</p>
+<p>A <strong>symbolic resource sharer</strong> on an interface <span class="math inline">\(I\)</span> consists of</p>
 <ul>
-<li>A finite set <span class="math inline">\(I\)</span></li>
-<li>A function <span class="math inline">\(\mathrm{expose} \colon P \to I\)</span></li>
-<li>A vector field <span class="math inline">\(v \colon \R^I \to \R^I\)</span></li>
+<li>A finite set <span class="math inline">\(S\)</span>, the <strong>state variables</strong></li>
+<li>A function <span class="math inline">\(\mathrm{expose} \colon I \to S\)</span></li>
+<li>A vector field <span class="math inline">\(v \colon \R^S \to \R^S\)</span></li>
 </ul>
 </div>
-<p>The function <span class="math inline">\(\mathrm{expose}\)</span> symbolically represents the function <span class="math inline">\(\R^I \to \R^P\)</span> given by precomposition with <span class="math inline">\(\mathrm{expose}\)</span>.</p>
-<p>Note that we keep a geometric definition of <span class="math inline">\(v\)</span>; this is because we will only need to call <span class="math inline">\(v\)</span> and don’t need to introspect it.</p>
+<p>The function <span class="math inline">\(\mathrm{expose}\)</span> symbolically represents the function <span class="math inline">\(\R^S \to \R^I\)</span> given by precomposition with <span class="math inline">\(\mathrm{expose}\)</span>.</p>
 <div class="speaker-notes">
-<p>Composing resource sharers <span class="math inline">\((X_1, v_1, P_1)\)</span> and <span class="math inline">\((X_1, v_2, P_2)\)</span> to make a resource sharer with interface <span class="math inline">\(P_3\)</span> involves imposing some relation between <span class="math inline">\(P_1\)</span>, <span class="math inline">\(P_2\)</span> and <span class="math inline">\(P_3\)</span>. For instance, if <span class="math inline">\(P_i\)</span> has coordinates <span class="math inline">\((x_i,y_i)\)</span>, we might assert that <span class="math inline">\(y_1 = y_2 = y_3\)</span>, and <span class="math inline">\(x_3 = x_1\)</span>.</p>
-<p>The most general way to do this is with a span <span class="math inline">\(P_1 \leftarrow Q \to P_2\)</span>. However, an arbitrary span between spaces is hard to compute with.</p>
-<p>If we have <span class="math inline">\(P_1 = \R^{n_1}\)</span>, <span class="math inline">\(P_2 = \R^{n_2}\)</span>, <span class="math inline">\(Q = \R^m\)</span>, then we can express particularly simple relations as</p>
+<p>We can keep a geometric definition of <span class="math inline">\(v\)</span> because we will only need to call <span class="math inline">\(v\)</span> and don’t need to introspect it.</p>
 </div>
+</section>
+<section id="example-predator-prey-interaction" class="slide level2">
+<h2>Example: predator-prey interaction</h2>
+<p>A simple system that models</p>
+<ul>
+<li>predation of a predator species, say foxes <span class="math inline">\(f\)</span></li>
+<li>on a prey species, say rabbits <span class="math inline">\(r\)</span></li>
+</ul>
+<p>is given geometrically by</p>
+<p><span class="math display">\[ X = I = \R^2, \qquad \mathrm{expose} = \mathrm{id}_X \]</span></p>
+<p>or symbolically by</p>
+<p><span class="math display">\[ X = I = \{f,r\}, \qquad \mathrm{expose} = \mathrm{id}_X \]</span></p>
+<p>The vector field is:</p>
+<p><span class="math display">\[ v(f,r) = (\beta f r, -\beta f r) \]</span></p>
 </section>
 <section id="example-diffusion-in-two-chambers" class="slide level2">
 <h2>Example: diffusion in two chambers</h2>
@@ -727,39 +812,39 @@ Owen Lynch
 </section>
 <section id="resource-sharers-in-algebraicjulia" class="slide level2">
 <h2>Resource sharers in AlgebraicJulia</h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a href="#cb8-1"></a># | output: true</span>
-<span id="cb8-2"><a href="#cb8-2"></a>using AlgebraicDynamics, DifferentialEquations</span>
-<span id="cb8-3"><a href="#cb8-3"></a></span>
-<span id="cb8-4"><a href="#cb8-4"></a>predator_prey = ContinuousResourceSharer{Float64}(</span>
-<span id="cb8-5"><a href="#cb8-5"></a>  2, 2,</span>
-<span id="cb8-6"><a href="#cb8-6"></a>  (u, p, t) -&gt; p[1] * u[1] * u[2] * [1, -1],</span>
-<span id="cb8-7"><a href="#cb8-7"></a>  [1, 2]</span>
-<span id="cb8-8"><a href="#cb8-8"></a>)</span>
-<span id="cb8-9"><a href="#cb8-9"></a></span>
-<span id="cb8-10"><a href="#cb8-10"></a>u0, params, tspan = [10.0, 100.0],  [0.015], (0.0, 5.0)</span>
-<span id="cb8-11"><a href="#cb8-11"></a></span>
-<span id="cb8-12"><a href="#cb8-12"></a>prob = ODEProblem(predator_prey, u0, tspan, params)</span>
-<span id="cb8-13"><a href="#cb8-13"></a>plot(solve(prob, Tsit5()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="composition-patterns-for-resource-sharers" class="slide level2">
-<h2>Composition patterns for resource sharers</h2>
 <div class="sourceCode" id="cb9"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a href="#cb9-1"></a># | output: true</span>
-<span id="cb9-2"><a href="#cb9-2"></a>using Catlab.Programs</span>
-<span id="cb9-3"><a href="#cb9-3"></a>using Catlab.Graphics</span>
-<span id="cb9-4"><a href="#cb9-4"></a></span>
-<span id="cb9-5"><a href="#cb9-5"></a>R = @relation (x, z) where (x, y, z) begin</span>
-<span id="cb9-6"><a href="#cb9-6"></a>  A(x, y)</span>
-<span id="cb9-7"><a href="#cb9-7"></a>  B(y, z)</span>
-<span id="cb9-8"><a href="#cb9-8"></a>  C(z, x)</span>
-<span id="cb9-9"><a href="#cb9-9"></a>end</span>
+<span id="cb9-2"><a href="#cb9-2"></a>using AlgebraicDynamics, DifferentialEquations</span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a>predator_prey = ContinuousResourceSharer{Float64}(</span>
+<span id="cb9-5"><a href="#cb9-5"></a>  2, # number of ports</span>
+<span id="cb9-6"><a href="#cb9-6"></a>  2, # number of states</span>
+<span id="cb9-7"><a href="#cb9-7"></a>  (u, p, t) -&gt; p[1] * u[1] * u[2] * [1, -1], # vector field</span>
+<span id="cb9-8"><a href="#cb9-8"></a>  [1, 2] # exposed states</span>
+<span id="cb9-9"><a href="#cb9-9"></a>)</span>
 <span id="cb9-10"><a href="#cb9-10"></a></span>
-<span id="cb9-11"><a href="#cb9-11"></a>to_graphviz(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-11"><a href="#cb9-11"></a>u0, params, tspan = [10.0, 100.0],  [0.015], (0.0, 5.0)</span>
+<span id="cb9-12"><a href="#cb9-12"></a></span>
+<span id="cb9-13"><a href="#cb9-13"></a>prob = ODEProblem(predator_prey, u0, tspan, params)</span>
+<span id="cb9-14"><a href="#cb9-14"></a>plot(solve(prob, Tsit5()), label=["predator" "prey"])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="undirected-wiring-diagrams-uwds" class="slide level2">
+<h2>Undirected wiring diagrams (UWDs)</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb10-1"><a href="#cb10-1"></a># | output: true</span>
+<span id="cb10-2"><a href="#cb10-2"></a>using Catlab</span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a>R = @relation (x, z) where (x, y, z) begin</span>
+<span id="cb10-5"><a href="#cb10-5"></a>  A(x, y)</span>
+<span id="cb10-6"><a href="#cb10-6"></a>  B(y, z)</span>
+<span id="cb10-7"><a href="#cb10-7"></a>  C(z, x)</span>
+<span id="cb10-8"><a href="#cb10-8"></a>end</span>
+<span id="cb10-9"><a href="#cb10-9"></a></span>
+<span id="cb10-10"><a href="#cb10-10"></a>to_graphviz(R, box_labels=:name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="speaker-notes">
 <p>The simplest combinatorial operad is undirected wiring diagrams. An undirected wiring diagram consists of boxes, ports, outer ports, and junctions.</p>
 </div>
 </section>
-<section id="uwds-as-cospans" class="slide level2">
-<h2>UWDs as Cospans</h2>
+<section id="uwds-as-cospans-of-finite-sets" class="slide level2">
+<h2>UWDs as cospans of finite sets</h2>
 <div id="fig-uwd-cospan" class="quarto-layout-panel">
 <figure>
 <div class="quarto-layout-row quarto-layout-valign-bottom">
@@ -786,33 +871,32 @@ Owen Lynch
 </section>
 <section id="undirected-wiring-diagrams-as-c-sets" class="slide level2">
 <h2>Undirected wiring diagrams as C-sets</h2>
-<p>An undirected wiring diagram is a functor into <span class="math inline">\(\mathsf{FinSet}\)</span> from the category <span class="math inline">\(\mathsf{UWD}\)</span> presented as</p>
+<p>An <strong>undirected wiring diagram</strong> is a functor into <span class="math inline">\(\mathsf{FinSet}\)</span> from the category <span class="math inline">\(\mathsf{UWD}\)</span> freely generated by:</p>
 <div class="tikzcd">
 <img data-src="tikz_build_3a78fd8af965fd6061c2a9cb5c76da566d9f4e4d.svg">
 </div>
-<p>This is a cospan with a grouping of the ports on one side.</p>
+<p>So a UWD is a cospan with a grouping of the “ports” on one side into “boxes.”</p>
 </section>
 <section id="undirected-wiring-diagrams-in-catlab" class="slide level2">
 <h2>Undirected wiring diagrams in Catlab</h2>
 <ul>
 <li>We have generic infrastructure for C-sets in Catlab (explored in exercises)</li>
-<li>The easier way to construct wiring diagrams is with the <code>@relation</code> macro</li>
+<li>The easiest way to construct UWDs is via the <code>@relation</code> macro:</li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb10-1"><a href="#cb10-1"></a>@relation (x,z) where (x,y,z) begin</span>
-<span id="cb10-2"><a href="#cb10-2"></a>  R(x,y)</span>
-<span id="cb10-3"><a href="#cb10-3"></a>  S(y,z)</span>
-<span id="cb10-4"><a href="#cb10-4"></a>end</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This constructs a undirected wiring diagram with</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb11-1"><a href="#cb11-1"></a>@relation (x,z) where (x,y,z) begin</span>
+<span id="cb11-2"><a href="#cb11-2"></a>  R(x,y)</span>
+<span id="cb11-3"><a href="#cb11-3"></a>  S(y,z)</span>
+<span id="cb11-4"><a href="#cb11-4"></a>end</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This call constructs an undirected wiring diagram with</p>
 <ul>
-<li>three junctions (<code>x,y,z</code>)</li>
-<li>two external ports (<code>x,z</code>)</li>
-<li>two boxes (<code>R,S</code>), each of which have two ports (<code>x,y</code> and <code>y,z</code>)</li>
+<li>three junctions, named <code>x,y,z</code></li>
+<li>two outer ports, exposing <code>x,z</code></li>
+<li>two boxes (<code>R,S</code>), each of which has two ports, connected to <code>x,y</code> and <code>y,z</code></li>
 </ul>
-<p>Ports are connected to junctions according to name.</p>
 </section></section>
 <section>
-<section id="part-3-combinatorial-operads" class="title-slide slide level1 center">
-<h1>Part 3: Combinatorial operads</h1>
+<section id="part-3-operadic-composition-of-dynamical-systems" class="title-slide slide level1 center">
+<h1>Part 3: Operadic composition of dynamical systems</h1>
 
 </section>
 <section id="using-operads-to-compose-systems" class="slide level2">
@@ -820,9 +904,9 @@ Owen Lynch
 <p>Loosely speaking, we want to:</p>
 <ul>
 <li><p>put systems inside the bubbles</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb11-1"><a href="#cb11-1"></a># | echo: false</span>
-<span id="cb11-2"><a href="#cb11-2"></a># | output: true</span>
-<span id="cb11-3"><a href="#cb11-3"></a>to_graphviz(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb12-1"><a href="#cb12-1"></a># | echo: false</span>
+<span id="cb12-2"><a href="#cb12-2"></a># | output: true</span>
+<span id="cb12-3"><a href="#cb12-3"></a>to_graphviz(R)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p>press a button and end up with a larger system.</p></li>
 </ul>
 </section>
@@ -914,33 +998,33 @@ Owen Lynch
 </section>
 <section id="example-setup" class="slide level2">
 <h2>Example setup</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb12-1"><a href="#cb12-1"></a>dotr(u,p,t) = p.α*u</span>
-<span id="cb12-2"><a href="#cb12-2"></a>dotrf(u,p,t) = [-p.β*u[1]*u[2], p.γ*u[1]*u[2]]</span>
-<span id="cb12-3"><a href="#cb12-3"></a>dotf(u,p,t) = -p.δ*u</span>
-<span id="cb12-4"><a href="#cb12-4"></a></span>
-<span id="cb12-5"><a href="#cb12-5"></a>rabbit_growth = ContinuousResourceSharer{Float64}(1, dotr)</span>
-<span id="cb12-6"><a href="#cb12-6"></a>rabbitfox_predation = ContinuousResourceSharer{Float64}(2, dotrf)</span>
-<span id="cb12-7"><a href="#cb12-7"></a>fox_decline = ContinuousResourceSharer{Float64}(1, dotf)</span>
-<span id="cb12-8"><a href="#cb12-8"></a></span>
-<span id="cb12-9"><a href="#cb12-9"></a>rf = @relation (rabbits,foxes) begin</span>
-<span id="cb12-10"><a href="#cb12-10"></a>    growth(rabbits)</span>
-<span id="cb12-11"><a href="#cb12-11"></a>    predation(rabbits,foxes)</span>
-<span id="cb12-12"><a href="#cb12-12"></a>    decline(foxes)</span>
-<span id="cb12-13"><a href="#cb12-13"></a>end</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a href="#cb13-1"></a>dotr(u,p,t) = p.α*u</span>
+<span id="cb13-2"><a href="#cb13-2"></a>dotrf(u,p,t) = [-p.β*u[1]*u[2], p.γ*u[1]*u[2]]</span>
+<span id="cb13-3"><a href="#cb13-3"></a>dotf(u,p,t) = -p.δ*u</span>
+<span id="cb13-4"><a href="#cb13-4"></a></span>
+<span id="cb13-5"><a href="#cb13-5"></a>rabbit_growth = ContinuousResourceSharer{Float64}(1, dotr)</span>
+<span id="cb13-6"><a href="#cb13-6"></a>rabbitfox_predation = ContinuousResourceSharer{Float64}(2, dotrf)</span>
+<span id="cb13-7"><a href="#cb13-7"></a>fox_decline = ContinuousResourceSharer{Float64}(1, dotf)</span>
+<span id="cb13-8"><a href="#cb13-8"></a></span>
+<span id="cb13-9"><a href="#cb13-9"></a>rf = @relation (rabbits,foxes) begin</span>
+<span id="cb13-10"><a href="#cb13-10"></a>    growth(rabbits)</span>
+<span id="cb13-11"><a href="#cb13-11"></a>    predation(rabbits,foxes)</span>
+<span id="cb13-12"><a href="#cb13-12"></a>    decline(foxes)</span>
+<span id="cb13-13"><a href="#cb13-13"></a>end</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="example-composed" class="slide level2">
 <h2>Example composed</h2>
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a href="#cb13-1"></a># | output: true</span>
-<span id="cb13-2"><a href="#cb13-2"></a>using LabelledArrays, AlgebraicDynamics, Catlab.WiringDiagrams</span>
-<span id="cb13-3"><a href="#cb13-3"></a></span>
-<span id="cb13-4"><a href="#cb13-4"></a>sys = oapply(rf, [rabbit_growth, rabbitfox_predation, fox_decline])</span>
-<span id="cb13-5"><a href="#cb13-5"></a></span>
-<span id="cb13-6"><a href="#cb13-6"></a>u0 = [10.0, 100.0]</span>
-<span id="cb13-7"><a href="#cb13-7"></a>params = LVector(α=.3, β=0.015, γ=0.015, δ=0.7)</span>
-<span id="cb13-8"><a href="#cb13-8"></a>tspan = (0.0, 100.0)</span>
-<span id="cb13-9"><a href="#cb13-9"></a></span>
-<span id="cb13-10"><a href="#cb13-10"></a>prob = ODEProblem(sys, u0, tspan, params)</span>
-<span id="cb13-11"><a href="#cb13-11"></a>plot(solve(prob, Tsit5()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource {julia} number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a href="#cb14-1"></a># | output: true</span>
+<span id="cb14-2"><a href="#cb14-2"></a>using LabelledArrays, AlgebraicDynamics, Catlab.WiringDiagrams</span>
+<span id="cb14-3"><a href="#cb14-3"></a></span>
+<span id="cb14-4"><a href="#cb14-4"></a>sys = oapply(rf, [rabbit_growth, rabbitfox_predation, fox_decline])</span>
+<span id="cb14-5"><a href="#cb14-5"></a></span>
+<span id="cb14-6"><a href="#cb14-6"></a>u0 = [10.0, 100.0]</span>
+<span id="cb14-7"><a href="#cb14-7"></a>params = LVector(α=.3, β=0.015, γ=0.015, δ=0.7)</span>
+<span id="cb14-8"><a href="#cb14-8"></a>tspan = (0.0, 100.0)</span>
+<span id="cb14-9"><a href="#cb14-9"></a></span>
+<span id="cb14-10"><a href="#cb14-10"></a>prob = ODEProblem(sys, u0, tspan, params)</span>
+<span id="cb14-11"><a href="#cb14-11"></a>plot(solve(prob, Tsit5()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="bibliography" class="slide level2 smaller scrollable">
 <h2>Bibliography</h2>
